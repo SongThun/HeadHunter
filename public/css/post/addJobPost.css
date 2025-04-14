@@ -1,0 +1,202 @@
+body {
+  margin: 10px 50px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.position-form-container.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  flex: 1;
+}
+
+.position-form-icon-container.input-group-text {
+  border-right: none;
+  border-color: #3d52d5;
+  border-width: 1px;
+  background-color: #fff;
+}
+
+.position-form-group.input-group > .position-form-select.form-select,
+.position-form-group.input-group
+  > .position-form-input.form-control:not(.position-form-file-upload input) {
+  border-left: none;
+  border-color: #3d52d5;
+  border-width: 1px;
+  padding-left: 1px;
+  height: 50px;
+}
+
+.position-form-select.form-select,
+.position-form-input.form-control {
+  border-color: #3d52d5;
+  border-width: 1px;
+  height: 50px;
+}
+
+.position-form-file-upload {
+  position: relative;
+  cursor: pointer;
+  border: 1px dashed #3d52d5;
+}
+
+.position-form-file-upload input[type="file"] {
+  display: none;
+}
+
+.position-form-file-upload:hover {
+  background-color: #f8f9fa;
+}
+
+.bi-geo,
+.bi-calendar3,
+.bi-upload {
+  color: #090c9b;
+}
+
+.position-form-required-star {
+  color: red;
+}
+
+.position-form-submit-btn.btn-primary {
+  background-color: #3d52d5;
+  border-color: #3d52d5;
+  padding: 9px 90px;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #fff;
+  transition: transform 0.2s ease;
+}
+
+.position-form-submit-btn.btn-primary:hover {
+  background-color: #2c3e9b;
+  border-color: #2c3e9b;
+  transform: scale(1.05);
+}
+
+.position-form-browse-btn {
+  border: 1px solid #333;
+  color: #333;
+  padding: 6px 50px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.position-form-browse-btn:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.position-form-select.form-select::placeholder,
+.position-form-input.form-control::placeholder {
+  color: #bcbcbc;
+}
+
+.position-form-select.form-select option[disabled][selected] {
+  color: #bcbcbc;
+}
+
+/*** HTML STYLING ***/
+body {
+  margin: 10px 50px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.position-form-container.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  flex: 1;
+}
+
+.position-form-icon-container.input-group-text {
+  border-right: none;
+  border-color: #3D52D5;
+  border-width: 1px;
+  background-color: #fff;
+}
+
+.position-form-group.input-group>.position-form-select.form-select,
+.position-form-group.input-group>.position-form-input.form-control:not(.position-form-file-upload input) {
+  border-left: none;
+  border-color: #3D52D5;
+  border-width: 1px;
+  padding-left: 1px;
+  height: 50px;
+}
+
+.position-form-select.form-select,
+.position-form-input.form-control {
+  border-color: #3D52D5;
+  border-width: 1px;
+  height: 50px;
+}
+
+.position-form-file-upload {
+  position: relative;
+  cursor: pointer;
+  border: 1px dashed #3D52D5;
+}
+
+.position-form-file-upload input[type="file"] {
+  display: none;
+}
+
+.position-form-file-upload:hover {
+  background-color: #f8f9fa;
+}
+
+.bi-geo,
+.bi-calendar3,
+.bi-upload {
+  color: #090C9B;
+}
+
+.position-form-required-star {
+  color: red;
+}
+
+.position-form-submit-btn.btn-primary {
+  background-color: #3D52D5;
+  border-color: #3D52D5;
+  padding: 9px 90px;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #fff;
+  transition: transform 0.2s ease;
+}
+
+.position-form-submit-btn.btn-primary:hover {
+  background-color: #2c3e9b;
+  border-color: #2c3e9b;
+  transform: scale(1.05);
+}
+
+.position-form-browse-btn {
+  border: 1px solid #333;
+  color: #333;
+  padding: 6px 50px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.position-form-browse-btn:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.position-form-select.form-select::placeholder,
+.position-form-input.form-control::placeholder {
+  color: #BCBCBC;
+}
+
+.position-form-select.form-select option[disabled][selected] {
+  color: #BCBCBC;
+}
+/*** END HTML STYLING ***/

@@ -1,0 +1,246 @@
+.box-sign {
+  display: flex;
+  flex: 2 1;
+}
+.box-sign .container-left {
+  /* background: url('../images/job_portal_sign.jpg') no-repeat; */
+  /* background-size:contain; */
+  width: 70%;
+  /* height: 60rem; */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.box-sign .container-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  align-self: center;
+}
+.box-sign .container-right {
+  width: 30%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 1.5%;
+  background: linear-gradient(
+    to bottom,
+    #fbfff1e4 0%,
+    #ff4d6b40 0%,
+    #3d51d55b 71%
+  );
+  padding-bottom: 15%;
+  /* padding-bottom: 10%; */
+  /* height: 69.5vh; */
+  height: 100vh;
+}
+.box-sign .container-right a {
+  text-decoration: none;
+  color: black;
+}
+.box-sign .container-right .title {
+  width: 107%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25%;
+  flex: 1;
+  font-size: 120%;
+}
+.box-sign .container-right .container-description {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  width: 100%;
+}
+.box-sign .container-right .container-description .container-upper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  row-gap: 0.5rem;
+}
+.box-sign .container-right .container-description .container-upper {
+  position: relative;
+  margin: 0 0 0 0;
+}
+
+.box-sign .container-right .container-description .container-upper.next {
+  position: relative;
+  margin: 6% 0 0 0;
+}
+
+.box-sign .container-right .container-description .container-upper label {
+  margin: 0 7%;
+  font-size: 1.5rem;
+}
+
+.box-sign .container-right .container-description .container-upper input {
+  height: 3rem;
+  width: 50%;
+  border-radius: 40px;
+  padding: 0.3rem 20%;
+  outline: none;
+  border: none;
+  background: var(--off-white);
+  font-size: 1.2rem;
+}
+
+.box-sign
+  .container-right
+  .container-description
+  .container-upper
+  input::placeholder {
+  color: rgba(175, 172, 172, 0.856);
+  /* padding: 0 1.5rem; */
+}
+
+.box-sign .container-right .container-description .container-upper i {
+  position: absolute;
+  top: 55%;
+  left: 8%;
+  transform: translateY(-55%);
+  transform: translateX(-8%);
+  font-size: 1.5rem;
+  color: rgba(175, 172, 172, 0.856);
+}
+
+.box-sign .container-right .container-description .container-lower {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  width: 107%;
+  margin: 0 0 1rem 0;
+}
+
+.container-lower-sub > a:hover {
+  text-decoration: underline;
+}
+
+.container-right .btn-form {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  width: 107%;
+  margin: 8% 0 2.5% 0;
+}
+
+.container-right .btn-form button {
+  width: 70%;
+  height: 3rem;
+  font-size: x-large;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: #0c78d0;
+  transition: 0.3s;
+  color: var(--off-white);
+}
+
+.container-right .btn-form button:hover {
+  box-shadow: 0 0 0 4px #fff, 0 0 0 8px #0c78d0;
+}
+
+#show-password {
+  border: none;
+  border-radius: 10px;
+}
+
+.container-register {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: 107%;
+  padding: 0 0;
+}
+
+.container-register a:hover {
+  text-decoration: underline;
+}
+
+.container-or {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  width: 107%;
+}
+
+.container-google {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: 107%;
+  padding: 8% 0 0 0;
+}
+
+.container-google button {
+  width: 90%;
+  font-size: 120%;
+  height: 3rem;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 1px rgba(175, 172, 172, 0.856);
+  transition: 0.3s;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0rem 1rem;
+}
+
+.container-google button img {
+  width: 20%;
+  height: 70%;
+}
+
+.container-google button:hover {
+  scale: 1.1;
+}
+
+@media (max-width: 1214px) {
+  .box-sign .container-left {
+    width: 55%;
+  }
+  .box-sign .container-right {
+    width: 45%;
+  }
+}
+
+@media (max-width: 958px) {
+  .box-sign .container-left {
+    width: 46%;
+  }
+  .box-sign .container-right {
+    width: 55%;
+  }
+}
+
+@media (max-width: 655px) {
+  .box-sign .container-left {
+    display: none;
+  }
+  /* .box-sign .container-right{
+       height: 88vh; 
+    } */
+}
+
+/* @media (max-height: 1008px){
+    .box-sign .container-right{
+      height: 74vh;
+    }
+  } */
+@media (max-height: 951px) {
+  /* .box-sign .container-right{
+       height: 78vh; 
+    } */
+}

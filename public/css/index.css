@@ -1,0 +1,43 @@
+/* general styling for website */
+
+:root {
+  --dark-gray: #3c3744;
+  --deep-blue: #090c9b;
+  --blue: #3d52d5;
+  --light-blue: #b4c5e4;
+  --off-white: #fbfff1;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
+}
+
+* {
+  text-decoration: none;
+}
+
+main{
+  flex: 1;
+}
+
+footer{
+  background: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}

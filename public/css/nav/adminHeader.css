@@ -1,0 +1,192 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  border-style: solid;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+}
+
+.navbar .logo {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar .logo h2,
+.navbar .list a {
+  color: black;
+  margin: 0;
+  max-width: fit-content;
+  cursor: pointer;
+}
+
+.navbar .logo h2 {
+  font-size: 26px;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar .list {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-btn-sign-in,
+.sub-list {
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.nav-btn-sign-up {
+  height: 2.3rem;
+  width: 5rem;
+  border-radius: 10px;
+  border: none;
+  box-sizing: border-box;
+  background: var(--blue);
+  color: white;
+  cursor: pointer;
+}
+
+.active-list {
+  height: 2.3rem;
+  min-width: 5rem;
+  width: max-content;
+  border-radius: 10px;
+  border: none;
+  box-sizing: border-box;
+  background: var(--blue);
+  color: white;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dropdown-menu {
+  min-width: 120px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-menu:hover {
+  background-color: var(--deep-blue);
+  color: #fff;
+}
+
+.dropdown-item:hover {
+  background-color: var(--deep-blue);
+  color: #fff;
+}
+
+.dropdown-toggle::after {
+  display: none; /* Tắt mũi tên mặc định của Bootstrap nha*/
+}
+
+.dropdown-toggle i {
+  font-size: 1.2rem;
+  vertical-align: middle;
+}
+
+.avatar-toggle,
+.mobile-menu {
+  display: none;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .navbar {
+    justify-content: space-between;
+    padding: 0.8rem 1rem;
+  }
+
+  .nav-container .list,
+  .info-desktop {
+    display: none;
+  }
+
+  .avatar-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.2rem;
+    color: black;
+  }
+
+  .mobile-menu {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 250px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1001;
+    transition: right 0.3s ease-in-out;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .mobile-menu.show {
+    right: 0;
+  }
+
+  .mobile-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-menu li {
+    margin: 15px 0;
+  }
+
+  .mobile-menu button {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 10px;
+    color: black;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .mobile-menu button:hover {
+    background-color: var(--deep-blue);
+    color: white;
+  }
+
+  .mobile-menu .active-list {
+    background: var(--blue);
+    color: white;
+  }
+}
+
+@media (min-width: 769px) {
+  .avatar-toggle,
+  .mobile-menu {
+    display: none;
+  }
+}

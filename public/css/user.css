@@ -1,0 +1,6 @@
+@import "nav/adminHeader.css";
+
+@import "company/companyDashboard.css";
+
+@import "post/addJobPost.css";
+@import "post/viewJobPost.css";
