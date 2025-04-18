@@ -1,0 +1,43 @@
+RewriteEngine On
+
+
+# Skip if URI has file extension
+RewriteCond %{REQUEST_URI} !\.[^./]+$
+
+RewriteRule ^api/auth$ api.php?page=auth [L,QSA] 
+RewriteRule ^api/jobposts$ api.php?page=jobposts [L,QSA]
+RewriteRule ^api/jobpost$ api.php?page=jobpost [L,QSA]
+RewriteRule ^api/apply/([0-9]+)$ api.php?page=apply&postid=$1 [L,QSA]
+RewriteRule ^api/approval$ api.php?page=approval [L,QSA]
+
+RewriteRule ^applications/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/$ index.php?page=applications&post=$1&app=$2 [L,QSA]
+RewriteRule ^applications/([a-zA-Z0-9-]+)/$ index.php?page=applications&post=$1 [L,QSA]
+RewriteRule ^applications/$ index.php?page=applications [L]
+RewriteRule ^jobpost/add/$ index.php?page=jobpost&action=add [L,QSA]
+RewriteRule ^jobpost/view/([0-9]+)/$ index.php?page=jobpost&action=view&id=$1 [L,QSA]
+# RewriteRule ^apply/([0-9]+)/$ indexp.php?page=apply&id=$1 [L, QSA]
+RewriteRule ^jobposts/$ index.php?page=jobposts [L,QSA]
+RewriteRule ^home/$ index.php?page=home [L,QSA]
+RewriteRule ^help/$ index.php?page=help [L,QSA]
+RewriteRule ^contact/$ index.php?page=contact [L,QSA]
+RewriteRule ^signin/$ index.php?page=signin [L,QSA]
+RewriteRule ^signup/$ index.php?page=signup [L,QSA]
+
+# RewriteRule ^api/apply$ api.php?page=apply [L, QSA]
+# RewriteRule ^(.*)$ index.php [L,QSA]
+
+# ----------------------------
+# Trailing slash redirection
+# ----------------------------
+
+# Skip real files or directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+
+# Skip API routes (anywhere in URI)
+RewriteCond %{REQUEST_URI} !/api/
+
+# Add trailing slash if missing
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^(.*[^/])$ %{REQUEST_URI}/ [R=301,L]

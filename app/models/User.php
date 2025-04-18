@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . "/../db.php";
+// require_once __DIR__ . "/../db.php";
+require_once dirname(__DIR__) . "/../app/db.php";
 class User {
     private $db;
     public function __construct() {

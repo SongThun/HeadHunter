@@ -63,9 +63,13 @@
   </div>
 
   <!-- job listings -->
+  <!-- <div class="container-list-job card-display" style="z-index:1;"> -->
   <div class="container-list-job card-display" style="z-index:1;">
+    
     <?php if (count($jobs) > 0): ?>
+
       <?php foreach ($jobs as $job): ?>
+       
         <div class="container-job-card">
           <div class="container-job-card-left">
             <div class="containter-job-title">
@@ -74,7 +78,7 @@
             <div class="container-job-description">
               <div class="calender">
                 <i class="fa-regular fa-calendar-check"></i>
-                <?= formatDate($job['CreatedDate']) . ' - ' . formatDate($job['Due'])?>
+                <!-- <?= date("d/m/y", strtotime($job['CreatedDate'])) . ' - ' . date("d/m/y", strtotime($job['Due']));?> -->
               </div>
               <div class="location">
                 <i class="fa-regular fa-map"></i>

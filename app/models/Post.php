@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . "/../db.php";
+// require_once __DIR__ . "/../db.php";
+require_once dirname(__DIR__) . "/../app/db.php";
 
 class Post
 {
@@ -58,6 +59,10 @@ class Post
         $stmt->bind_param($type, ...$param);
         $stmt->execute();
         $result = $stmt->get_result();
+        // foreach ($result as $a){
+        //     print_r($a);
+        //     echo "<br>";
+        // }
         return $result->fetch_all(MYSQLI_ASSOC);
     }
     public function getCount($filter)

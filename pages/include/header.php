@@ -10,15 +10,15 @@
           </a></div>
       </div>
       <div class="list">
-        <button data-href="<?= BASE_URL . 'home/' ?>" data-scroll="#home" class="sub-list <?= $active_state['home'] ?>">Home</button>
-        <button data-href="<?= BASE_URL . 'jobposts/' ?>" class="sub-list <?= $active_state['jobposts'] ?>">Job Listing</button>
-        <button data-href="<?= BASE_URL . 'help/' ?>" data-scroll="#help" class="sub-list <?= $active_state['help'] ?>">Help</button>
-        <button data-href="<?= BASE_URL . 'contact/' ?>" data-scroll="#contact" class="sub-list <?= $active_state['contact'] ?>">Contact</button>
+        <button data-href="<?= BASE_URL . '/home/' ?>" data-scroll="#home" class="sub-list <?= $active_state['home'] ?>">Home</button>
+        <button data-href="<?= BASE_URL . '/jobposts/' ?>" class="sub-list <?= $active_state['jobposts'] ?>">Job Listing</button>
+        <button data-href="<?= BASE_URL . '/help/' ?>" data-scroll="#help" class="sub-list <?= $active_state['help'] ?>">Help</button>
+        <button data-href="<?= BASE_URL . '/contact/' ?>" data-scroll="#contact" class="sub-list <?= $active_state['contact'] ?>">Contact</button>
       </div>
       <div class="sign-up-in">
         <?php if ($role == 'guest'): ?>
-          <button data-href="<?= BASE_URL . 'signin/' ?>" class="nav-btn-sign-in">Sign in</button>
-          <button data-href="<?= BASE_URL . 'signup/' ?>" class="nav-btn-sign-up">Sign up</button>
+          <button data-href="<?= BASE_URL . '/signin/' ?>" class="nav-btn-sign-in">Sign in</button>
+          <button data-href="<?= BASE_URL . '/signup/' ?>" class="nav-btn-sign-up">Sign up</button>
         <?php else: ?>
           <button data-href="<?= API . 'auth?action=logout' ?>" class="nav-btn-sign-up">Logout</button>
         <?php endif; ?>
@@ -33,13 +33,13 @@
     <!-- Mobile menu -->
     <div class="mobile-menu">
       <ul>
-        <li><button data-href="<?= BASE_URL . 'home/' ?>" data-scroll="#home" class="sub-list <?= $active_state['home'] ?>">Home</button></li>
-        <li><button data-href="<?= BASE_URL . 'jobposts/' ?>" class="sub-list <?= $active_state['jobposts'] ?>">Job Listing</button></li>
-        <li><button data-href="<?= BASE_URL . 'help/' ?>" data-scroll="#help" class="sub-list <?= $active_state['help'] ?>">Help</button></li>
-        <li><button data-href="<?= BASE_URL . 'contact/' ?>" data-scroll="#contact" class="sub-list <?= $active_state['contact'] ?>">Contact</button></li>
+        <li><button data-href="<?= BASE_URL . '/home/' ?>" data-scroll="#home" class="sub-list <?= $active_state['home'] ?>">Home</button></li>
+        <li><button data-href="<?= BASE_URL . '/jobposts/' ?>" class="sub-list <?= $active_state['jobposts'] ?>">Job Listing</button></li>
+        <li><button data-href="<?= BASE_URL . '/help/' ?>" data-scroll="#help" class="sub-list <?= $active_state['help'] ?>">Help</button></li>
+        <li><button data-href="<?= BASE_URL . '/contact/' ?>" data-scroll="#contact" class="sub-list <?= $active_state['contact'] ?>">Contact</button></li>
         <?php if ($role == 'guest'): ?>
-          <li><button data-href="<?= BASE_URL . 'signin/' ?>" class="nav-btn-sign-in">Sign in</button></li>
-          <li><button data-href="<?= BASE_URL . 'signup/' ?>" class="nav-btn-sign-up">Sign up</button></li>
+          <li><button data-href="<?= BASE_URL . '/signin/' ?>" class="nav-btn-sign-in">Sign in</button></li>
+          <li><button data-href="<?= BASE_URL . '/signup/' ?>" class="nav-btn-sign-up">Sign up</button></li>
         <?php else: ?>
           <li><button data-href="<?= API . 'auth?action=logout' ?>" class="nav-btn-sign-up">Logout</button></li>
         <?php endif; ?>

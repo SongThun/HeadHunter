@@ -1,6 +1,8 @@
 <?php
-require_once __DIR__ . "/../models/Post.php";
-require_once __DIR__ . "/../models/Application.php";
+// require_once __DIR__ . "/../models/Post.php";
+// require_once __DIR__ . "/../models/Application.php";
+require_once dirname(__DIR__) . "/../app/models/Post.php";
+require_once dirname(__DIR__) . "/../app/models/Application.php";
 class AdminController
 {
     private $post;

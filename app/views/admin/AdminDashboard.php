@@ -1,4 +1,4 @@
-<?php include __DIR__ . '/../../utils.php'; ?>
+<?php include dirname(__DIR__) . '/../../public/js/utils.php'; ?>
 
 <div class="container my-3">
     <!-- New job post section -->

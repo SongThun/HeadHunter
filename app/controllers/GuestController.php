@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__ . "/../models/Post.php";
-require_once __DIR__ . "/../models/Application.php";
+// require_once __DIR__ . "/../models/Post.php";
+// require_once __DIR__ . "/../models/Application.php";
+require_once dirname(__DIR__) . "/../app/models/Post.php";
+require_once dirname(__DIR__) . "/../app/models/Application.php";
+
 class GuestController
 {
     private $post;
@@ -29,11 +32,11 @@ class GuestController
         $name = explode('-', $_GET['post']);
         $id = end($name);
         $job = $this->post->getAPost($id);
-        require_once __DIR__ . '/../views/guest/JobDescription.php';
+        require_once dirname(__DIR__) . '/../app/views/guest/JobDescription.php';
     }
     private function home_init()
     {
-        require_once __DIR__ . '/../views/guest/Home.php';
+        require_once dirname(__DIR__) . '/../app/views/guest/Home.php';
     }
     private function jobposts_init()
     {
@@ -46,7 +49,7 @@ class GuestController
         $jobs = $this->post->getPostS($sort, $filter, $limit, $offset);
         $total_records = $this->post->getCount($filter);
         $total_pages = ceil($total_records / $record_per_page);
-        require_once "app/views/guest/JobPosts.php";
+        require_once dirname(__DIR__) . "/views/guest/JobPosts.php";
     }
     public function apply()
     {

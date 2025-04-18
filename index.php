@@ -65,6 +65,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
     }
 
     // Page on user's role, determine the landing page
+    // echo 'check 2';
     switch ($role) {
         case 'admin':
             require __DIR__ . '/pages/admin.php';
