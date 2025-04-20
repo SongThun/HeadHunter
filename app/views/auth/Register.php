@@ -16,6 +16,7 @@
               <input type="text" name="username" id="username" placeholder="Enter Username" required>
             </div>
           </div>
+          <div class="username-taken" >This username had been already taken.</div>
           <div class="container-upper next">
             <label for="email">Email</label>
             <div class="container-upper-box">
@@ -23,6 +24,7 @@
               <input type="email" name="email" id="email" placeholder="Enter your Email" required>
             </div>
           </div>
+          <div class="email-taken">This email had been already taken.</div>
           <div class="container-upper next">
             <label for="company">Company</label>
             <div class="container-upper-box">
@@ -30,6 +32,7 @@
               <input type="text" name="company" id="company" placeholder="Enter your Company" required>
             </div>
           </div>
+          <div class="company-taken">This company has been registered.</div>
           <div class="container-upper next">
             <label for="password">Password</label>
             <div class="container-upper-box">
@@ -95,12 +98,12 @@
     }
     const email = form.querySelector("#email").value;
     const company = form.querySelector("#company").value;
-    const url = "<?= API ?>auth?action=register";
+    const url = "<?= API ?>/auth?action=register";
     console.log(url);
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'ContentType': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         'username': username,
@@ -110,11 +113,33 @@
       })
     })
     const res = await response.json();
+    console.log(res);
     if (res.status == 'success') {
       window.location.href = "<?= BASE_URL ?>";
-    } else {
-      // todo: print error;
-      console.log(res.msg);
+    } else if (res.status == 'duplicate') {
+      if ('exist_username' in res){
+        if (res.exist_username == 1) {
+          const a =document.querySelector('.username-taken');
+          a.style.display = "block";
+        } else {
+          const a =document.querySelector('.username-taken');
+          a.style.display = "none";
+        }
+        if (res.exist_email == 1){
+          const b =document.querySelector('.email-taken');
+          b.style.display = "block";
+        } else {
+          const b =document.querySelector('.email-taken');
+          b.style.display = "none";
+        }
+        if (res.exist_company == 1){
+          const c =document.querySelector('.company-taken');
+          c.style.display = "block";
+        } else {
+          const c =document.querySelector('.company-taken');
+          c.style.display = "none";
+        }
+      }
     }
   })
 </script>

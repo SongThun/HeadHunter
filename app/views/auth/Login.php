@@ -23,7 +23,7 @@
               <input type="password" name="password" id="password" placeholder="Password" required>
             </div>
           </div>
-          <span id="login-err"></span>
+          <!-- <span id="login-err"></span> -->
           <div class="container-lower">
             <div class="container-lower-sub">
               <input type="checkbox" name="remember-me" id="show-password" onclick="ShowPassword()">
@@ -34,10 +34,11 @@
             </div>
           </div>
         </div>
+        <div class="wrong-login">Username or Password are wrong!</div>
         <div class="btn-form"><button type="submit">Login</button></div>
         <div class="container-register">
           <p>
-            Don't have account? <a href="<?= BASE_URL ?>signup"> Register here.</a>
+            Don't have account? <a href="<?= BASE_URL ?>/signup"> Register here.</a>
           </p>
         </div>
         <div class="container-or">
@@ -97,7 +98,9 @@
     if (res.status == 'success') {
       window.location.href = "<?= BASE_URL ?>";
     } else {
-      document.querySelector("#login-err").innerHTML = res.msg;
+      // document.querySelector("#login-err").innerHTML = res.msg;
+      const wrong = document.querySelector(".wrong-login");
+      wrong.style.display = "flex";
     }
   })
 </script>
