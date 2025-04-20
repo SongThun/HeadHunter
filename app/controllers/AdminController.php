@@ -63,10 +63,7 @@ class AdminController
             $postname = explode('-', $_GET['post']);
             $postid = end($postname);
             $filter = ['postid'=>$postid, 'status'=>'pending'];
-            $apps = $this->app->getApps("AppliedDate DESC", $filter, 10, 0);
             $total = $this->app->getCount($filter);
-            $page_num=1;
-            $total_pages = ceil($total / 10);
             $counts = [];
             foreach (['accept', 'pending', 'reject'] as $status) {
                 $counts[$status] = $this->app->getCount(["postid"=>$postid, "status"=>$status]);
@@ -76,10 +73,6 @@ class AdminController
         } 
         // default -> display approved job post
         else {
-            $jobs = $this->post->getPosts("CreatedDate ASC",['status'=>'approved'],10,0);
-            $page_num = 1;
-            $total = $this->post->getCount(['status' => 'approved']);
-            $total_pages = ceil($total / 10);
             require_once __DIR__ . "/../views/admin/AdminApplicationView.php";
         }
        

@@ -90,6 +90,7 @@
   const destGen = (id, name) => {
     return window.location.href + slugify(name) + '-' + id;
   }
+  state.filter.status = "approved";
   const loadPost = getLoader(loadSuccess,loadFail,destGen);
   document.addEventListener('DOMContentLoaded', () => {
     loadPost(state.sort, state.filter, 1);
