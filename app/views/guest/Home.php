@@ -13,7 +13,7 @@
         </div>
         <div class="container-right">
           <div class="container-img">
-            <img src="<?=BASE_URL?>images/job_portal_home.jpg" alt="">
+            <img src="<?=UPLOAD_IMG?>/job_portal_home.jpg" alt="">
           </div>
           <div class="container-contact">
             <div class="container-contact-each"><p>Our social media</p></div>
@@ -25,9 +25,9 @@
         </div>
       </div>
       <div class="container-big second" id="contact">
-           <img src="<?=BASE_URL?>images/job_portal_home2.svg" alt="">
+           <img src="<?=UPLOAD_IMG?>/job_portal_home2.svg" alt="">
       </div>
       <div class="container-big second" id="help">
-        <img src="<?=BASE_URL?>images/Guidance.svg" alt="" style="margin-left: 2%;">
+        <img src="<?=UPLOAD_IMG?>/Guidance.svg" alt="" style="margin-left: 2%;">
       </div>
 </main>

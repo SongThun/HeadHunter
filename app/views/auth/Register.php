@@ -1,7 +1,7 @@
 <main>
   <div class="box-sign">
     <div class="container-left">
-      <img src="../images/job_portal_sign.jpg" alt="">
+      <img src="<?= UPLOAD_IMG ?>/job_portal_sign.jpg" alt="">
     </div>
     <div class="container-right">
       <form id="register-form" action="" method="POST">

@@ -19,10 +19,10 @@ class AuthController {
         }
     }
     private function signin_form() {
-        require_once __DIR__ . "/../views/login.php";
+        require_once __DIR__ . "/../views/auth/login.php";
     }
     private function signup_form() {
-        require_once __DIR__ . "/../views/register.php";
+        require_once __DIR__ . "/../views/auth/register.php";
     }
     public function logout() {
         setcookie('remember_me', session_id(), time() - 60 * 60, '/');

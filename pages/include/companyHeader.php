@@ -1,11 +1,5 @@
 <!-- COMPANY HEADER: used for User pages -->
 
-<?php
-  $active_state = ['home' => "", 'jobposts' => "", 'help' => "", 'contact' => ""];
-  $active_state[$page] = "active-list";
-  $avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : 'default_ava.jpg';
-  $avatarLink = UPLOAD_IMG . $avatar;
-?>
 
 <header>
   <nav>
@@ -23,7 +17,7 @@
             <i class="bi bi-chevron-down"></i>
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item text-centered" href="<?= API ?>auth?action=logout">Log out</a></li>
+            <li><a class="dropdown-item text-centered" href="<?= API ?>/auth?action=logout">Log out</a></li>
           </ul>
         </div>
       </div>
@@ -37,7 +31,7 @@
 
       <div class="mobile-menu">
         <ul>
-          <li><a href="<?= API ?>auth?action=logout">Log out</a></li>
+          <li><a href="<?= API ?>/auth?action=logout">Log out</a></li>
         </ul>
       </div>
     </div>

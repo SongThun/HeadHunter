@@ -1,3 +1,5 @@
+<?php include __DIR__ . "/../../utils.php" ?>
+
 <div>
   <div class="container-search" style="background: var(--off-white);margin-top: 0;height: 6rem;">
     <!-- search bar -->
@@ -120,7 +122,9 @@
 </div>
 
 <script src="<?= SCRIPT_PATH ?>/pagination.js"></script>
+<script src="<?= SCRIPT_PATH ?>/utils.js"></script>
 <script>
+  const filterBox = document.querySelector(".filter-box");
   const filterBtn = document.querySelector(".filter-box > button");
   const filterBoxList = document.querySelector(".filter-box-list");
 

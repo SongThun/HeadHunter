@@ -1,12 +1,5 @@
 <!-- ADMIN HEADER: used for Admin pages -->
 
-<?php
-  $active_state = ['home' => "", 'jobposts' => "", 'applications' => ""];
-  $active_state[$page] = "active-list";
-  $avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : 'default_ava.jpg';
-  $avatarLink = UPLOAD_IMG . $avatar;
-?>
-
 <header>
   <nav>
     <div class="navbar">
@@ -30,7 +23,7 @@
             <i class="bi bi-chevron-down"></i>
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="<?= API ?>auth?action=logout">Log out</a></li>
+            <li><a class="dropdown-item" href="<?= API ?>/auth?action=logout">Log out</a></li>
           </ul>
         </div>
       </div>
@@ -47,7 +40,7 @@
           <li><button data-href="<?= BASE_URL . 'home/' ?>" class="sub-list <?=$active_state['home']?>">Home</button></li>
           <li><button data-href="<?= BASE_URL . 'jobposts/' ?>" class="sub-list <?=$active_state['jobposts']?>">Job Post</button></li>
           <li><button data-href="<?= BASE_URL . 'applications/' ?>" class="sub-list <?=$active_state['applications']?>">Applications</button></li>
-          <li><button data-href="<?= API ?>auth?action=logout" class="nav-btn-sign-up">Log out</button></li>
+          <li><button data-href="<?= API ?>/auth?action=logout" class="nav-btn-sign-up">Log out</button></li>
         </ul>
       </div>
     </div>

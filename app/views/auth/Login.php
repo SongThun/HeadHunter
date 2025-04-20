@@ -46,7 +46,7 @@
 
         <!-- <div class="g-signin2" data-onsuccess="onSignIn" style="width: 5rem; height: 4rem;"></div> -->
         <div class="container-google">
-          <button onclick=""> <img src="../images/google.svg" alt=""> Continue with Google</button>
+          <button onclick=""> <img src="<?= UPLOAD_IMG ?>/google.svg" alt=""> Continue with Google</button>
         </div>
       </form>
 
@@ -81,7 +81,7 @@
     const username = form.querySelector("#username").value;
     const password = form.querySelector("#password").value;
 
-    const url = "<?= API ?>auth?action=validate";
+    const url = "<?= API ?>/auth?action=validate";
     console.log(url);
     const response = await fetch(url, {
       method: 'POST',

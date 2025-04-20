@@ -9,65 +9,106 @@ function debounce(func, delay) {
   };
 }
 
-let sort = "";
-let filter = {};
-let currentPage = 1;
-
 function getLoader(LoadContentSuccess, LoadContentFail, DestGenerate) {
-  attachCardView(DestGenerate);
-  attachPagination();
+  const state = {
+    sort: "",
+    filter: {},
+    currentPage: 1,
+  };
 
-  const sortSelect = document.querySelector(".sort-choices");
-  const searchBar = document.querySelector(".search-box input");
+  const $pagination = document.querySelector(".pagination");
+  const $searchBar = document.querySelector(".search-box input");
+  const $sortSelect = document.querySelector(".sort-choices");
 
-  if (sortSelect) {
-    sort = sortSelect.value;
-    sortSelect.addEventListener("input", () => {
-      sort = sortSelect.value;
-      loadPost(sort, filter, 1);
-    });
+  attachEvents();
+
+  async function loadPost(sort, filter, page_num) {
+    try {
+      const response = await fetch(`${window.API}/jobposts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sort,
+          filter,
+          page_num,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to fetch job posts:", response.status);
+        return;
+      }
+
+      const res = await response.json();
+      let html = "";
+      if (res.data.length > 0) {
+        html = res.data.reduce((acc, ele) => acc + LoadContentSuccess(ele), "");
+      } else {
+        html = LoadContentFail();
+      }
+      document.querySelector(".card-display").innerHTML = html;
+      updatePagination(page_num, res.total);
+      attachCardView();
+    } catch (error) {
+      console.error("Error loading job posts:", error);
+    }
   }
 
-  if (searchBar) {
-    searchBar.addEventListener(
-      "input",
-      debounce(() => {
-        filter.search = searchBar.value;
-        loadPost(sort, filter, 1);
-      }, 500)
-    );
+  function attachEvents() {
+    if ($sortSelect) {
+      state.sort = $sortSelect.value;
+      $sortSelect.addEventListener("input", () => {
+        state.sort = $sortSelect.value;
+        loadPost(state.sort, state.filter, 1);
+      });
+    }
+
+    if ($searchBar) {
+      $searchBar.addEventListener(
+        "input",
+        debounce(() => {
+          state.filter.search = $searchBar.value;
+          loadPost(state.sort, state.filter, 1);
+        }, 500)
+      );
+    }
+
+    attachPaginationOnce();
   }
 
   function updatePagination(current, total) {
     let html = "";
     if (total > 0) {
-      html = `<li class="page-item ${current == 1 ? "disabled" : ""}">
-            <button id="prev" class="page-link" tabindex="-1" aria-disabled="true">
-              <i class="bi bi-arrow-left"></i> Previous
-            </button>
-          </li>
-          <li> ${current} / ${total} </li>
-          <li class="page-item ${current == total ? "disabled" : ""}">
-            <button id="next" class="page-link">
-              Next <i class="bi bi-arrow-right"></i>
-            </button>
-          </li>`;
+      html = `<li class="page-item ${current === 1 ? "disabled" : ""}">
+                <button id="prev" class="page-link">
+                  <i class="bi bi-arrow-left"></i> Previous
+                </button>
+              </li>
+              <li> ${current} / ${total} </li>
+              <li class="page-item ${current === total ? "disabled" : ""}">
+                <button id="next" class="page-link">
+                  Next <i class="bi bi-arrow-right"></i>
+                </button>
+              </li>`;
     }
-    currentPage = current;
-    console.log(document.querySelector(".pagination"));
-    document.querySelector(".pagination").innerHTML = html;
+    state.currentPage = current;
+    $pagination.innerHTML = html;
   }
 
-  function attachPagination() {
-    document.querySelector("#prev").addEventListener("click", () => {
-      loadPost(sort, filter, current - 1);
-    });
-    document.querySelector("#next").addEventListener("click", () => {
-      loadPost(sort, filter, current + 1);
+  function attachPaginationOnce() {
+    $pagination.addEventListener("click", (e) => {
+      if (e.target.closest("#prev")) {
+        loadPost(state.sort, state.filter, state.currentPage - 1);
+      }
+      if (e.target.closest("#next")) {
+        loadPost(state.sort, state.filter, state.currentPage + 1);
+      }
     });
   }
 
-  function attachCardView(DestGenerate) {
+  function attachCardView() {
     const jobcards = document.querySelectorAll(".job-card");
     jobcards.forEach((card) => {
       const id = card.dataset.id;
@@ -78,30 +119,5 @@ function getLoader(LoadContentSuccess, LoadContentFail, DestGenerate) {
     });
   }
 
-  async function loadPost(sort, filter, page_num) {
-    const response = await fetch(`${window.API}/jobposts`, {
-      method: "POST",
-      headers: {
-        ContentType: "application/json",
-      },
-      body: JSON.stringify({
-        sort,
-        filter,
-        page_num,
-      }),
-    });
-    const res = await response.json();
-    console.log(res);
-    let html = "";
-    if (res.data.length > 0) {
-      html = res.data.reduce((acc, ele) => acc + LoadContentSuccess(ele), "");
-    } else {
-      html = LoadContentFail();
-    }
-    document.querySelector(".card-display").innerHTML = html;
-    updatePagination(page_num, res.total);
-    attachPagination();
-    attachCardView(DestGenerate);
-  }
-  return loadPost();
+  return loadPost;
 }
