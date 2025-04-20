@@ -23,6 +23,38 @@ class User {
     }
 
     public function add_user($username, $password, $email, $company) {
+
+        // Validate before register
+        try {
+            $sql = "SELECT Username, Email, CompanyName FROM User_ WHERE Username = ? OR Email = ? OR CompanyName = ?";
+            $stmt_validate = $this->db->prepare($sql);
+            $stmt_validate->bind_param("sss", $username, $email, $company);
+            $stmt_validate->execute();
+            $stmt_validate->store_result();
+            $result = ['status' => 'duplicate'];
+            if ($stmt_validate->num_rows > 0){
+                $exist_username = "";
+                $exist_email = "";
+                $exist_company = "";
+                $stmt_validate->bind_result($exist_username, $exist_email, $exist_company);
+                while ($stmt_validate->fetch()) {
+                    if ($exist_username === $username) {
+                        $result['exist_username'] = 1;
+                    }
+                    if ($exist_email === $email) {
+                        $result['exist_email'] = 1;
+                    }
+                    if ($exist_company === $company) {
+                        $result['exist_company'] = 1;
+                    }
+                }
+                return $result;
+            }
+        } catch (Exception $e){
+            return ['status' => 'duplicate', 'error' => 'can not validate register', 'msg' => $e->getMessage()];
+        }
+
+
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $this->db->prepare("INSERT INTO User_ (Username, Password, Email, CompanyName) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $username, $passwordHash, $email, $company);

@@ -152,17 +152,4 @@
   document.addEventListener('DOMContentLoaded', () => {
     loadPost(state.sort, state.filter, 1);
   })
-  // const status = document.querySelector('#company-status-filter');
-  // const statusBtns = status.querySelectorAll('button');
-  // statusBtns.forEach((btn) => {
-  //   btn.addEventListener('click', () => {
-  //     if (btn.value == 'all') {
-  //       state.filter.status = "";
-  //     } else {
-  //       state.filter.status = btn.value;
-  //     }
-  //     loadPost(state.sort, state.filter, 1);
-  //   })
-  // })
-  
 </script>

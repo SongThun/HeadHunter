@@ -143,8 +143,8 @@
   const destGen = (id, name) => {
     return window.location.href + slugify(name) + '-' + id;
   }
-  const url = `${window.API}/applications`
-  const loadPost = getLoader(loadSuccess,loadFail,destGen, `${}`);
+  const url = `${window.API}/applications`;
+  const loadPost = getLoader(loadSuccess,loadFail,destGen, url);
   document.addEventListener('DOMContentLoaded', () => {
     loadPost(state.sort, state.filter, 1);
   })
