@@ -160,7 +160,7 @@
     const rejectbtn = document.querySelector("#disapprove-btn");
     const editbtn = document.querySelector("#approve-edit-btn");
     const approvalForm = document.querySelector("#admin-approval-form");
-    const status = approvalForm.dataset.value;
+    const status = approvalForm ? approvalForm.dataset.value : "";
     const statusResult = document.querySelector("#app-status");
 
     function checkBtnDisplay(status) {
@@ -168,13 +168,13 @@
         editbtn.style.display = 'none';
         acceptbtn.style.display = 'block';
         rejectbtn.style.display = 'block';
-        approvalForm.disabled = false;
+        if (approvalForm) approvalForm.disabled = false;
         statusResult.style.display = 'none';
       } else {
         editbtn.style.display = 'block';
         acceptbtn.style.display = 'none';
         rejectbtn.style.display = 'none';
-        approvalForm.disabled = true;
+        if (approvalForm) approvalForm.disabled = true;
         statusResult.style.display = 'block';
       }
     }

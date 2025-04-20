@@ -117,18 +117,18 @@
 <script src="<?= SCRIPT_PATH ?>/utils.js"></script>
 <script>
   const loadSuccess = (job) => {
-    return `<div class="row job-card" data-id="${escapeHTML(job.ID)}">
+    return `<div class="row job-card" data-id="${job.ID}" data-name="${escapeHTML(job.Postname)}">
           <div class="col-12">
             <div class="d-flex justify-content-between">
-              <h5>${job.Postname}</h5>
-              <span class="badge job-status-${job.Status}">${job.Status}</span>
+              <h5>${escapeHTML(job.Postname)}</h5>
+              <span class="badge job-status-${escapeHTML(job.Status)}">${escapeHTML(job.Status)}</span>
             </div>
             <p class="mb-1">
               <i class="bi bi-calendar3"></i> ${formatDate(job.CreatedDate)} - ${formatDate(job.Due)}
-              <i class="ml-4 bi bi-geo-alt"></i> ${job.Location}
+              <i class="ml-4 bi bi-geo-alt"></i> ${escapeHTML(job.Location)}
             </p>
             <p class="mb-1">
-              ${job.Description}
+              ${escapeHTML(job.Description)}
             </p>
           </div>
         </div>
