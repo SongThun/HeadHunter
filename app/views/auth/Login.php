@@ -37,7 +37,7 @@
         <div class="btn-form"><button type="submit">Login</button></div>
         <div class="container-register">
           <p>
-            Don't have account? <a href="<?= BASE_URL ?>signup"> Register here.</a>
+            Don't have account? <a href="<?= BASE_URL ?>/signup/"> Register here.</a>
           </p>
         </div>
         <div class="container-or">
@@ -95,7 +95,7 @@
     })
     const res = await response.json();
     if (res.status == 'success') {
-      window.location.href = "<?= BASE_URL ?>";
+      window.location.href = window.BASE_URL;
     } else {
       document.querySelector("#login-err").innerHTML = res.msg;
     }

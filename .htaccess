@@ -22,7 +22,7 @@ RewriteRule ^applications/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/$ index.php?page=appli
 RewriteRule ^applications/([a-zA-Z0-9-]+)/$ index.php?page=applications&post=$1 [L,QSA]
 RewriteRule ^applications/$ index.php?page=applications [L]
 RewriteRule ^jobpost/add/$ index.php?page=jobpost&action=add [L,QSA]
-RewriteRule ^jobpost/view/([0-9]+)/$ index.php?page=jobpost&action=view&id=$1 [L,QSA]
+RewriteRule ^jobpost/view/([a-zA-Z0-9-]+)/$ index.php?page=jobpost&action=view&id=$1 [L,QSA]
 # RewriteRule ^apply/([0-9]+)/$ indexp.php?page=apply&id=$1 [L, QSA]
 RewriteRule ^jobposts/$ index.php?page=jobposts [L,QSA]
 RewriteRule ^home/$ index.php?page=home [L,QSA]

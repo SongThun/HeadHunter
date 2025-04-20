@@ -3,7 +3,7 @@
     <!-- Sidebar -->
     <div class="col-md-2 col-lg-2 sidebar p-3">
       <button id="company-post-create" class="create-new-btn btn w-100 mb-3">Create new job</button>
-      <div id="company-status-filter" class="list-group">
+      <div class="list-group status-filter">
         <button value="all"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
           All <span class="sidebar-badge badge"><?= $counts['all'] ?></span>
@@ -53,47 +53,13 @@
 
       <!-- Job posts grid -->
       <div id="company-job-display" class="container card-display">
-        <!-- A single job card-->
-        <?php if ($jobs != null && count($jobs) > 0): ?>
-          <?php foreach ($jobs as $job): ?>
-            <div class="row job-card" data-id="<?= $job['ID'] ?>">
-              <div class="col-12">
-                <div class="d-flex justify-content-between">
-                  <h5><?= $job['Postname'] ?></h5>
-                  <span class="badge job-status-<?= $job['Status'] ?>"><?= $job['Status'] ?></span>
-                </div>
-                <p class="mb-1">
-                  <i class="bi bi-calendar3"></i> <?= $job['CreatedDate'] ?> - <?= $job['Due'] ?>
-                  <i class="ml-4 bi bi-geo-alt"></i> <?= $job['Location'] ?>
-                </p>
-                <p class="mb-1">
-                  <?= substr($job['Description'], 0, min(strlen($job['Description']), $maxLength)); ?> ...
-                </p>
-              </div>
-            </div>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <div class="no-jobs-found">
-            <h3>No job posts found</h3>
-            <p>Try adjusting your search criteria</p>
-          </div>
-        <?php endif; ?>
+        
       </div>
 
       <!-- Pagination -->
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
-          <li class="page-item <?= $page_num == 1 ? "disabled" : "" ?>">
-            <button id="prev" class="page-link" tabindex="-1" aria-disabled="true">
-              <i class="bi bi-arrow-left"></i> Previous
-            </button>
-          </li>
-          <li><?= $page_num ?> / <?= $total_pages ?></li>
-          <li class="page-item <?= $page_num == $total_pages ? "disabled" : "" ?>">
-            <button id="next" class="page-link">
-              Next <i class="bi bi-arrow-right"></i>
-            </button>
-          </li>
+          
         </ul>
       </nav>
 
@@ -130,7 +96,7 @@
 <script>
   const createbtn = document.querySelector("#company-post-create");
   createbtn.addEventListener('click', () => {
-    window.location.href = "<?= BASE_URL . 'jobpost/add/' ?>";
+    window.location.href = `${window.BASE_URL}/jobpost/add/`;
   })
 
   function toggleSidebar() {
@@ -148,20 +114,21 @@
 </script>
 
 <script src="<?= SCRIPT_PATH ?>/pagination.js"></script>
+<script src="<?= SCRIPT_PATH ?>/utils.js"></script>
 <script>
   const loadSuccess = (job) => {
-    return `<div class="row job-card" data-id="${job.ID}">
+    return `<div class="row job-card" data-id="${escapeHTML(job.ID)}">
           <div class="col-12">
             <div class="d-flex justify-content-between">
               <h5>${job.Postname}</h5>
               <span class="badge job-status-${job.Status}">${job.Status}</span>
             </div>
             <p class="mb-1">
-              <i class="bi bi-calendar3"></i> ${job.CreatedDate} - ${job.Due}
+              <i class="bi bi-calendar3"></i> ${formatDate(job.CreatedDate)} - ${formatDate(job.Due)}
               <i class="ml-4 bi bi-geo-alt"></i> ${job.Location}
             </p>
             <p class="mb-1">
-              ${description}
+              ${job.Description}
             </p>
           </div>
         </div>
@@ -177,22 +144,25 @@
   const destGen = (id, name) => {
     return window.BASE_URL + '/jobpost/view/' + `${slugify(name)}-${id}`
   }
+  
+  state.filter.id = "<?= $_SESSION['userid'] ?>";
 
   const loadPost = getLoader(loadSuccess, loadFail, destGen);
 
-  filter.id = "<?= $_SESSION['userid'] ?>";
-
-  const status = document.querySelector('#company-status-filter');
-  const statusBtns = status.querySelectorAll('button');
-  statusBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      if (btn.value == 'all') {
-        filter.status = "";
-      } else {
-        filter.status = btn.value;
-      }
-      loadPost(sort, filter, 1);
-    })
+  document.addEventListener('DOMContentLoaded', () => {
+    loadPost(state.sort, state.filter, 1);
   })
+  // const status = document.querySelector('#company-status-filter');
+  // const statusBtns = status.querySelectorAll('button');
+  // statusBtns.forEach((btn) => {
+  //   btn.addEventListener('click', () => {
+  //     if (btn.value == 'all') {
+  //       state.filter.status = "";
+  //     } else {
+  //       state.filter.status = btn.value;
+  //     }
+  //     loadPost(state.sort, state.filter, 1);
+  //   })
+  // })
   
 </script>

@@ -26,7 +26,11 @@ class PostController
     private function view_form()
     {
         $id = $_SESSION['userid'] ?? null;
-        $post = $this->model->getAPost($_GET['id']);
+        $postname = explode('-', $_GET['id']);
+        $postid = end($postname);
+        // echo($postid);
+        // var_dump($postname);
+        $post = $this->model->getAPost($postid);
         require_once __DIR__ . '/../views/post/ViewJobPost.php';
     }
     public function get()

@@ -1,6 +1,5 @@
 <!-- COMPANY HEADER: used for User pages -->
 
-
 <header>
   <nav>
     <div class="navbar">

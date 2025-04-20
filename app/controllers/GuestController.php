@@ -46,7 +46,7 @@ class GuestController
         $jobs = $this->post->getPostS($sort, $filter, $limit, $offset);
         $total_records = $this->post->getCount($filter);
         $total_pages = ceil($total_records / $record_per_page);
-        require_once "app/views/guest/JobPosts.php";
+        require_once __DIR__ . "/../views/guest/JobPosts.php";
     }
     public function apply()
     {

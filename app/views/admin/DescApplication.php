@@ -114,7 +114,7 @@
                 <input type="file" name="File_CV" id="file-applicant">
               </div>
               <div class="job-posting-attachment-wrapper" style="width: 30rem;">
-                <a href="<?= BASE_URL ?>upload/description/<?= $app['File_CV'] ?>" class="job-posting-attachment" download style="margin: 10rem !important;">
+                <a href="<?= UPLOAD_DESC ?>/<?= $app['File_CV'] ?>" class="job-posting-attachment" download style="margin: 10rem !important;">
                   <span class="job-posting-icon"><i class="bi bi-file-earmark-pdf"></i></span>
                   <p class="job-posting-text"><?= htmlspecialchars($app['File_CV']) ?></p>
                 </a>

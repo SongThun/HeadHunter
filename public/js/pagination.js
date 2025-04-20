@@ -9,22 +9,24 @@ function debounce(func, delay) {
   };
 }
 
-function getLoader(LoadContentSuccess, LoadContentFail, DestGenerate) {
-  const state = {
-    sort: "",
-    filter: {},
-    currentPage: 1,
-  };
+const state = {
+  sort: "",
+  filter: {},
+  currentPage: 1,
+};
 
-  const $pagination = document.querySelector(".pagination");
-  const $searchBar = document.querySelector(".search-box input");
-  const $sortSelect = document.querySelector(".sort-choices");
-
+function getLoader(LoadContentSuccess, LoadContentFail, DestGenerate, url=null) {
+  
+  const pagination = document.querySelector(".pagination");
+  const searchBar = document.querySelector(".search-box input");
+  const sortSelect = document.querySelector(".sort-choices");
+  const statusFilter = document.querySelector(".status-filter");
   attachEvents();
-
+  
+  const fetchurl = url == null ? `${window.API}/jobposts` : url;
   async function loadPost(sort, filter, page_num) {
     try {
-      const response = await fetch(`${window.API}/jobposts`, {
+      const response = await fetch(fetchurl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,34 +50,46 @@ function getLoader(LoadContentSuccess, LoadContentFail, DestGenerate) {
       } else {
         html = LoadContentFail();
       }
+
       document.querySelector(".card-display").innerHTML = html;
       updatePagination(page_num, res.total);
       attachCardView();
+      attachPagination();
     } catch (error) {
       console.error("Error loading job posts:", error);
     }
   }
 
   function attachEvents() {
-    if ($sortSelect) {
-      state.sort = $sortSelect.value;
-      $sortSelect.addEventListener("input", () => {
-        state.sort = $sortSelect.value;
+    if (sortSelect) {
+      state.sort = sortSelect.value;
+      sortSelect.addEventListener("input", () => {
+        state.sort = sortSelect.value;
         loadPost(state.sort, state.filter, 1);
       });
     }
 
-    if ($searchBar) {
-      $searchBar.addEventListener(
+    if (searchBar) {
+      searchBar.addEventListener(
         "input",
         debounce(() => {
-          state.filter.search = $searchBar.value;
+          state.filter.search = searchBar.value;
           loadPost(state.sort, state.filter, 1);
         }, 500)
       );
     }
+    if (statusFilter) {
+      statusBtn = statusFilter.querySelectorAll('button');
+      statusBtn.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.filter.status = btn.value == 'all' ? "" : btn.value;
+          loadPost(state.sort, state.filter, 1);
+        })
+      })
+    }
 
-    attachPaginationOnce();
+    attachPagination();
+    attachCardView();
   }
 
   function updatePagination(current, total) {
@@ -94,11 +108,11 @@ function getLoader(LoadContentSuccess, LoadContentFail, DestGenerate) {
               </li>`;
     }
     state.currentPage = current;
-    $pagination.innerHTML = html;
+    pagination.innerHTML = html;
   }
 
-  function attachPaginationOnce() {
-    $pagination.addEventListener("click", (e) => {
+  function attachPagination() {
+    pagination.addEventListener("click", (e) => {
       if (e.target.closest("#prev")) {
         loadPost(state.sort, state.filter, state.currentPage - 1);
       }

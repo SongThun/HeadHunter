@@ -268,7 +268,7 @@ body::before {
 /*** HTML STYLING ***/
 body {
   font-family: "Poppins", sans-serif;
-  background-image: url("./upload/images/job_portal_bg.jpg");
+  background-image: url("../../upload/images/job_portal_bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

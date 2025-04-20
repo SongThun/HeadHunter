@@ -8,13 +8,13 @@
         <button value="all" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
           All <span class="sidebar-badge badge"><?= $counts['all'] ?></span>
         </button>
-        <button value="approved" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <button value="accept" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
           Accept <span class="sidebar-badge badge"><?= $counts['accept'] ?></span>
         </button>
         <button value="pending" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
           Pending <span class="sidebar-badge badge"><?= $counts['pending'] ?></span>
         </button>
-        <button value="disapproved" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <button value="reject" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
           Reject <span class="sidebar-badge badge"><?= $counts['reject'] ?></span>
         </button>
       </div>
@@ -46,7 +46,7 @@
       <!-- Job posts grid -->
       <div id="company-job-display" class="container card-display">
         <!-- A single job card-->
-        <?php if ($apps != null && count($apps) > 0): ?>
+        <!-- <?php if ($apps != null && count($apps) > 0): ?>
           <?php foreach ($apps as $app): ?>
             <div class="row job-card" data-id="<?= $app['ID'] ?>" data-name="<?= $app['Fullname'] ?>">
               <div class="col-12">
@@ -68,14 +68,14 @@
           <div class="no-jobs-found">
             <h3>No applications found</h3>
           </div>
-        <?php endif; ?>
+        <?php endif; ?> -->
         <!-- Additional job cards can be added here if needed -->
       </div>
 
       <!-- Pagination -->
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
-          <li class="page-item <?= $page_num == 1 ? "disabled" : "" ?>">
+          <!-- <li class="page-item <?= $page_num == 1 ? "disabled" : "" ?>">
             <button id="prev" class="page-link" tabindex="-1" aria-disabled="true">
               <i class="bi bi-arrow-left"></i> Previous
             </button>
@@ -85,7 +85,7 @@
             <button id="next" class="page-link">
               Next <i class="bi bi-arrow-right"></i>
             </button>
-          </li>
+          </li> -->
         </ul>
       </nav>
 
@@ -93,12 +93,13 @@
   </div>
 </div>
 
-
+<script src="<?= SCRIPT_PATH?>/pagination.js"></script>
+<script src="<?= SCRIPT_PATH?>/utils.js"></script>
 <script>
-  const createbtn = document.querySelector("#company-post-create");
-  createbtn.addEventListener('click', () => {
-    window.location.href = "<?= BASE_URL . 'jobpost/add/' ?>";
-  })
+  // const createbtn = document.querySelector("#company-post-create");
+  // createbtn.addEventListener('click', () => {
+  //   window.location.href = `${window.BASE_URL}/jobpost/add/`;
+  // })
 
   function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');
@@ -117,6 +118,7 @@
 
 <script>
   const loadSuccess = (app) => {
+    console.log(app);
     return `
     <div class="col-12">
       <div class="d-flex justify-content-between">
@@ -124,11 +126,11 @@
         <span class="badge job-status-pending">${escapeHTML(app.Status)}</span>
       </div>
       <p class="mb-1">
-        <i class="bi bi-calendar3"></i> ${escapeHTML(app.AppliedDate)}
+        <i class="bi bi-calendar3"></i> ${formatDate(app.AppliedDate)}
         <i class="ml-4 bi bi-geo-alt"></i> ${escapeHTML(app.Location)}
       </p>
       <p class="mb-1">
-        ${escapeHTML(shortCover)}
+        ${app.Cover.length > 50 ? app.Cover.substring(0, 50) + '...' : app.Cover}
       </p>
     </div>
   `;
@@ -141,6 +143,9 @@
   const destGen = (id, name) => {
     return window.location.href + slugify(name) + '-' + id;
   }
-  const loadPost = getLoader(loadSuccess,loadFail,destGen);
-
+  const url = `${window.API}/applications`
+  const loadPost = getLoader(loadSuccess,loadFail,destGen, `${}`);
+  document.addEventListener('DOMContentLoaded', () => {
+    loadPost(state.sort, state.filter, 1);
+  })
 </script>

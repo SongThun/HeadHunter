@@ -86,7 +86,7 @@
           </div>
           <div class="container-job-card-right">
             <div>
-              <a href="<?= BASE_URL ?>jobpost/view/<?= $job['ID'] ?>/">
+              <a href="<?= BASE_URL ?>/jobpost/view/<?= $job['ID'] ?>/">
                 <button class="apply-now">Apply now</button>
               </a>
             </div>
@@ -161,7 +161,7 @@
       </div>
       <div class="container-job-card-right">
         <div>
-          <a href="${BASE_URL}jobpost/view/${job.ID}/">
+          <a href="${window.BASE_URL}/jobpost/view/${job.ID}/">
             <button class="apply-now">Apply now</button>
           </a>
         </div>

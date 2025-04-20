@@ -57,7 +57,7 @@
         <div class="btn-form"><button type="submit">Register</button></div>
         <div class="container-register">
           <p>
-            Already have account? <a href="<?= BASE_URL ?>signin"> Login here.</a>
+            Already have account? <a href="<?= BASE_URL ?>/signin"> Login here.</a>
           </p>
         </div>
 
@@ -111,7 +111,7 @@
     })
     const res = await response.json();
     if (res.status == 'success') {
-      window.location.href = "<?= BASE_URL ?>";
+      window.location.href = window.BASE_URL;
     } else {
       // todo: print error;
       console.log(res.msg);

@@ -26,53 +26,11 @@
 
         <!-- Job posts grid -->
         <div class="container card-display" id="company-job-display">
-          <?php if (empty($jobs)): ?>
-            <div class="no-jobs-found">
-              <h3>No job posts found</h3>
-              <p>Try adjusting your search criteria</p>
-            </div>
-          <?php else: ?>
-            <?php foreach ($jobs as $job): ?>
-              <div class="row job-card p-2" data-id="<?= htmlspecialchars($job['ID']) ?>"
-                data-name="<?= htmlspecialchars($job['Postname']) ?>">
-                <div class="col-2 d-flex flex-column align-items-center">
-                  <img src="https://assets.datamation.com/uploads/2022/04/NVIDIA-logo-icon.png" alt="Company Logo"
-                    class="company-logo mb-1">
-                  <h6 class="text-center"><?= htmlspecialchars($job['Company']) ?></h6>
-                </div>
-                <div class="col-10">
-                  <div class="d-flex justify-content-between">
-                    <h5><?= htmlspecialchars($job['Postname']) ?></h5>
-                    <span class="badge job-status-pending"><?= htmlspecialchars($job['Applicants_apply']) ?></span>
-                  </div>
-                  <p class="mb-1">
-                    <i class="bi bi-calendar3"></i> <?= htmlspecialchars($job['CreatedDate']) ?> -
-                    <?= htmlspecialchars($job['Due']) ?>
-                    <i class="ml-4 bi bi-geo-alt"></i> <?= htmlspecialchars($job['Location']) ?>
-                  </p>
-                  <p class="mb-1">
-                    <?= htmlspecialchars(substr($job['Description'], 0, min(strlen($job['Description']), 50))) . (strlen($job['Description']) > 50 ? '...' : '') ?>
-                  </p>
-                </div>
-              </div>
-            <?php endforeach; ?>
-          <?php endif; ?>
         </div>
 
         <!-- Pagination -->
         <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
-            <li class="page-item <?= $page_num == 1 ? 'disabled' : '' ?>">
-              <button id="prev" class="page-link" tabindex="-1" aria-disabled="true">
-                <i class="bi bi-arrow-left"></i> Previous
-              </button>
-            </li>
-            <li><?= $page_num ?> / <?= $total_pages ?></li>
-            <li class="page-item <?= $page_num == $total_pages ? 'disabled' : '' ?>">
-              <button id="next" class="page-link">
-                Next <i class="bi bi-arrow-right"></i>
-              </button>
-            </li>
           </ul>
         </nav>
         <!-- end pagination -->
@@ -102,7 +60,7 @@
 <script src="<?= SCRIPT_PATH ?>/pagination.js"></script>
 <script>
   const loadSuccess = (job) => {
-    return `<div class="row job-card" data-id="${job.ID}" data-name="${job.Postname}">
+    return `<div class="row job-card" data-id="${escapeHTML(job.ID)}" data-name="${escapeHTML(job.Postname)}">
     <div class="col-2 d-flex flex-column align-items-center">
       <img src="https://assets.datamation.com/uploads/2022/04/NVIDIA-logo-icon.png" alt="Company Logo"
         class="company-logo mb-1">
@@ -114,7 +72,7 @@
         <span class="badge job-status-pending">${job.Applicants_apply}</span>
       </div>
       <p class="mb-1">
-        <i class="bi bi-calendar3"></i> ${job.CreatedDate} - ${job.Due}
+        <i class="bi bi-calendar3"></i>  ${formatDate(job.CreatedDate)} - ${formatDate(job.Due)}
         <i class="ml-4 bi bi-geo-alt"></i> ${job.Location}
       </p>
       <p class="mb-1">
@@ -133,5 +91,8 @@
     return window.location.href + slugify(name) + '-' + id;
   }
   const loadPost = getLoader(loadSuccess,loadFail,destGen);
+  document.addEventListener('DOMContentLoaded', () => {
+    loadPost(state.sort, state.filter, 1);
+  })
 
 </script>

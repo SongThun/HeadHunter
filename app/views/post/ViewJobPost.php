@@ -52,7 +52,7 @@
       <?php if (!empty($post['File_description'])): ?>
         <hr class="hr-custom job-posting-hr-custom">
         <div class="job-posting-attachment-wrapper">
-          <a href="<?= BASE_URL ?>upload/description/<?= $post['File_description'] ?>"
+          <a href="<?= UPLOAD_DESC ?>/<?= $post['File_description'] ?>"
             class="job-posting-attachment" download>
             <span class="job-posting-icon"><i class="bi bi-file-earmark-pdf"></i></span>
             <span class="job-posting-text"><?= htmlspecialchars($post['File_description']) ?></span>

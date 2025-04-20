@@ -6,7 +6,7 @@
         <!-- Title -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold title">New job posts</h2>
-            <a href="<?= BASE_URL ?>jobposts/" class="view-all-button">
+            <a href="<?= BASE_URL ?>/jobposts/" class="view-all-button">
                 View all
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-arrow-right ms-1" viewBox="0 0 16 16">
@@ -56,7 +56,7 @@
         <!-- Title and View all button -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold title">New applications</h2>
-            <a href="<?= BASE_URL ?>applications/" class="view-all-button">
+            <a href="<?= BASE_URL ?>/applications/" class="view-all-button">
                 View all
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-arrow-right ms-1" viewBox="0 0 16 16">
@@ -107,6 +107,6 @@
     }
 
     function viewApplication(postID, postname, appID) {
-        window.location.href = `#${window.BASE_URL}/applications/${postID}/${slugify(postname)}-${appID}/`
+        window.location.href = `${window.BASE_URL}/applications/${postID}/${slugify(postname)}-${appID}/`
     }
 </script>

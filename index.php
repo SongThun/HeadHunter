@@ -57,6 +57,7 @@ $avatarLink = UPLOAD_IMG . "/" . $avatar;
     }
     ?>
     <link rel="stylesheet" href="<?= STYLE_PATH . '/' . $styleFile ?>">
+    
     <?php if (in_array($page, ['signin', 'signup'])): ?>
         <link rel="stylesheet" href="<?= STYLE_PATH . '/auth/register.css' ?>">
         <link rel="stylesheet" href="<?= STYLE_PATH . '/auth/login.css' ?>">
