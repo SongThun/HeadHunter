@@ -4,10 +4,10 @@
   <div class="container-search" style="background: var(--off-white);margin-top: 0;height: 6rem;">
     <!-- search bar -->
     <div class="search-box">
-      <form action="">
+      <!-- <form action=""> -->
         <i class="fa-solid fa-magnifying-glass"></i>
         <input type="text" name="search" placeholder="Search anything here...">
-      </form>
+      <!-- </form> -->
     </div>
 
     <div class="right-box">
@@ -66,56 +66,14 @@
 
   <!-- job listings -->
   <div class="container-list-job card-display" style="z-index:1;">
-    <?php if (count($jobs) > 0): ?>
-      <?php foreach ($jobs as $job): ?>
-        <div class="container-job-card">
-          <div class="container-job-card-left">
-            <div class="containter-job-title">
-              <h2><?php echo htmlspecialchars($job['Postname']); ?></h2>
-            </div>
-            <div class="container-job-description">
-              <div class="calender">
-                <i class="fa-regular fa-calendar-check"></i>
-                <?= formatDate($job['CreatedDate']) . ' - ' . formatDate($job['Due'])?>
-              </div>
-              <div class="location">
-                <i class="fa-regular fa-map"></i>
-                <?php echo htmlspecialchars($job['Location']); ?>
-              </div>
-            </div>
-          </div>
-          <div class="container-job-card-right">
-            <div>
-              <a href="<?= BASE_URL ?>/jobpost/view/<?= $job['ID'] ?>/">
-                <button class="apply-now">Apply now</button>
-              </a>
-            </div>
-          </div>
-        </div>
-      <?php endforeach; ?>
-    <?php else: ?>
-      <div class="no-jobs-found" style="z-index: 1;">
-        <h3>No job listings found</h3>
-        <p>Try adjusting your search criteria</p>
-      </div>
-    <?php endif; ?>
+    
   </div>
   <!-- end job listings -->
 
   <!-- navigation  -->
   <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
-      <li class="page-item <?= $page_num == 1 ? "disabled" : "" ?>">
-        <button id="prev" class="page-link" tabindex="-1" aria-disabled="true">
-          <i class="bi bi-arrow-left"></i> Previous
-        </button>
-      </li>
-      <li><?= $page_num ?> / <?= $total_pages ?></li>
-      <li class="page-item <?= $page_num == $total_pages ? "disabled" : "" ?>">
-        <button id="next" class="page-link">
-          Next <i class="bi bi-arrow-right"></i>
-        </button>
-      </li>
+      
     </ul>
   </nav>
   <!-- end navigation -->
@@ -143,7 +101,7 @@
 <script>
   const loadSuccess = (job) => {
     return `
-    <div class="container-job-card">
+    <div class="container-job-card"">
       <div class="container-job-card-left">
         <div class="containter-job-title">
           <h2>${escapeHTML(job.Postname)}</h2>
@@ -161,7 +119,7 @@
       </div>
       <div class="container-job-card-right">
         <div>
-          <a href="${window.BASE_URL}/jobpost/view/${job.ID}/">
+          <a href="${destGen(job.ID,job.Postname)}">
             <button class="apply-now">Apply now</button>
           </a>
         </div>
@@ -213,5 +171,8 @@
         filter.salary = Array.from(salaryFilter.querySelectorAll('.chosen')).map(btn => btn.value);
         debounce(loadPostGuest(sort, filter, 1), 500);
       });
+    })
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPostGuest(state.sort, state.filter, 1);
     })
 </script>
