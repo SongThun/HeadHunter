@@ -152,30 +152,6 @@
   </div>
 </div>
 
-<script>
-  const fieldset = document.querySelector("fieldset")
-  const form = document.querySelector("form");
-  const id = form.dataset.id;
-
-  document.addEventListener("DOMContentLoaded", function() {
-    let currentPage = window.location.pathname.split("/").pop().replace(/\.[^/.]+$/, "");
-    let button = document.querySelectorAll(".list .sub-list");
-
-    button.forEach(button => {
-      let btnPage = button.getAttribute("data-links");
-      console.log(btnPage);
-      if (btnPage && (btnPage.includes(currentPage) || currentPage.includes("jobdescription"))) {
-
-        button.classList.add("active-list"); // Add active class
-      } else {
-        button.classList.remove("active-list"); // Ensure others don't have it
-      }
-      button.addEventListener("click", () => {
-        window.location.href = btnPage;
-      });
-    });
-  });
-</script>
 
 <script>
   // Existing script remains as is

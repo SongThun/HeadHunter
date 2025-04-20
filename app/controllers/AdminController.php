@@ -130,4 +130,19 @@ class AdminController
         echo json_encode($res);
         exit();
     }
+    public function get_applications() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $sort = trim($data['sort']);
+            $filter = $data['filter'];
+            $page_num = $data['page_num'];
+            $limit = 10;
+            $offset = ($page_num - 1) * $limit;
+            $jobs = $this->app->getApps($sort, $filter, $limit, $offset);
+            $total = $this->app->getCount($filter);
+            header('ContentType: application/json');
+            echo json_encode(['status' => 'success', 'data' => $jobs, 'total' => ceil($total / 10)]);
+            exit();
+        }
+    }
 }

@@ -37,8 +37,8 @@
         <div class="col-auto sort-section d-flex align-items-center">
           <!-- <i class="fa-solid fa-sliders me-2 sort-icon"></i> -->
           <select class="form-select sort-choices" name="sort">
-            <option value="CreatedDate DESC" selected>Sort newest</option>
-            <option value="CreatedDate ASC" oldest">Sort oldest</option>
+            <option value="AppliedDate DESC" selected>Sort newest</option>
+            <option value="AppliedDate ASC" oldest">Sort oldest</option>
           </select>
         </div>
       </div>
@@ -118,9 +118,8 @@
 
 <script>
   const loadSuccess = (app) => {
-    console.log(app);
     return `
-    <div class="col-12">
+    <div class="col-12 job-card" data-id="${app.ID}" data-name="${app.Fullname}">
       <div class="d-flex justify-content-between">
         <h5>${escapeHTML(app.Fullname)}</h5>
         <span class="badge job-status-pending">${escapeHTML(app.Status)}</span>
@@ -143,8 +142,10 @@
   const destGen = (id, name) => {
     return window.location.href + slugify(name) + '-' + id;
   }
-  const url = `${window.API}/applications`;
+  const url = `${window.API}/application`;
   const loadPost = getLoader(loadSuccess,loadFail,destGen, url);
+  state.filter.postid = "<?= $postid ?>";
+
   document.addEventListener('DOMContentLoaded', () => {
     loadPost(state.sort, state.filter, 1);
   })

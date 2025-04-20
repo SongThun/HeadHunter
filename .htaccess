@@ -11,6 +11,7 @@ RewriteCond %{REQUEST_URI} !\.[^./]+$
 RewriteRule ^api/auth$ api.php?page=auth [L,QSA] 
 RewriteRule ^api/jobposts$ api.php?page=jobposts [L,QSA]
 RewriteRule ^api/jobpost$ api.php?page=jobpost [L,QSA]
+RewriteRule ^api/application$ api.php?page=application [L,QSA]
 RewriteRule ^api/apply/([0-9]+)$ api.php?page=apply&postid=$1 [L,QSA]
 RewriteRule ^api/approval$ api.php?page=approval [L,QSA]
 

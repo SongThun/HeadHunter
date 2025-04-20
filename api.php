@@ -38,6 +38,9 @@
             $controller->post_handle();
             break;
         // func: handle application submit
+        case 'application':
+            $controller = new AdminController();
+            $controller->get_applications();
         case 'apply' :
             $controller = new GuestController();
             $controller->apply();

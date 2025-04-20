@@ -60,7 +60,7 @@
 <script src="<?= SCRIPT_PATH ?>/pagination.js"></script>
 <script>
   const loadSuccess = (job) => {
-    return `<div class="row job-card" data-id="${escapeHTML(job.ID)}" data-name="${escapeHTML(job.Postname)}">
+    return `<div class="row job-card" data-id="${job.ID}" data-name="${escapeHTML(job.Postname)}">
     <div class="col-2 d-flex flex-column align-items-center">
       <img src="https://assets.datamation.com/uploads/2022/04/NVIDIA-logo-icon.png" alt="Company Logo"
         class="company-logo mb-1">
