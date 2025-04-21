@@ -1,4 +1,9 @@
 <header>
+  <style>
+    a{
+      text-decoration: none;
+    }
+  </style>
   <nav>
     <div class="navbar container-fluid">
       <div class="logo">
@@ -10,10 +15,14 @@
           </a></div>
       </div>
       <div class="list">
-        <button data-href="<?= e(BASE_URL . '/home/') ?>" data-scroll="#home" class="sub-list <?= $active_state['home'] ?>">Home</button>
+        <a href="<?= e(BASE_URL . '/home/') ?>" class="<?= $active_state['home'] ?>" >Home</a>
+        <a href="<?= e(BASE_URL . '/jobposts/') ?>" class="<?= $active_state['jobposts'] ?>" >Job Listing</a>
+        <a href="<?= e(BASE_URL . '/help/') ?>" class="<?= $active_state['help'] ?>" >Help</a>
+        <a href="<?= e(BASE_URL . '/contact/') ?>" class="<?= $active_state['contact'] ?>" >Contact</a>
+        <!-- <button data-href="<?= e(BASE_URL . '/home/') ?>" data-scroll="#home" class="<?= $active_state['home'] ?>">Home</button>
         <button data-href="<?= e(BASE_URL . '/jobposts/') ?>" class="sub-list <?= $active_state['jobposts'] ?>">Job Listing</button>
-        <button data-href="<?= e(BASE_URL . '/help/') ?>" data-scroll="#help" class="sub-list <?= $active_state['help'] ?>">Help</button>
-        <button data-href="<?= e(BASE_URL . '/contact/') ?>" data-scroll="#contact" class="sub-list <?= $active_state['contact'] ?>">Contact</button>
+        <button data-href="<?= e(BASE_URL . '/help/') ?>" data-scroll="#help" class="<?= $active_state['help'] ?>">Help</button>
+        <button data-href="<?= e(BASE_URL . '/contact/') ?>" data-scroll="#contact" class="<?= $active_state['contact'] ?>">Contact</button> -->
       </div>
       <div class="sign-up-in">
         <?php if ($role == 'guest'): ?>

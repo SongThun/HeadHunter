@@ -223,8 +223,8 @@
       });
       const res = await response.json();
       if (res.status == 'success') {
-        alert("You've successfully applied for ")
-        window.location.href = window.BASE_URL;
+        alert("You've successfully applied for this job")
+        window.location.reload();
       }
     })
   }

@@ -4,6 +4,9 @@ $active_state = ['home' => "", 'jobposts' => "", 'applications' => ""];
 $active_state[$page] = "active-list";
 ?>
 <header>
+  <style>
+
+  </style>
   <nav>
     <div class="navbar">
       <div class="nav-container">
@@ -12,23 +15,19 @@ $active_state[$page] = "active-list";
           <h2>PORTAL</h2>
         </div>
         <div class="list">
-          <button data-href="<?= e(BASE_URL . '/home/') ?>" class="sub-list <?= $active_state['home'] ?>">Home</button>
+          <a href="<?= e(BASE_URL . '/home/') ?>">Home</a>
+          <a href="<?= e(BASE_URL . '/jobposts/') ?>">Job Posts</a>
+          <a href="<?= e(BASE_URL . '/applications/') ?>">Applications</a>
+         
+          <!-- <button data-href="<?= e(BASE_URL . '/home/') ?>" class="sub-list <?= $active_state['home'] ?>">Home</button>
           <button data-href="<?= e(BASE_URL . '/jobposts/') ?>" class="sub-list <?= $active_state['jobposts'] ?>">Job Post</button>
-          <button data-href="<?= e(BASE_URL . '/applications/') ?>" class="sub-list <?= $active_state['applications'] ?>">Applications</button>
+          <button data-href="<?= e(BASE_URL . '/applications/') ?>" class="sub-list <?= $active_state['applications'] ?>">Applications</button> -->
         </div>
       </div>
 
       <div class="info-desktop">
-        <div class="dropdown">
-          <button class="btn dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <!-- Avatar công ty -->
-            <img class="avatar" src="<?= e($avatarLink) ?>" alt="avatar">
-            <i class="bi bi-chevron-down"></i>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="<?= e(API . "/auth?action=logout")?>" >Log out</a></li>
-          </ul>
-        </div>
+      <img src="<?= e($avatarLink) ?>" alt="Avatar" class="avatar">
+      <a href="<?= e(API . "/auth?action=logout")?>">Log out</a>
       </div>
 
       <div class="avatar-toggle">

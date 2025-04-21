@@ -9,16 +9,8 @@
       </div>
       
       <div class="info-desktop">
-        <div class="dropdown">
-          <button class="btn dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <!-- Ảnh công ty, thay nếu cần -->
-            <img class="avatar" src="<?= e($avatarLink)?>" alt="avatar">
-            <i class="bi bi-chevron-down"></i>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item text-centered" href="<?= e(API . "/auth?action=logout") ?>" >Log out</a></li>
-          </ul>
-        </div>
+      <img src="<?= e($avatarLink) ?>" alt="Avatar" class="avatar">
+      <a href="<?= e(API . "/auth?action=logout")?>">Log out</a>
       </div>
 
       <div class="avatar-toggle">

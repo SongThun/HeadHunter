@@ -163,12 +163,6 @@ class Post
     }
     public function add($data) {
         try {
-            if (move_uploaded_file($_FILES["File_description"]["tmp_name"], $data["File_description"])) {
-                // echo "Upload success";
-            } else {
-                return ["status" => "failure", "error" => "Upload failed"];
-            }
-    
             $sql = "INSERT INTO Post (
                 AdminID, 
                 UserID, 
@@ -181,11 +175,11 @@ class Post
                 Level, 
                 Description, 
                 File_description
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '')";
             
             $stmt = $this->db->prepare($sql);
             $stmt->bind_param(
-                "iissisdssss", 
+                "iissisdsss", 
                 $data["AdminID"], 
                 $data["UserID"], 
                 $data["Postname"], 
@@ -195,8 +189,7 @@ class Post
                 $data["Salary"], 
                 $data["Due"], 
                 $data["Level"], 
-                $data["Description"], 
-                $data["File_description"]
+                $data["Description"]
             );
             
             $stmt->execute();

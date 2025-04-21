@@ -1,3 +1,27 @@
+<style>
+  #unique {
+    border: 1px dashed #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    width: 100%;
+    border-radius: 10px;
+    transition: .3s;
+    cursor: pointer;
+
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    text-align: center;
+    flex-wrap: wrap;
+  }
+
+  #unique:hover {
+    color: #1DA1F2;
+    border: 1px dashed #1DA1F2;
+  }
+</style>
+
 <div class="position-form-container container bg-light">
   <div class="pt-4 pb-4">
     <a href="javascript:history.back()" class="d-flex align-items-center text-decoration-none text-dark mb-4">
@@ -7,7 +31,7 @@
 
 
     <fieldset>
-      <form>
+      <form method="POST" enctype="multipart/form-data">
         <h1 class="text-center text-secondary mb-5"><input name="Postname" type="text" placeholder="Position Title"></h1>
         <div class="row g-4">
           <!-- location input -->
@@ -67,22 +91,64 @@
         <!-- salary input -->
         <div class="mt-4">
           <label class="form-label">Salary</label>
-          <input list="" type="text" name="Salary" id="salary" required>
+          <input list="" type="number" name="Salary" id="Salary" required min="0">
         </div>
-
-        <!-- File upload -->
         <div class="mt-4">
+          <label class="form-label">Maximum number of applicants</label>
+          <input list="" type="number" name="Applicants_max" id="Applicants_max" required min="1" step="1">
+        </div>
+        <!-- File upload -->
+        <!-- <div class="mt-4">
           <label class="form-label"><span class="position-form-required-star">*</span>Description</label>
           <div class="rounded p-4 text-center position-form-file-upload">
-            <input name="File_description" type="file" accept=".txt,.pdf,.docx,.jpeg" class="position-form-input form-control"
-              id="position-form-file-input">
+            <input name="File_description[]" type="file" accept=".txt,.pdf,.docx,.jpeg" class="position-form-input form-control"
+              id="position-form-file-input" multiple>
             <i class="bi bi-upload fs-2 mb-2"></i>
             <p class="text-secondary mb-2">Choose a file or drag and drop it here</p>
             <p class="text-secondary mb-4">.txt, .pdf, .docx, .jpeg - Up to 50MB</p>
             <button type="button" class="position-form-browse-btn"
               onclick="document.getElementById('position-form-file-input').click()">Browse File</button>
           </div>
+          <div class="attachment"></div>
+        </div> -->
+
+        <style>
+          .file-item {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #f3f3f3;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          }
+
+          .file-item span {
+            flex: 1;
+            word-break: break-all;
+          }
+
+          .delete-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+          }
+
+          .delete-btn:hover {
+            background: #c0392b;
+          }
+        </style>
+
+        <div class="mt-4">
+          <label id="unique" for="File_description"><span style="color: red; margin-right: .2rem;">*</span>Resume</label>
+          <input type="file" name="File_description[]" id="File_description" style="display: none;" multiple required>
         </div>
+
+        <div id="file-list" style="margin-top: 1rem;"></div>
 
         <!-- Description -->
         <div class="mt-4">
@@ -108,6 +174,75 @@
 
   </div>
 </div>
+
+<!-- HANDLE MULTIPLE FILE -->
+<script>
+  const input = document.getElementById("File_description");
+  const label = document.getElementById("unique");
+  const fileListDisplay = document.getElementById("file-list");
+
+  let uploadedFiles = [];
+
+  function renderFileList() {
+    fileListDisplay.innerHTML = "";
+
+    uploadedFiles.forEach((file, index) => {
+      const fileBox = document.createElement("div");
+      fileBox.className = "file-item";
+
+      const fileName = document.createElement("span");
+      fileName.textContent = file.name;
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className = "delete-btn";
+      deleteBtn.textContent = "Delete";
+      deleteBtn.addEventListener("click", () => {
+        uploadedFiles.splice(index, 1);
+        updateInputFiles();
+        renderFileList();
+      });
+
+      fileBox.appendChild(fileName);
+      fileBox.appendChild(deleteBtn);
+      fileListDisplay.appendChild(fileBox);
+    });
+  }
+
+  function updateInputFiles() {
+    const dataTransfer = new DataTransfer();
+    uploadedFiles.forEach(file => dataTransfer.items.add(file));
+    input.files = dataTransfer.files;
+  }
+
+  input.addEventListener("change", function() {
+    for (const file of this.files) {
+      uploadedFiles.push(file);
+    }
+    updateInputFiles();
+    renderFileList();
+  });
+
+  // Drag-and-drop
+  label.addEventListener("dragover", function(e) {
+    e.preventDefault();
+    label.classList.add("dragover");
+  });
+
+  label.addEventListener("dragleave", function() {
+    label.classList.remove("dragover");
+  });
+
+  label.addEventListener("drop", function(e) {
+    e.preventDefault();
+    label.classList.remove("dragover");
+
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    uploadedFiles.push(...droppedFiles);
+    updateInputFiles();
+    renderFileList();
+  });
+</script>
+
 
 <script>
   const fieldset = document.querySelector("fieldset");
@@ -146,10 +281,8 @@
   if (submitbtn) {
     submitbtn.addEventListener("click", async (e) => {
       e.preventDefault();
-      const url = `<?= API ?>jobpost?id=${id}`;
-      // const data = await form2json(form);
+      const url = `${window.API}/jobpost?id=${id}`;
       const data = new FormData(form);
-      // console.log(data);
       const response = await fetch(url, {
         method: 'POST',
         headers: {

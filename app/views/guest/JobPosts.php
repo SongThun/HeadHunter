@@ -7,8 +7,8 @@
   background: none ;
 }
 </style>
-<div>
-  <div class="container-search" style="background: var(--off-white);margin-top: 0;height: 6rem;">
+<div class="container-center">
+  <div class="container-search">
     <!-- search bar -->
     <div class="search-box">
       <!-- <form action=""> -->
@@ -20,9 +20,9 @@
     <div class="right-box">
 
       <!-- filter box -->
-      <div class="filter-box" style="z-index:9999;">
+      <div class="filter-box">
         <button><i class="fa-solid fa-sliders"></i></button>
-        <div class="filter-box-list" style="display: none;">
+        <div class="filter-box-list" style="display: none; z-index:999;" >
           <div class="filter-box-list-sub">
             <div id="filter-location" class="filter-list-value location">
               <div class="filter-title">Location: </div>
@@ -72,7 +72,7 @@
   </div>
 
   <!-- job listings -->
-  <div class="container-list-job card-display" style="z-index:1;">
+  <div class="container-list-job card-display">
     
   </div>
   <!-- end job listings -->

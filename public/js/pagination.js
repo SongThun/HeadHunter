@@ -118,7 +118,7 @@ function getLoader(
     if (total > 1 && current > 1)
       html += `<button id="prev" class="page-links" ><i class='bx bx-chevron-left'></i></button>`;
     else
-      html += `<button id="prev" class="page-links disabled-page" ><i class='bx bx-chevron-left'></i></button>`;
+      html += `<button disabled id="prev" class="page-links disabled-page" ><i class='bx bx-chevron-left'></i></button>`;
 
     range.forEach((page) => {
       if (page === "...") {
@@ -133,8 +133,9 @@ function getLoader(
     if (total > 1 && current < total)
       html += `<button id="next" class="page-links"><i class='bx bx-chevron-right'></i></button>`;
     else
-      html += `<button id="next" class="page-links disabled-page"><i class='bx bx-chevron-right'></i></button>`;
-    pagination.innerHTML = html;
+      html += `<button disabled id="next" class="page-links disabled-page" ><i class='bx bx-chevron-right'></i></button>`;
+    
+      pagination.innerHTML = html;
     state.currentPage = current;
   }
 
