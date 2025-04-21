@@ -19,7 +19,7 @@
       <!-- filter box -->
       <div class="filter-box" style="z-index:9999;">
         <button><i class="fa-solid fa-sliders"></i></button>
-        <div class="filter-box-list">
+        <div class="filter-box-list" style="display: none;">
           <div class="filter-box-list-sub">
             <div id="filter-location" class="filter-list-value location">
               <div class="filter-title">Location: </div>
@@ -75,30 +75,29 @@
   <!-- end job listings -->
 
   <!-- navigation  -->
-  <!-- <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      
-    </ul>
-  </nav> -->
-  <!-- end navigation -->
   <div class="container-pagination"></div>
+  <!-- end navigation -->
+  
 </div>
 
 <script src="<?= SCRIPT_PATH ?>/pagination.js"></script>
 <script src="<?= SCRIPT_PATH ?>/utils.js"></script>
 <script>
   const filterBox = document.querySelector(".filter-box");
-  const filterBtn = document.querySelector(".filter-box > button");
+  const filterBtn = document.querySelector(".filter-box button");
   const filterBoxList = document.querySelector(".filter-box-list");
 
   filterBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    filterBoxList.classList.toggle("show");
+    // filterBoxList.classList.toggle("show");
+    filterBoxList.style.display = filterBoxList.style.display == 'none' ? 'block' : 'none';
   });
 
   document.addEventListener("click", function(e) {
-    if (!filterBox.contains(e.target)) {
-      filterBoxList.classList.remove("show");
+    if (!filterBoxList.contains(e.target)) {
+      if (filterBoxList.classList.contains("show"))
+        // filterBoxList.classList.remove("show");
+        filterBoxList.style.display = 'none';
     }
   });
 </script>
@@ -152,9 +151,9 @@
   
       btn.addEventListener('click', () => {
         btn.classList.toggle('chosen');
-        filter.location = Array.from(locationFilter.querySelectorAll('.chosen')).map(btn => btn.value);
-        console.log("locationssssss: ", filter.location);
-        debounce(loadPostGuest(sort, filter, 1), 500);
+        state.filter.location = Array.from(locationFilter.querySelectorAll('.chosen')).map(btn => btn.value);
+        // console.log("locationssssss: ", state.filter.location);
+        debounce(loadPostGuest, 500)(state.sort, state.filter, 1);
       })
     })
   
@@ -163,8 +162,8 @@
     levelBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
         btn.classList.toggle('chosen');
-        filter.level = Array.from(levelFilter.querySelectorAll('.chosen')).map(btn => btn.value);
-        debounce(loadPostGuest(sort, filter, 1), 500);
+        state.filter.level = Array.from(levelFilter.querySelectorAll('.chosen')).map(btn => btn.value);
+        debounce(loadPostGuest, 500)(state.sort, state.filter, 1);
       })
     })
   
@@ -173,8 +172,8 @@
     salaryBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
         btn.classList.toggle('chosen');
-        filter.salary = Array.from(salaryFilter.querySelectorAll('.chosen')).map(btn => btn.value);
-        debounce(loadPostGuest(sort, filter, 1), 500);
+        state.filter.salary = Array.from(salaryFilter.querySelectorAll('.chosen')).map(btn => btn.value);
+        debounce(loadPostGuest, 500)(state.sort, state.filter, 1);
       });
     })
     document.addEventListener('DOMContentLoaded', () => {

@@ -57,11 +57,7 @@
       </div>
 
       <!-- Pagination -->
-      <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-          
-        </ul>
-      </nav>
+      <div class="container-pagination"></div>
 
     </div>
 

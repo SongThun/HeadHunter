@@ -213,10 +213,6 @@
   const fieldset = document.querySelector("fieldset")
   const form = document.querySelector("form");
   const id = form.dataset.id;
-<<<<<<< Updated upstream
-=======
-  console.log(id);
->>>>>>> Stashed changes
   const applyBtn = document.querySelector("#apply")
 
 

@@ -73,21 +73,7 @@
       </div>
 
       <!-- Pagination -->
-      <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-          <!-- <li class="page-item <?= $page_num == 1 ? "disabled" : "" ?>">
-            <button id="prev" class="page-link" tabindex="-1" aria-disabled="true">
-              <i class="bi bi-arrow-left"></i> Previous
-            </button>
-          </li>
-          <li><?= $page_num ?> / <?= $total_pages ?></li>
-          <li class="page-item <?= $page_num == $total_pages ? "disabled" : "" ?>">
-            <button id="next" class="page-link">
-              Next <i class="bi bi-arrow-right"></i>
-            </button>
-          </li> -->
-        </ul>
-      </nav>
+      <div class=".container-pagination"></div>
 
     </div>
   </div>
