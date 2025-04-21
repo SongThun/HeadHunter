@@ -249,8 +249,8 @@
   const deletebtn = document.querySelector("#delete-btn");
   const form = document.querySelector("form");
   // const id = form.dataset.id;
-  const id = null;
-  const title = null;
+  let id = null;
+  let title = null;
   if (deletebtn) {
     deletebtn.addEventListener('click', async () => {
       if (confirm("Are you sure you want to delete this post?")) {

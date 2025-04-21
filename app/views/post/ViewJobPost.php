@@ -14,7 +14,7 @@
 
     <!-- Header Section -->
     <fieldset disabled>
-      <form enctype="multipart/form-data" action="POST" class="job-posting-header" data-id="<?= e($post['ID']) ?>" data-title="<?= e($post['Postname']) ?>">
+      <form enctype="multipart/form-data" method="POST" class="job-posting-header" data-id="<?= e($post['ID']) ?>" data-title="<?= e($post['Postname']) ?>">
         <h1 class="header-post"><input name="Postname" type="text" value="<?= e($post['Postname']) ?>"></h1>
         <div class="job-posting-applicants">
           <label class="job-posting-label">Applicants:</label>
@@ -64,11 +64,7 @@
             </a>
           </div>
         <?php endif; ?>
-        <!-- <label for="File_description">Upload description file:</label>
-      <div id="file-upload" class="job-posting-attachment">
-
-        <input type="file" name="File_description">
-      </div> -->
+       
         <style>
           .file-item {
             display: flex;
@@ -82,7 +78,7 @@
 
           .file-item span {
             flex: 1;
-            word-break: break-all;
+            word-break: break-word;
           }
 
           .delete-btn {
@@ -98,30 +94,40 @@
           .delete-btn:hover {
             background: #c0392b;
           }
+
+          .dragover {
+            outline: 2px dashed #007bff;
+            background-color: #e0f0ff;
+          }
         </style>
-        <label id="unique" for="File_description">Upload description file:</label>
-        <div id="file-upload" class="job-posting-attachment" style="all: unset;">
+
+        <div class="mt-4">
+          <label id="unique" for="File_description"><span style="color: red; margin-right: .2rem;">*</span>Resume</label>
           <input type="file" name="File_description[]" id="File_description" style="display: none;" multiple>
         </div>
-        <div id="file-list" style="margin-top: 1rem;">
-        <?php
-$folderPath = realpath(dirname(__DIR__) . "/../../public/upload/descriptions/" . (string)$post['ID'] . '/');
-if (is_dir($folderPath)) {
-  $files = glob($folderPath . "/*");
-  foreach ($files as $file) {
-    $fileName = basename($file);
-    echo "<div class='file-item existing' data-filename='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
-            <span>" . htmlspecialchars($fileName) . "</span>
-            <button class='delete-btn'>Delete</button>
-            <input type='hidden' name='ExistingFiles[]' value='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
-          </div>";
-  }
-} else {
-  echo "No files found.";
-}
-?>
 
+        <!-- Existing Files -->
+        <h4>Existing Files</h4>
+        <div id="existing-file-list">
+          <?php
+          $folderPath = realpath(dirname(__DIR__) . "/../../public/upload/descriptions/" . $post['ID']);
+          if (is_dir($folderPath)) {
+            $files = glob($folderPath . "/*");
+            foreach ($files as $file) {
+              $fileName = basename($file);
+              echo "<div class='file-item existing' data-filename='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
+              <span>" . htmlspecialchars($fileName) . "</span>
+              <button class='delete-btn'>Delete</button>
+              <input type='hidden' name='ExistingFiles[]' value='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
+            </div>";
+            }
+          }
+          ?>
         </div>
+
+        <!-- New Uploads -->
+        <h4>New Uploads</h4>
+        <div id="new-file-list"></div>
 
       </form>
     </fieldset>
@@ -167,8 +173,8 @@ if (is_dir($folderPath)) {
 
 <!-- HANDLE MULTIPLE FILE -->
 <!-- JS Logic -->
- 
-<script>
+
+<!-- <script>
   const input = document.getElementById("File_description");
   const label = document.getElementById("unique");
   const fileListDisplay = document.getElementById("file-list");
@@ -278,6 +284,135 @@ if (is_dir($folderPath)) {
     input.files = e.dataTransfer.files;
     input.dispatchEvent(new Event("change")); // Trigger handler
   });
+</script> -->
+<script>
+  const input = document.getElementById("File_description");
+  const dropLabel = document.getElementById("drop-label");
+  const existingBox = document.getElementById("existing-file-list");
+  const newBox = document.getElementById("new-file-list");
+
+  let uploadedFiles = [];
+
+  function autoRename(name) {
+    const dot = name.lastIndexOf(".");
+    if (dot === -1) return name + " (1)";
+    const base = name.substring(0, dot);
+    const ext = name.substring(dot);
+    return `${base} (1)${ext}`;
+  }
+
+  function updateInputFiles() {
+    const dataTransfer = new DataTransfer();
+    uploadedFiles.forEach(file => dataTransfer.items.add(file));
+    input.files = dataTransfer.files;
+  }
+
+  function addFileToList(file, isExisting = false) {
+    const fileBox = document.createElement("div");
+    fileBox.className = "file-item";
+    fileBox.setAttribute("data-filename", file.name);
+
+    const fileName = document.createElement("span");
+    fileName.textContent = file.name;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "delete-btn";
+    deleteBtn.textContent = "Delete";
+
+    if (isExisting) {
+      fileBox.classList.add("existing");
+
+      deleteBtn.addEventListener("click", () => {
+        fileBox.remove();
+        const hidden = fileBox.querySelector("input[type='hidden']");
+        if (hidden) hidden.remove();
+      });
+
+      const hidden = document.createElement("input");
+      hidden.type = "hidden";
+      hidden.name = "ExistingFiles[]";
+      hidden.value = file.name;
+      fileBox.appendChild(hidden);
+
+      existingBox.appendChild(fileBox);
+    } else {
+      deleteBtn.addEventListener("click", () => {
+        uploadedFiles = uploadedFiles.filter(f => f.name !== file.name);
+        updateInputFiles();
+        fileBox.remove();
+      });
+
+      newBox.appendChild(fileBox);
+    }
+
+    fileBox.appendChild(fileName);
+    fileBox.appendChild(deleteBtn);
+  }
+
+  // Pre-bind delete logic for already rendered existing items
+  document.querySelectorAll(".file-item.existing").forEach(item => {
+    const btn = item.querySelector(".delete-btn");
+    const hidden = item.querySelector("input[type='hidden']");
+    btn.addEventListener("click", () => {
+      item.remove();
+      if (hidden) hidden.remove();
+    });
+  });
+
+  input.addEventListener("change", function() {
+    const selected = Array.from(this.files);
+    const existingNames = Array.from(document.querySelectorAll(".file-item.existing"))
+      .map(el => el.getAttribute("data-filename"));
+    const newNames = uploadedFiles.map(f => f.name);
+
+    selected.forEach(file => {
+      const fileName = file.name;
+      const isDuplicate = [...existingNames, ...newNames].includes(fileName);
+
+      if (isDuplicate) {
+        const newName = autoRename(fileName);
+        const confirmOverwrite = confirm(`"${fileName}" already exists.\nClick OK to overwrite, Cancel to rename to "${newName}".`);
+
+        if (confirmOverwrite) {
+          uploadedFiles = uploadedFiles.filter(f => f.name !== fileName);
+          uploadedFiles.push(file);
+          addFileToList(file, false);
+        } else {
+          const renamed = new File([file], newName, {
+            type: file.type
+          });
+          uploadedFiles.push(renamed);
+          addFileToList(renamed, false);
+        }
+      } else {
+        uploadedFiles.push(file);
+        addFileToList(file, false);
+      }
+    });
+
+    updateInputFiles();
+    input.value = ""; // reset input so same file can be re-selected
+  });
+
+  // Drag and drop
+  // const dropArea = document.getElementById("file-upload");
+
+  // dropArea.addEventListener("dragover", function(e) {
+  //   e.preventDefault();
+  //   dropArea.classList.add("dragover");
+  // });
+
+  // dropArea.addEventListener("dragleave", function() {
+  //   dropArea.classList.remove("dragover");
+  // });
+
+  // dropArea.addEventListener("drop", function(e) {
+  //   e.preventDefault();
+  //   dropArea.classList.remove("dragover");
+  //   const files = e.dataTransfer.files;
+  //   input.files = files;
+  //   input.dispatchEvent(new Event("change")); // manually trigger
+  // });
 </script>
 
 <script>
@@ -303,7 +438,6 @@ if (is_dir($folderPath)) {
   }
   const editbtn = document.querySelector("#edit-btn");
   const submitbtn = document.querySelector("#submit-btn");
-  const fileUpload = document.querySelector("#file-upload");
   const comment = document.querySelector("#comment");
 
   if (editbtn) {
@@ -317,6 +451,16 @@ if (is_dir($folderPath)) {
   if (submitbtn) {
     submitbtn.addEventListener("click", async () => {
       const url = `${window.API}/jobpost?id=${id}`;
+      const formData = new FormData(form);
+
+      // Iterate through fields
+      for (let [key, value] of formData.entries()) {
+        if (value instanceof File) {
+          console.log(`${key}: ${value.name} (size: ${value.size} bytes)`);
+        } else {
+          console.log(`${key}: ${value}`);
+        }
+      }
       const response = await fetch(url, {
         method: 'POST',
         headers: {

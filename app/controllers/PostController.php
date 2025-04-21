@@ -168,19 +168,17 @@ class PostController
     // 1. Parse which existing files should be kept
     $keepFiles = isset($_POST['ExistingFiles']) ? $_POST['ExistingFiles'] : [];
 
-    // 2. Delete files NOT in $_POST['ExistingFiles']
-    $existingFiles = glob($folderPath . "*");
-    foreach ($existingFiles as $filePath) {
+    // delete files NOT in keepFiles
+    foreach (glob($folderPath . "*") as $filePath) {
         $fileName = basename($filePath);
         if (!in_array($fileName, $keepFiles)) {
-            unlink($filePath); // delete if not referenced
+            unlink($filePath);
         }
     }
 
     // 3. Save new uploaded files
     if (!empty($_FILES['File_description']) && is_array($_FILES['File_description']['name'])) {
         $fileCount = count($_FILES['File_description']['name']);
-
 
         for ($i = 0; $i < $fileCount; $i++) {
             if (!is_uploaded_file($_FILES['File_description']['tmp_name'][$i])) {
