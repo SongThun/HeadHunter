@@ -26,7 +26,7 @@ class GuestController
     }
     private function job_view()
     {
-        $name = explode('-', $_GET['post']);
+        $name = explode('-', $_GET["id"]);
         $id = end($name);
         $job = $this->post->getAPost($id);
         require_once __DIR__ . '/../views/guest/JobDescription.php';
