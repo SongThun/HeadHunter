@@ -151,6 +151,13 @@ background: var(--off-white);
 color: black;
 }
 
+.container-pagination > button {
+  all: unset !important;
+  border: none !important;
+  outline: none !important;
+  background: none !important;
+}
+
 .container-pagination{
 /* background: black; */
 width: 100vw;
@@ -181,6 +188,10 @@ width: .4rem;
 pointer-events: none;
 cursor: default;
 opacity: 50%;
+}
+
+.container-pagination button {
+  all: unset;
 }
 
 /*** HTML STYLING ***/

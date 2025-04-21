@@ -92,6 +92,38 @@ class Application
                 return ["status" => "failure", "error" => "Can not upload file"];
             }
 
+            // $oldPath = $data["File_CV"];  // current location of uploaded file
+            // $newPath = dirname(__DIR__) . "/../public/upload/cv/" . (string)$id . "/" . basename($data["File_CV"]);  
+
+            $oldPath = $data["File_CV"];
+            $folderPath = realpath(dirname(__DIR__) . "/../public/upload/applications/") . "/" . $id;
+            // var_dump($folderPath);
+            $newPath = $folderPath . "/" . basename($data["File_CV"]);
+
+            // var_dump($folderPath);
+
+            try {
+                // if (!is_dir($folderPath)) {
+                //     if (mkdir($folderPath, 0775, true)) {
+                //         return ["status" => "failure", "error" => "Cannot create folder for CV upload"];
+                //     }
+                // }
+                if (!is_dir($folderPath)){
+                    mkdir($folderPath, 0775, true);
+                }
+            } catch (Exception $e){
+                echo  $e->getMessage();
+            }
+
+            // if (!(rename($oldPath, $newPath))){
+            //     var_dump($newPath);
+            // }
+            try{
+                rename($oldPath, $newPath);
+            } catch (Exception $e){
+                var_dump($e->getMessage());
+            }
+
             $sql = "INSERT INTO Applicant(Fullname, Email, Phone, PostID, Location, Level, Cover,File_CV) VALUES(
                                         ?, ? , ? , ? , ? , ? , ?, ?
             )";

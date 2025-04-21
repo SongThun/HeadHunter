@@ -96,11 +96,7 @@
 
     <!-- APPLICATION FORM -->
     <fieldset>
-<<<<<<< Updated upstream
-      <form method="POST" enctype="multipart/form-data" data-id="<?= $_GET['id'] ?>">
-=======
       <form method="POST" enctype="multipart/form-data" data-id="<?=$_GET['id']?>">
->>>>>>> Stashed changes
         <div class="application-form">
           <div class="form-title">
             <h1 style="margin: 2rem 0; color: var(--blue);">Application form</h1>

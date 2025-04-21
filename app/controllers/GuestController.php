@@ -67,7 +67,6 @@ class GuestController
     }
     private function prepare_data_applicant($id)
     {
-
         $data = $_POST;
         $data["Location"] = $_POST["Address"] . ", " . $_POST["District"] . ", " . $_POST["City"];
         $savePath = $id . "_" . basename($_FILES["File_CV"]["name"]);
