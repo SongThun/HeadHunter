@@ -1,102 +1,270 @@
-<div class="container job-posting-container">
-  <!-- Back Button -->
-  <a href="javascript:history.back()" class="job-posting-back-btn">← Back</a>
+<style>
+  main{
+    flex: 1;
+    width: 115vw !important;
+    align-items: center;
+    justify-content: center;
+  }
+  .container.job-posting-container{
+    margin: 3rem 5%;
+    width: 75%;
+    justify-content: center;
+    align-items: center;
+  }
 
-  <!-- Company Info Section -->
-  <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
-    <div class="company-info mb-4">
-      <img src="<?= empty($post['Avatar']) ? 'https://placehold.co/100x100' : htmlspecialchars(UPLOAD_IMG . $post['Avatar']) ?>"
-        alt="<?= htmlspecialchars($post['Company']) ?>" class="company-logo">
-      <h2 class="company-name"><?= htmlspecialchars($post['Company']) ?></h2>
-    </div>
-  <?php endif; ?>
+  .header-post{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .header-post > input{
+    width: 80%;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 2% 0 2% 0;
+    
+  }
 
-  <!-- Header Section -->
-  <fieldset disabled>
-    <form class="job-posting-header" data-id="<?= $post['ID'] ?>" data-title="<?= $post['Postname'] ?>">
-      <h1 class="mb-5"><input name="Postname" type="text" value="<?= htmlspecialchars($post['Postname']) ?>"></h1>
-      <div class="job-posting-applicants mb-2">
-        <label class="job-posting-label">Applicants:</label>
-        <input name="Applicants_max" type="text" class="job-posting-value"
-          value="<?= htmlspecialchars($post['Applicants_max']) ?>">
-      </div>
-      <div class="meta job-posting-meta">
-        <span class="job-posting-location">
-          <label class="job-posting-label">Location:</label>
-          <input name="Location" type="text" class="job-posting-value"
-            value="<?= htmlspecialchars($post['Location']) ?>">
-        </span>
-        <span class="job-posting-due-date">
-          <label class="job-posting-label">Due date:</label>
-          <input name="Due" type="date" class="job-posting-value"
-            value="<?= date('Y-m-d', strtotime($post['Due'])) ?>">
-        </span>
-      </div>
-      <div class="job-posting-level">
-        <label class="job-posting-label">Level:</label>
-        <input name="Level" type="text" class="job-posting-value"
-          value="<?= htmlspecialchars($post['Level']) ?>">
-      </div>
-      <div class="job-posting-salary">
-        <label class="job-posting-label">Salary:</label>
-        <input name="Salary" type="number" class="job-posting-value"
-          value="<?= htmlspecialchars($post['Salary']) ?>">
-      </div>
-      <div class="job-posting-description">
-        <label class="job-posting-label">Description</label>
-        <textarea name="Description" rows="5" cols="500"
-          id="description"><?= htmlspecialchars($post['Description']) ?></textarea>
-      </div>
+  .job-posting-row-double{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
 
-      <!-- File Attachment Section -->
-      <?php if (!empty($post['File_description'])): ?>
-        <hr class="hr-custom job-posting-hr-custom">
-        <div class="job-posting-attachment-wrapper">
-          <a href="<?= UPLOAD_DESC ?>/<?= $post['File_description'] ?>"
-            class="job-posting-attachment" download>
-            <span class="job-posting-icon"><i class="bi bi-file-earmark-pdf"></i></span>
-            <span class="job-posting-text"><?= htmlspecialchars($post['File_description']) ?></span>
-          </a>
+  .job-posting-location, .job-posting-due-date, .job-posting-level, .job-posting-salary, .job-posting-applicants{
+    padding: 1rem 0 1rem 0;
+    width: fit-content;
+    height: 4rem;
+  }
+
+  .job-posting-location label, .job-posting-due-date label, .job-posting-level label, .job-posting-salary label, .job-posting-applicants label, .job-posting-description label{
+    min-width: 5.5rem;
+    width: fit-content;
+  }
+
+  .job-posting-location input, .job-posting-due-date input, .job-posting-level input, .job-posting-salary input, .job-posting-applicants input{
+    width: 10rem;
+    padding: 2% 0 2% 3.5%;
+    border-radius: 10px;
+    border: 1px solid black;
+  }
+
+  .job-posting-description{
+    width: 100%;
+    min-height: 6.5rem;
+  }
+
+  .job-posting-description textarea{
+    margin-top: 1.5%;
+    width: 100%;
+    height: 6rem;
+    padding: 1% 1.5% 1% 1.5%;
+    line-height: 1.5rem;
+    resize: none;
+    border-radius: 10px;
+    border: 1px solid black;
+  }
+
+  #unique{
+      border: 1px dashed #999;
+      display: flex;
+      align-items: center; 
+      justify-content: center;
+      min-height: 100px; 
+      width: 100%; 
+      border-radius: 10px; 
+      transition: .3s; 
+      cursor: pointer;
+
+      white-space: pre-wrap; 
+      overflow-wrap: break-word; 
+      text-align: center;
+      flex-wrap: wrap; 
+    }
+    #unique:hover{
+      color: #1DA1F2;
+      border: 1px dashed #1DA1F2;
+    }
+
+    .job-posting-attachment-wrapper{
+      padding: 2% 0 3% 0 ;
+    }
+
+    @media (max-width: 612px){
+      .job-posting-location, .job-posting-due-date, .job-posting-level, .job-posting-salary, .job-posting-applicants{
+        height: 5rem;
+        padding: 2% 0 2% 0;
+      }
+      .job-posting-location label, .job-posting-due-date label, .job-posting-level label, .job-posting-salary label, .job-posting-applicants label, .job-posting-description label{
+        padding: 1rem 0 .5rem 0;
+      }
+      .job-posting-description{
+        margin-top: 2rem;
+      }
+      .job-posting-applicants {
+        height: 3rem;
+      }
+    }
+
+    @media (max-width: 423px){
+      .job-posting-location input, .job-posting-due-date input, .job-posting-level input, .job-posting-salary input, .job-posting-applicants input{
+        width: 8rem;
+      }
+    }
+
+</style>
+
+<main>
+  <div class="container job-posting-container">
+    <!-- Back Button -->
+    <a href="javascript:history.back()" class="job-posting-back-btn">← Back</a>
+
+    <!-- Company Info Section -->
+    <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
+      <div class="company-info mb-4">
+        <img src="<?= empty($post['Avatar']) ? 'https://placehold.co/100x100' : htmlspecialchars(UPLOAD_IMG . $post['Avatar']) ?>"
+          alt="<?= htmlspecialchars($post['Company']) ?>" class="company-logo">
+        <h2 class="company-name"><?= htmlspecialchars($post['Company']) ?></h2>
+      </div>
+    <?php endif; ?>
+
+    <!-- Header Section -->
+
+    <fieldset disabled>
+      <form class="job-posting-header" data-id="<?= $post['ID'] ?>" data-title="<?= $post['Postname'] ?>">
+        <h1 class="header-post"><input style="" name="Postname" type="text" value="<?= htmlspecialchars($post['Postname']) ?>"></h1>
+        <div class="job-posting-applicants">
+          <label class="job-posting-label">Applicants:</label>
+          <input name="Applicants_max" type="text" class="job-posting-value"
+            value="<?= htmlspecialchars($post['Applicants_max']) ?>">
+        </div>
+        <div class="job-posting-row-double">
+
+          <div class="job-posting-location">
+            <label class="job-posting-label">Location:</label>
+            <input name="Location" type="text" class="job-posting-value"
+              value="<?= htmlspecialchars($post['Location']) ?>">
+          </div>
+          <div class="job-posting-due-date">
+            <label class="job-posting-label">Due date:</label>
+            <input name="Due" type="date" class="job-posting-value"
+              value="<?= date('Y-m-d', strtotime($post['Due'])) ?>">
+          </div>
+        </div>
+
+        <div class="job-posting-row-double">
+
+          <div class="job-posting-level">
+            <label class="job-posting-label">Level:</label>
+            <input name="Level" type="text" class="job-posting-value"
+              value="<?= htmlspecialchars($post['Level']) ?>">
+          </div>
+
+          <div class="job-posting-salary">
+            <label class="job-posting-label">Salary:</label>
+            <input name="Salary" type="number" class="job-posting-value"
+              value="<?= htmlspecialchars($post['Salary']) ?>">
+          </div>
+
+        </div>
+        
+
+        <div class="job-posting-description">
+          <label class="job-posting-label">Description</label>
+          <textarea name="Description" rows="5" cols="500"
+            id="description"><?= htmlspecialchars($post['Description']) ?></textarea>
+        </div>
+
+        <!-- File Attachment Section -->
+        <?php if (!empty($post['File_description'])): ?>
+          <hr class="hr-custom job-posting-hr-custom">
+          <div class="job-posting-attachment-wrapper">
+            <a href="<?= UPLOAD_DESC ?>/<?= $post['File_description'] ?>"
+              class="job-posting-attachment" download>
+              <span class="job-posting-icon"><i class="bi bi-file-earmark-pdf"></i></span>
+              <span class="job-posting-text"><?= htmlspecialchars($post['File_description']) ?></span>
+            </a>
+          </div>
+        <?php endif; ?>
+        <label id ="unique" for="File_description">Upload description file:</label>
+        <div id="file-upload" class="job-posting-attachment">
+          <input type="file" name="File_description" id="File_description" style="display: none;">
+        </div>
+      </form>
+    </fieldset>
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-center mt-4">
+      <button id="delete-btn" class="btn job-posting-btn-custom job-posting-btn-delete">Delete post</button>
+      <?php if ($post['Status'] != 'approved' || (isset($_SESSION['role']) && $_SESSION['role'] == 'admin')): ?>
+        <button id="edit-btn" class="btn job-posting-btn-custom job-posting-btn-edit">Edit post</button>
+        <button id="submit-btn" class="btn job-posting-btn-custom job-posting-btn-submit" style="display: none;">Submit
+          for review</button>
+      <?php endif; ?>
+      <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+        <div id="comment">
+          <fieldset data-value="<?= $post['Status'] ?>" id="admin-approval-form" <?= $post['Status'] == 'pending' ? "" : "disabled" ?>>
+            <form action="">
+              <?php if ($post['Status'] == 'pending'): ?>
+                <textarea name="Reason" id="approval-reason" placeholder="Add comment..."></textarea>
+              <?php else: ?>
+                <textarea name="Reason" id="approval-reason"
+                  placeholder="Add comment..."><?= $post['Reason'] ?></textarea>
+              <?php endif; ?>
+              <span id="app-status"><?= $post['Status'] ?></span>
+            </form>
+          </fieldset>
+          <button id="approve-btn" value="approved"
+            class="btn job-posting-btn-custom job-posting-btn-approve">Approve</button>
+          <button id="disapprove-btn" value="disapproved"
+            class="btn job-posting-btn-custom job-posting-btn-disapprove">Disapprove</button>
+          <button id="approve-edit-btn" class="btn job-posting-btn-custom job-posting-btn-approve">Edit</button>
         </div>
       <?php endif; ?>
-      <label for="File_description">Upload description file:</label>
-      <div id="file-upload" class="job-posting-attachment">
-
-        <input type="file" name="File_description">
-      </div>
-    </form>
-  </fieldset>
-
-  <!-- Action Buttons -->
-  <div class="d-flex justify-content-center mt-4">
-    <button id="delete-btn" class="btn job-posting-btn-custom job-posting-btn-delete">Delete post</button>
-    <?php if ($post['Status'] != 'approved' || (isset($_SESSION['role']) && $_SESSION['role'] == 'admin')): ?>
-      <button id="edit-btn" class="btn job-posting-btn-custom job-posting-btn-edit">Edit post</button>
-      <button id="submit-btn" class="btn job-posting-btn-custom job-posting-btn-submit" style="display: none;">Submit
-        for review</button>
-    <?php endif; ?>
-    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-      <div id="comment">
-        <fieldset data-value="<?= $post['Status'] ?>" id="admin-approval-form" <?= $post['Status'] == 'pending' ? "" : "disabled" ?>>
-          <form action="">
-            <?php if ($post['Status'] == 'pending'): ?>
-              <textarea name="Reason" id="approval-reason" placeholder="Add comment..."></textarea>
-            <?php else: ?>
-              <textarea name="Reason" id="approval-reason"
-                placeholder="Add comment..."><?= $post['Reason'] ?></textarea>
-            <?php endif; ?>
-            <span id="app-status"><?= $post['Status'] ?></span>
-          </form>
-        </fieldset>
-        <button id="approve-btn" value="approved"
-          class="btn job-posting-btn-custom job-posting-btn-approve">Approve</button>
-        <button id="disapprove-btn" value="disapproved"
-          class="btn job-posting-btn-custom job-posting-btn-disapprove">Disapprove</button>
-        <button id="approve-edit-btn" class="btn job-posting-btn-custom job-posting-btn-approve">Edit</button>
-      </div>
-    <?php endif; ?>
+    </div>
   </div>
-</div>
+</main>
+
+<!-- HANDLE MULTIPLE FILE -->
+<script>
+  const input = document.getElementById("image");
+  const label = document.getElementById("unique");
+
+  function updateLabel(files) {
+    if (files && files.length > 0) {
+      const fileNames = Array.from(files).map(file => file.name);
+      label.textContent = fileNames.join("\n");
+    } else {
+      label.textContent = "Upload Image";
+    }
+  }
+
+  input.addEventListener("change", function () {
+    updateLabel(this.files);
+  });
+
+  label.addEventListener("dragover", function (e) {
+    e.preventDefault();
+    label.classList.add("dragover");
+  });
+
+  label.addEventListener("dragleave", function () {
+    label.classList.remove("dragover");
+  });
+
+  label.addEventListener("drop", function (e) {
+    e.preventDefault();
+    label.classList.remove("dragover");
+
+    const droppedFiles = e.dataTransfer.files;
+    input.files = droppedFiles; // assign to input
+    updateLabel(droppedFiles);
+  }); 
+  </script>
 
 <script>
   const fieldset = document.querySelector("fieldset");

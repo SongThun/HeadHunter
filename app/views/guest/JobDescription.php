@@ -1,3 +1,4 @@
+<main>
 <div class="outside-description">
   <div class="description">
     <!-- JOB DESCRIPTION -->
@@ -145,6 +146,7 @@
   </div>
 </div>
 </main>
+
 
 <script>
   const fieldset = document.querySelector("fieldset")

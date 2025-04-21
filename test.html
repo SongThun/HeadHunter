@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+
+  <style>
+    #unique{
+      border: 1px dashed #999;
+      display: flex;
+      align-items: center; 
+      justify-content: center;
+      min-height: 100px; 
+      width: 100%; 
+      border-radius: 10px; 
+      transition: .3s; 
+      cursor: pointer;
+
+      white-space: pre-wrap; 
+      overflow-wrap: break-word; 
+      text-align: center;
+      flex-wrap: wrap; 
+    }
+    #unique:hover{
+      color: #1DA1F2;
+      border: 1px dashed #1DA1F2;
+    }
+  </style>
+  
+  <label id="unique" for="image">hey</label>
+  <input type="file" name="image[]" id="image" style="display: none;" multiple >
+  
+  <script>
+  const input = document.getElementById("image");
+  const label = document.getElementById("unique");
+
+  function updateLabel(files) {
+    if (files && files.length > 0) {
+      const fileNames = Array.from(files).map(file => file.name);
+      label.textContent = fileNames.join("\n");
+    } else {
+      label.textContent = "Upload Image";
+    }
+  }
+
+  input.addEventListener("change", function () {
+    updateLabel(this.files);
+  });
+
+  label.addEventListener("dragover", function (e) {
+    e.preventDefault();
+    label.classList.add("dragover");
+  });
+
+  label.addEventListener("dragleave", function () {
+    label.classList.remove("dragover");
+  });
+
+  label.addEventListener("drop", function (e) {
+    e.preventDefault();
+    label.classList.remove("dragover");
+
+    const droppedFiles = e.dataTransfer.files;
+    input.files = droppedFiles; // assign to input
+    updateLabel(droppedFiles);
+  }); 
+  </script>
+
+  <!-- <input type="text"> -->
+
+  <input type="file" name="" id="">
+
+</body>
+</html>
+

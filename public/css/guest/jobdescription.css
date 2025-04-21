@@ -1,5 +1,14 @@
+body{
+  display: flex;
+}
+
+main{
+  flex: 1;
+}
+
 main{
   z-index: 1;
+  /* min-height: 95vh; */
 }
 .outside-description{
   display: flex;
