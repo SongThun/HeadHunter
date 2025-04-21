@@ -3,7 +3,7 @@ class Database {
     public static $instance = null;
     private $connection;
     public function __construct() {
-        $this->connection = new mysqli('localhost','root','','JOBHUNTER');
+        $this->connection = new mysqli('localhost','root','bavui4444','JOBHUNTER');
         
         if ($this->connection->connect_error) {
             die("Fail connection to database: " . $this->connection->connect_error);

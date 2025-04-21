@@ -1,3 +1,4 @@
+<main>
 <div class="container job-posting-container">
   <!-- Back Button -->
   <a href="javascript:history.back()" class="job-posting-back-btn">← Back</a>
@@ -14,34 +15,37 @@
   <!-- Header Section -->
   <fieldset disabled>
     <form class="job-posting-header" data-id="<?= $post['ID'] ?>" data-title="<?= $post['Postname'] ?>">
-      <h1 class="mb-5"><input name="Postname" type="text" value="<?= htmlspecialchars($post['Postname']) ?>"></h1>
-      <div class="job-posting-applicants mb-2">
+      <h1 class="header-post"><input name="Postname" type="text" value="<?= htmlspecialchars($post['Postname']) ?>"></h1>
+      <div class="job-posting-applicants">
         <label class="job-posting-label">Applicants:</label>
         <input name="Applicants_max" type="text" class="job-posting-value"
           value="<?= htmlspecialchars($post['Applicants_max']) ?>">
       </div>
-      <div class="meta job-posting-meta">
-        <span class="job-posting-location">
+      <div class="job-posting-row-double">
+        <div class="job-posting-location">
           <label class="job-posting-label">Location:</label>
           <input name="Location" type="text" class="job-posting-value"
             value="<?= htmlspecialchars($post['Location']) ?>">
-        </span>
-        <span class="job-posting-due-date">
+        </div>
+        <div class="job-posting-due-date">
           <label class="job-posting-label">Due date:</label>
           <input name="Due" type="date" class="job-posting-value"
             value="<?= date('Y-m-d', strtotime($post['Due'])) ?>">
-        </span>
+        </div>
       </div>
-      <div class="job-posting-level">
-        <label class="job-posting-label">Level:</label>
-        <input name="Level" type="text" class="job-posting-value"
-          value="<?= htmlspecialchars($post['Level']) ?>">
+      <div class="job-posting-row-double">
+        <div class="job-posting-level">
+          <label class="job-posting-label">Level:</label>
+          <input name="Level" type="text" class="job-posting-value"
+            value="<?= htmlspecialchars($post['Level']) ?>">
+        </div>
+        <div class="job-posting-salary">
+          <label class="job-posting-label">Salary:</label>
+          <input name="Salary" type="number" class="job-posting-value"
+            value="<?= htmlspecialchars($post['Salary']) ?>">
+        </div>
       </div>
-      <div class="job-posting-salary">
-        <label class="job-posting-label">Salary:</label>
-        <input name="Salary" type="number" class="job-posting-value"
-          value="<?= htmlspecialchars($post['Salary']) ?>">
-      </div>
+
       <div class="job-posting-description">
         <label class="job-posting-label">Description</label>
         <textarea name="Description" rows="5" cols="500"
@@ -59,22 +63,31 @@
           </a>
         </div>
       <?php endif; ?>
-      <label for="File_description">Upload description file:</label>
+      <!-- <label for="File_description">Upload description file:</label>
       <div id="file-upload" class="job-posting-attachment">
 
         <input type="file" name="File_description">
+      </div> -->
+
+      <label id ="unique" for="File_description">Upload description file:</label>
+      <div id="file-upload" class="job-posting-attachment" style="all: unset;">
+        <input type="file" name="File_description" id="File_description" style="display: none;">
       </div>
+
     </form>
   </fieldset>
 
   <!-- Action Buttons -->
-  <div class="d-flex justify-content-center mt-4">
-    <button id="delete-btn" class="btn job-posting-btn-custom job-posting-btn-delete">Delete post</button>
-    <?php if ($post['Status'] != 'approved' || (isset($_SESSION['role']) && $_SESSION['role'] == 'admin')): ?>
-      <button id="edit-btn" class="btn job-posting-btn-custom job-posting-btn-edit">Edit post</button>
-      <button id="submit-btn" class="btn job-posting-btn-custom job-posting-btn-submit" style="display: none;">Submit
-        for review</button>
-    <?php endif; ?>
+  <div class="list-btn-of-job">
+    <div class="company-btn-dlt-and-edit">
+      <button id="delete-btn" class="btn job-posting-btn-custom job-posting-btn-delete">Delete post</button>
+      <?php if ($post['Status'] != 'approved' || (isset($_SESSION['role']) && $_SESSION['role'] == 'admin')): ?>
+        <button id="edit-btn" class="btn job-posting-btn-custom job-posting-btn-edit">Edit post</button>
+        <button id="submit-btn" class="btn job-posting-btn-custom job-posting-btn-submit" style="display: none;">Submit
+          for review</button>
+      <?php endif; ?>
+    </div>
+
     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
       <div id="comment">
         <fieldset data-value="<?= $post['Status'] ?>" id="admin-approval-form" <?= $post['Status'] == 'pending' ? "" : "disabled" ?>>
@@ -88,15 +101,57 @@
             <span id="app-status"><?= $post['Status'] ?></span>
           </form>
         </fieldset>
-        <button id="approve-btn" value="approved"
-          class="btn job-posting-btn-custom job-posting-btn-approve">Approve</button>
-        <button id="disapprove-btn" value="disapproved"
-          class="btn job-posting-btn-custom job-posting-btn-disapprove">Disapprove</button>
-        <button id="approve-edit-btn" class="btn job-posting-btn-custom job-posting-btn-approve">Edit</button>
+        <div class="company-btn-dlt-and-edit">
+          <button id="approve-btn" value="approved"
+            class="btn job-posting-btn-custom job-posting-btn-approve">Approve</button>
+          <button id="disapprove-btn" value="disapproved"
+            class="btn job-posting-btn-custom job-posting-btn-disapprove">Disapprove</button>
+          <button id="approve-edit-btn" class="btn job-posting-btn-custom job-posting-btn-approve">Edit</button>
+        </div>
+        
       </div>
     <?php endif; ?>
   </div>
 </div>
+</main>
+
+
+<!-- HANDLE MULTIPLE FILE -->
+<script>
+  const input = document.getElementById("File_description");
+  const label = document.getElementById("unique");
+
+  function updateLabel(files) {
+    if (files && files.length > 0) {
+      const fileNames = Array.from(files).map(file => file.name);
+      label.textContent = fileNames.join("\n");
+    } else {
+      label.textContent = "Upload Image";
+    }
+  }
+
+  input.addEventListener("change", function () {
+    updateLabel(this.files);
+  });
+
+  label.addEventListener("dragover", function (e) {
+    e.preventDefault();
+    label.classList.add("dragover");
+  });
+
+  label.addEventListener("dragleave", function () {
+    label.classList.remove("dragover");
+  });
+
+  label.addEventListener("drop", function (e) {
+    e.preventDefault();
+    label.classList.remove("dragover");
+
+    const droppedFiles = e.dataTransfer.files;
+    input.files = droppedFiles; // assign to input
+    updateLabel(droppedFiles);
+  }); 
+  </script>
 
 <script>
   const fieldset = document.querySelector("fieldset");

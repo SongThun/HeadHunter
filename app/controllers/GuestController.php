@@ -26,7 +26,11 @@ class GuestController
     }
     private function job_view()
     {
+<<<<<<< Updated upstream
         $name = explode('-', $_GET["id"]);
+=======
+        $name = explode('-', $_GET['id']);
+>>>>>>> Stashed changes
         $id = end($name);
         $job = $this->post->getAPost($id);
         require_once __DIR__ . '/../views/guest/JobDescription.php';

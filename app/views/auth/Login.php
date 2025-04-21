@@ -38,11 +38,7 @@
         <div class="btn-form"><button type="submit">Login</button></div>
         <div class="container-register">
           <p>
-<<<<<<< HEAD
-            Don't have account? <a href="<?= BASE_URL ?>/signup/"> Register here.</a>
-=======
             Don't have account? <a href="<?= BASE_URL ?>/signup"> Register here.</a>
->>>>>>> 6dd62c72369abf30ecb09f49baf1cb80c250520f
           </p>
         </div>
         <div class="container-or">

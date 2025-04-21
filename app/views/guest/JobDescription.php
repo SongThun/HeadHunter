@@ -1,3 +1,26 @@
+<style>
+    #unique{
+      border: 1px dashed #999;
+      display: flex;
+      align-items: center; 
+      justify-content: center;
+      min-height: 100px; 
+      width: 100%; 
+      border-radius: 10px; 
+      transition: .3s; 
+      cursor: pointer;
+
+      white-space: pre-wrap; 
+      overflow-wrap: break-word; 
+      text-align: center;
+      flex-wrap: wrap; 
+    }
+    #unique:hover{
+      color: #1DA1F2;
+      border: 1px dashed #1DA1F2;
+    }
+</style>
+
 <div class="outside-description">
   <div class="description">
     <!-- JOB DESCRIPTION -->
@@ -124,8 +147,8 @@
             </div>
             <div class="form-row-1">
               <div class="form-row-1-file">
-                <label for="resume"><span style="color: red; margin-right: .2rem;">*</span>Resume</label>
-                <input type="file" name="File_CV" id="file-applicant" required>
+                <label id="unique" for="file-applicant"><span style="color: red; margin-right: .2rem;">*</span>Resume</label>
+                <input type="file" name="File_CV" id="file-applicant" style="display: none;" required>
               </div>
 
               <div class="form-row-1">
@@ -145,6 +168,43 @@
   </div>
 </div>
 </main>
+
+<!-- HANDLE MULTIPLE FILE -->
+<script>
+  const input = document.getElementById("file-applicant");
+  const label = document.getElementById("unique");
+
+  function updateLabel(files) {
+    if (files && files.length > 0) {
+      const fileNames = Array.from(files).map(file => file.name);
+      label.textContent = fileNames.join("\n");
+    } else {
+      label.textContent = "Upload Image";
+    }
+  }
+
+  input.addEventListener("change", function () {
+    updateLabel(this.files);
+  });
+
+  label.addEventListener("dragover", function (e) {
+    e.preventDefault();
+    label.classList.add("dragover");
+  });
+
+  label.addEventListener("dragleave", function () {
+    label.classList.remove("dragover");
+  });
+
+  label.addEventListener("drop", function (e) {
+    e.preventDefault();
+    label.classList.remove("dragover");
+
+    const droppedFiles = e.dataTransfer.files;
+    input.files = droppedFiles; // assign to input
+    updateLabel(droppedFiles);
+  }); 
+  </script>
 
 <script>
   const fieldset = document.querySelector("fieldset")
