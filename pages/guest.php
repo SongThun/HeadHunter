@@ -68,7 +68,7 @@ if (in_array($page, $valid_pages)) {
       $controller->index('jobposts');
       break;
     case 'jobpost':
-      $postController->jobpost_index();
+      $controller->index('jobpost');
       break;
     default:
       $controller->index("home");
