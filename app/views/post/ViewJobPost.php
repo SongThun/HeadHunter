@@ -71,7 +71,7 @@
 
       <label id ="unique" for="File_description">Upload description file:</label>
       <div id="file-upload" class="job-posting-attachment" style="all: unset;">
-        <input type="file" name="File_description" id="File_description" style="display: none;">
+        <input type="file" name="File_description" id="File_description" style="display: none;" multiple>
       </div>
 
     </form>

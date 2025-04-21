@@ -1,5 +1,9 @@
 <?php include __DIR__ . "/../../utils.php" ?>
-
+<style>
+  .container-pagination a{
+    text-decoration: none;
+  }
+</style>
 <div>
   <div class="container-search" style="background: var(--off-white);margin-top: 0;height: 6rem;">
     <!-- search bar -->
@@ -71,12 +75,13 @@
   <!-- end job listings -->
 
   <!-- navigation  -->
-  <nav aria-label="Page navigation">
+  <!-- <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
       
     </ul>
-  </nav>
+  </nav> -->
   <!-- end navigation -->
+  <div class="container-pagination"></div>
 </div>
 
 <script src="<?= SCRIPT_PATH ?>/pagination.js"></script>
