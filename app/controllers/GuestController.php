@@ -26,11 +26,7 @@ class GuestController
     }
     private function job_view()
     {
-<<<<<<< Updated upstream
-        $name = explode('-', $_GET["id"]);
-=======
         $name = explode('-', $_GET['id']);
->>>>>>> Stashed changes
         $id = end($name);
         $job = $this->post->getAPost($id);
         require_once __DIR__ . '/../views/guest/JobDescription.php';
@@ -55,9 +51,10 @@ class GuestController
     public function apply()
     {
         $method = $_SERVER['REQUEST_METHOD'];
-        $id = $_GET['postid'];
+        $postname = isset($_GET['postid']) ? explode('-', $_GET['postid']) : "";
         switch ($method) {
             case 'POST':
+                $id = end($postname);
                 $data = $this->prepare_data_applicant($id);
                 $res = $this->app->apply($id, $data);
                 break;

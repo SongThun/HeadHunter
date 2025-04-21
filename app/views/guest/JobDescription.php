@@ -96,7 +96,7 @@
 
     <!-- APPLICATION FORM -->
     <fieldset>
-      <form enctype="multipart/form-data">
+      <form method="POST" enctype="multipart/form-data" data-id="<?= $_GET['id'] ?>">
         <div class="application-form">
           <div class="form-title">
             <h1 style="margin: 2rem 0; color: var(--blue);">Application form</h1>
@@ -150,7 +150,6 @@
                 <label id="unique" for="file-applicant"><span style="color: red; margin-right: .2rem;">*</span>Resume</label>
                 <input type="file" name="File_CV" id="file-applicant" style="display: none;" required>
               </div>
-
               <div class="form-row-1">
                 <label for="cover-letter"><span style="color: red; margin-right: .2rem;">*</span>Cover Letter</label>
                 <textarea name="Cover" id="cover-letter" rows="10" cols="30" required></textarea>
@@ -209,27 +208,22 @@
 <script>
   const fieldset = document.querySelector("fieldset")
   const form = document.querySelector("form");
-  // const id = form.dataset.id;
-  const id = <?= $_GET["id"] ?>;
-  console.log(id);
+  const id = form.dataset.id;
   const applyBtn = document.querySelector("#apply")
 
 
   if (applyBtn) {
     applyBtn.addEventListener('click', async (e) => {
       e.preventDefault();
-      const url = `<?= API ?>apply/${id}`;
-      // const data = await form2json(form)
-      // console.log(data)
+      const url = `${window.API}/apply/${id}`;
       const response = await fetch(url, {
         method: 'POST',
-        // body: JSON.stringify(data)
-        // headers: { "X-HTTP-Method-Override": "PUT" },
         body: new FormData(form)
       });
       const res = await response.json();
       if (res.status == 'success') {
-        window.location.href = '<?php $baseUrl ?>';
+        alert("You've successfully applied for ")
+        window.location.href = window.BASE_URL;
       }
     })
   }
