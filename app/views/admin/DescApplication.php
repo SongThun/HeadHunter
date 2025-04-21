@@ -359,7 +359,7 @@ main {
         <?php if (isset($job['File_description']) && !empty($job['File_description'])): ?>
           <div class="file-box">
             <div class="pdf-options">
-              <a href="<?= UPLOAD_DESC ?><?php echo htmlspecialchars($job['File_description']); ?>" target="_blank">
+              <a href="<?= UPLOAD_DESC ?>/<?= htmlspecialchars($job['File_description']); ?>" target="_blank">
                 <i class="fas fa-file-pdf"></i> Download Job Description PDF
               </a>
               <button id="toggle-pdf-viewer" class="btn-view-pdf">
@@ -369,13 +369,13 @@ main {
 
             <div id="pdf-viewer-container" style="display: none; margin-top: 15px;">
               <div class="pdf-viewer-wrapper">
-                <object data="<?= UPLOAD_DESC?><?php echo htmlspecialchars($job['File_description']); ?>"
+                <object data="<?= UPLOAD_DESC?>/<?= htmlspecialchars($job['File_description']); ?>"
                   type="application/pdf"
                   width="100%"
                   height="600px">
                   <p>
                     Your browser doesn't support embedded PDFs.
-                    <a href="<?= UPLOAD_DESC ?><?php echo htmlspecialchars($job['File_description']); ?>">Click here to download the PDF</a>.
+                    <a href="<?= UPLOAD_DESC ?>/<?= htmlspecialchars($job['File_description']); ?>">Click here to download the PDF</a>.
                   </p>
                 </object>
               </div>
@@ -435,7 +435,7 @@ main {
             </div>
             <div class="form-row-1">
               <div class="job-posting-attachment-wrapper">
-                <a href="<?= UPLOAD_DESC ?>/<?= $app['File_CV'] ?>" class="job-posting-attachment" download>
+                <a href="<?= UPLOAD_APP . "/" . $job['ID'] . "/" . $app['File_CV'] ?>" class="job-posting-attachment" download>
                   <span class="job-posting-icon"><i class="bi bi-file-earmark-pdf"></i></span>
                   <p class="job-posting-text"><?= htmlspecialchars($app['File_CV']) ?></p>
                 </a>

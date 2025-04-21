@@ -3,6 +3,10 @@
   .container-pagination a{
     text-decoration: none;
   }
+  .container-pagination > button {
+  border: none !important;
+  background: none ;
+}
 </style>
 <div>
   <div class="container-search" style="background: var(--off-white);margin-top: 0;height: 6rem;">

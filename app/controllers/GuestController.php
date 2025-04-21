@@ -51,10 +51,11 @@ class GuestController
     public function apply()
     {
         $method = $_SERVER['REQUEST_METHOD'];
-        $postname = isset($_GET['postid']) ? explode('-', $_GET['postid']) : "";
+        // $postname = isset($_GET['postid']) ? $_GET['postid'] : "";
+        $id = $_GET['postid'];
         switch ($method) {
             case 'POST':
-                $id = end($postname);
+                // $id = end($postname);
                 $data = $this->prepare_data_applicant($id);
                 $res = $this->app->apply($id, $data);
                 break;
@@ -67,7 +68,6 @@ class GuestController
     }
     private function prepare_data_applicant($id)
     {
-
         $data = $_POST;
         $data["Location"] = $_POST["Address"] . ", " . $_POST["District"] . ", " . $_POST["City"];
         $savePath = $id . "_" . basename($_FILES["File_CV"]["name"]);

@@ -84,25 +84,56 @@ class Application
         return $result->fetch_assoc();
     }
     public function apply($id, $data)
-    {
-        try {
-            if (move_uploaded_file($_FILES["File_CV"]["tmp_name"], $data["File_CV"])) {
-                // echo "upload success";
-            } else {
-                return ["status" => "failure", "error" => "Can not upload file"];
-            }
+{
+    $this->db->begin_transaction(); // Start transaction
 
-            $sql = "INSERT INTO Applicant(Fullname, Email, Phone, PostID, Location, Level, Cover,File_CV) VALUES(
-                                        ?, ? , ? , ? , ? , ? , ?, ?
-            )";
-            $stmt = $this->db->prepare($sql);
-            $stmt->bind_param("sssissss", $data["Fullname"], $data["Email"], $data["Phone"], $id, $data["Location"], $data["Level"], $data["Cover"], $data['File_CV']);
-            $stmt->execute();
-            return ["status" => "success"];
-        } catch (Exception $e) {
-            return ["status" => "failure", "error" => $e->getMessage()];
+    try {
+        // Step 1: Insert data with a placeholder filename
+        $sql = "INSERT INTO Applicant (Fullname, Email, Phone, PostID, Location, Level, Cover, File_CV)
+                VALUES (?, ?, ?, ?, ?, ?, ?, '')";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param(
+            "sssisss",
+            $data["Fullname"],
+            $data["Email"],
+            $data["Phone"],
+            $id,
+            $data["Location"],
+            $data["Level"],
+            $data["Cover"]
+        );
+        $stmt->execute();
+
+        $appID = $this->db->insert_id;
+
+        $uploadDir = realpath(dirname(__DIR__) . "/../public/upload/applications/") . "/$id/";
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0775, true);
         }
+
+        $fileTmp = $_FILES["File_CV"]["tmp_name"];
+        $fileExt = pathinfo($_FILES["File_CV"]["name"], PATHINFO_EXTENSION);
+        $filename = $appID . "-" . $data['Fullname'] . "." . $fileExt;
+        $newPath = $uploadDir . $filename;
+
+        if (!move_uploaded_file($fileTmp, $newPath)) {
+            $this->db->rollback();
+            return ["status" => "failure", "error" => "Cannot upload file"];
+        }
+
+        $updateSQL = "UPDATE Applicant SET File_CV = ? WHERE ID = ?";
+        $updateStmt = $this->db->prepare($updateSQL);
+        $updateStmt->bind_param("si", $filename, $appID);
+        $updateStmt->execute();
+
+        $this->db->commit(); 
+        return ["status" => "success"];
+    } catch (Exception $e) {
+        $this->db->rollback(); 
+        return ["status" => "failure", "error" => $e->getMessage()];
     }
+}
+
     public function approved($id, $data)
     {
         try {
