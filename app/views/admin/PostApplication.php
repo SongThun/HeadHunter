@@ -6,16 +6,16 @@
       <!-- <button id="company-post-create" class="create-new-btn btn w-100 mb-3">Create new job</button> -->
       <div id="company-status-filter" class="list-group">
         <button value="all" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-          All <span class="sidebar-badge badge"><?= $counts['all'] ?></span>
+          All <span class="sidebar-badge badge"><?= e($counts['all']) ?></span>
         </button>
         <button value="accept" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-          Accept <span class="sidebar-badge badge"><?= $counts['accept'] ?></span>
+          Accept <span class="sidebar-badge badge"><?= e($counts['accept']) ?></span>
         </button>
         <button value="pending" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-          Pending <span class="sidebar-badge badge"><?= $counts['pending'] ?></span>
+          Pending <span class="sidebar-badge badge"><?= e($counts['pending']) ?></span>
         </button>
         <button value="reject" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-          Reject <span class="sidebar-badge badge"><?= $counts['reject'] ?></span>
+          Reject <span class="sidebar-badge badge"><?= e($counts['reject']) ?></span>
         </button>
       </div>
     </div>
@@ -45,31 +45,6 @@
 
       <!-- Job posts grid -->
       <div id="company-job-display" class="container card-display">
-        <!-- A single job card-->
-        <!-- <?php if ($apps != null && count($apps) > 0): ?>
-          <?php foreach ($apps as $app): ?>
-            <div class="row job-card" data-id="<?= $app['ID'] ?>" data-name="<?= $app['Fullname'] ?>">
-              <div class="col-12">
-                <div class="d-flex justify-content-between">
-                  <h5><?= $app['Fullname'] ?></h5>
-                  <span class="badge job-status-pending"><?= $app['Status'] ?></span>
-                </div>
-                <p class="mb-1">
-                  <i class="bi bi-calendar3"></i> <?= $app['AppliedDate'] ?>
-                  <i class="ml-4 bi bi-geo-alt"></i> <?= $app['Location'] ?>
-                </p>
-                <p class="mb-1">
-                  <?= substr($app['Cover'], 0, min(strlen($app['Cover']), 50)); ?> ...
-                </p>
-              </div>
-            </div>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <div class="no-jobs-found">
-            <h3>No applications found</h3>
-          </div>
-        <?php endif; ?> -->
-        <!-- Additional job cards can be added here if needed -->
       </div>
 
       <!-- Pagination -->
@@ -79,14 +54,10 @@
   </div>
 </div>
 
-<script src="<?= SCRIPT_PATH?>/pagination.js"></script>
-<script src="<?= SCRIPT_PATH?>/utils.js"></script>
+<script src="<?= e(SCRIPT_PATH . "/pagination.js") ?>"></script>
+<script src="<?= e(SCRIPT_PATH . "/utils.js") ?>"></script>
 <script>
-  // const createbtn = document.querySelector("#company-post-create");
-  // createbtn.addEventListener('click', () => {
-  //   window.location.href = `${window.BASE_URL}/jobpost/add/`;
-  // })
-
+  // const createbtn 
   function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');
     sidebar.classList.toggle('active');
@@ -130,7 +101,7 @@
   }
   const url = `${window.API}/application`;
   const loadPost = getLoader(loadSuccess,loadFail,destGen, url);
-  state.filter.postid = "<?= $postid ?>";
+  state.filter.postid = "<?= e($postid) ?>";
 
   document.addEventListener('DOMContentLoaded', () => {
     loadPost(state.sort, state.filter, 1);

@@ -6,60 +6,60 @@
   <!-- Company Info Section -->
   <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
     <div class="company-info mb-4">
-      <img src="<?= empty($post['Avatar']) ? 'https://placehold.co/100x100' : htmlspecialchars(UPLOAD_IMG . $post['Avatar']) ?>"
-        alt="<?= htmlspecialchars($post['Company']) ?>" class="company-logo">
-      <h2 class="company-name"><?= htmlspecialchars($post['Company']) ?></h2>
+      <img src="<?= empty($post['Avatar']) ? 'https://placehold.co/100x100' : e(UPLOAD_IMG . $post['Avatar']) ?>"
+        alt="<?= e($post['Company']) ?>" class="company-logo">
+      <h2 class="company-name"><?= e($post['Company']) ?></h2>
     </div>
   <?php endif; ?>
 
   <!-- Header Section -->
   <fieldset disabled>
-    <form class="job-posting-header" data-id="<?= $post['ID'] ?>" data-title="<?= $post['Postname'] ?>">
-      <h1 class="header-post"><input name="Postname" type="text" value="<?= htmlspecialchars($post['Postname']) ?>"></h1>
+    <form class="job-posting-header" data-id="<?= e($post['ID']) ?>" data-title="<?= e($post['Postname']) ?>">
+      <h1 class="header-post"><input name="Postname" type="text" value="<?= e($post['Postname']) ?>"></h1>
       <div class="job-posting-applicants">
         <label class="job-posting-label">Applicants:</label>
         <input name="Applicants_max" type="text" class="job-posting-value"
-          value="<?= htmlspecialchars($post['Applicants_max']) ?>">
+          value="<?= e($post['Applicants_max']) ?>">
       </div>
       <div class="job-posting-row-double">
         <div class="job-posting-location">
           <label class="job-posting-label">Location:</label>
           <input name="Location" type="text" class="job-posting-value"
-            value="<?= htmlspecialchars($post['Location']) ?>">
+            value="<?= e($post['Location']) ?>">
         </div>
         <div class="job-posting-due-date">
           <label class="job-posting-label">Due date:</label>
           <input name="Due" type="date" class="job-posting-value"
-            value="<?= date('Y-m-d', strtotime($post['Due'])) ?>">
+            value="<?= e(formatDate($post['Due'])) ?>">
         </div>
       </div>
       <div class="job-posting-row-double">
         <div class="job-posting-level">
           <label class="job-posting-label">Level:</label>
           <input name="Level" type="text" class="job-posting-value"
-            value="<?= htmlspecialchars($post['Level']) ?>">
+            value="<?= e($post['Level']) ?>">
         </div>
         <div class="job-posting-salary">
           <label class="job-posting-label">Salary:</label>
           <input name="Salary" type="number" class="job-posting-value"
-            value="<?= htmlspecialchars($post['Salary']) ?>">
+            value="<?= e($post['Salary']) ?>">
         </div>
       </div>
 
       <div class="job-posting-description">
         <label class="job-posting-label">Description</label>
         <textarea name="Description" rows="5" cols="500"
-          id="description"><?= htmlspecialchars($post['Description']) ?></textarea>
+          id="description"><?= e($post['Description']) ?></textarea>
       </div>
 
       <!-- File Attachment Section -->
       <?php if (!empty($post['File_description'])): ?>
         <hr class="hr-custom job-posting-hr-custom">
         <div class="job-posting-attachment-wrapper">
-          <a href="<?= UPLOAD_DESC ?>/<?= $post['File_description'] ?>"
+          <a href="<?= e(UPLOAD_DESC . "/" . $post['File_description']) ?>"
             class="job-posting-attachment" download>
             <span class="job-posting-icon"><i class="bi bi-file-earmark-pdf"></i></span>
-            <span class="job-posting-text"><?= htmlspecialchars($post['File_description']) ?></span>
+            <span class="job-posting-text"><?= e($post['File_description']) ?></span>
           </a>
         </div>
       <?php endif; ?>
@@ -96,9 +96,9 @@
               <textarea name="Reason" id="approval-reason" placeholder="Add comment..."></textarea>
             <?php else: ?>
               <textarea name="Reason" id="approval-reason"
-                placeholder="Add comment..."><?= $post['Reason'] ?></textarea>
+                placeholder="Add comment..."><?= e($post['Reason']) ?></textarea>
             <?php endif; ?>
-            <span id="app-status"><?= $post['Status'] ?></span>
+            <span id="app-status"><?= e($post['Status']) ?></span>
           </form>
         </fieldset>
         <div class="company-btn-dlt-and-edit">
@@ -162,7 +162,7 @@
   if (deletebtn) {
     deletebtn.addEventListener('click', async () => {
       if (confirm("Are you sure you want to delete this post?")) {
-        const url = `<?= API ?>jobpost?id=${id}`
+        const url = `${window.API}/jobpost?id=${id}`
         const response = await fetch(url, {
           method: 'DELETE'
         });
@@ -189,7 +189,7 @@
   }
   if (submitbtn) {
     submitbtn.addEventListener("click", async () => {
-      const url = `<?= API ?>jobpost?id=${id}`;
+      const url = `${window.API}/jobpost?id=${id}`;
       // const data = await form2json(form);
       const response = await fetch(url, {
         method: 'POST',

@@ -1,7 +1,7 @@
 <main>
   <div class="box-sign">
     <div class="container-left">
-      <img src="<?= UPLOAD_IMG ?>/job_portal_sign.jpg" alt="">
+      <img src="<?=e(UPLOAD_IMG . "/job_portal_sign.jpg") ?>" alt="">
     </div>
     <div class="container-right">
       <form id="signin-form" action="" method="POST">
@@ -38,7 +38,7 @@
         <div class="btn-form"><button type="submit">Login</button></div>
         <div class="container-register">
           <p>
-            Don't have account? <a href="<?= BASE_URL ?>/signup"> Register here.</a>
+            Don't have account? <a href="<?= e(BASE_URL . "/signup") ?>"> Register here.</a>
           </p>
         </div>
         <div class="container-or">
@@ -47,7 +47,7 @@
 
         <!-- <div class="g-signin2" data-onsuccess="onSignIn" style="width: 5rem; height: 4rem;"></div> -->
         <div class="container-google">
-          <button onclick=""> <img src="<?= UPLOAD_IMG ?>/google.svg" alt=""> Continue with Google</button>
+          <button onclick=""> <img src="<?= e(UPLOAD_IMG . "/google.svg") ?>" alt=""> Continue with Google</button>
         </div>
       </form>
 
@@ -82,7 +82,7 @@
     const username = form.querySelector("#username").value;
     const password = form.querySelector("#password").value;
 
-    const url = "<?= API ?>/auth?action=validate";
+    const url = `${window.API}/auth?action=validate`;
     console.log(url);
     const response = await fetch(url, {
       method: 'POST',

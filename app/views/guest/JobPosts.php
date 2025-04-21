@@ -1,4 +1,3 @@
-<?php include __DIR__ . "/../../utils.php" ?>
 <style>
   .container-pagination a{
     text-decoration: none;
@@ -84,8 +83,8 @@
   
 </div>
 
-<script src="<?= SCRIPT_PATH ?>/pagination.js"></script>
-<script src="<?= SCRIPT_PATH ?>/utils.js"></script>
+<script src="<?= e(SCRIPT_PATH . "/pagination.js") ?>"></script>
+<script src="<?= e(SCRIPT_PATH . "/utils.js") ?>"></script>
 <script>
   const filterBox = document.querySelector(".filter-box");
   const filterBtn = document.querySelector(".filter-box button");

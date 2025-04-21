@@ -1,12 +1,10 @@
-<?php include __DIR__ . '/../../utils.php'; ?>
-
 <div class="container my-3">
     <!-- New job post section -->
     <section class="mb-5">
         <!-- Title -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold title">New job posts</h2>
-            <a href="<?= BASE_URL ?>/jobposts/" class="view-all-button">
+            <a href="<?= e(BASE_URL . "/jobposts/") ?>" class="view-all-button">
                 View all
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-arrow-right ms-1" viewBox="0 0 16 16">
@@ -22,27 +20,27 @@
             <?php else: ?>
                 <?php foreach ($data['latestPosts'] as $post): ?>
                     <!-- A single post -->
-                    <div class="job-post" onclick="viewJobPost(<?= htmlspecialchars($post['ID']) ?>)" style="cursor: pointer;">
+                    <div class="job-post" onclick="viewJobPost(<?= e($post['ID']) ?>)" style="cursor: pointer;">
                         <div class="row align-items-start mb-3">
                             <!-- Company logo -->
                             <div class="col-auto">
                                 <?php if (empty($post['Avatar'])): ?>
                                     <img src="https://placehold.co/69x69" alt="Company logo" class="company-logo">
                                 <?php else: ?>
-                                    <img src="<?= htmlspecialchars(UPLOAD_IMG . $post['Avatar']) ?>"
-                                        alt="<?= htmlspecialchars($post['Company']) ?> logo" width="69" height="69"
+                                    <img src="<?= e(UPLOAD_IMG . $post['Avatar']) ?>"
+                                        alt="<?= e($post['Company']) ?> logo" width="69" height="69"
                                         class="company-logo">
                                 <?php endif; ?>
                             </div>
                             <div class="col">
                                 <!-- Company name -->
-                                <p class="company-name fw-bold mb-2"><?= htmlspecialchars($post['Company']) ?></p>
+                                <p class="company-name fw-bold mb-2"><?= e($post['Company']) ?></p>
                                 <!-- Submit day -->
-                                <p class="submit-day mb-2">Submit <?= formatDate($post['CreatedDate']) ?></p>
+                                <p class="submit-day mb-2">Submit <?= e(formatDate($post['CreatedDate'])) ?></p>
                                 <!-- Job position -->
-                                <p class="job-position fw-bold pt-1 pb-2"><?= htmlspecialchars($post['Postname']) ?></p>
+                                <p class="job-position fw-bold pt-1 pb-2"><?= e($post['Postname']) ?></p>
                                 <!-- Due day -->
-                                <p class="due-day pb-0">Due date: <?= formatDate($post['Due']) ?></p>
+                                <p class="due-day pb-0">Due date: <?= e(formatDate($post['Due'])) ?></p>
                             </div>
                         </div>
                     </div>
@@ -56,7 +54,7 @@
         <!-- Title and View all button -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold title">New applications</h2>
-            <a href="<?= BASE_URL ?>/applications/" class="view-all-button">
+            <a href="<?= e(BASE_URL . "/applications/") ?>" class="view-all-button">
                 View all
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-arrow-right ms-1" viewBox="0 0 16 16">
@@ -73,25 +71,25 @@
                 <?php foreach ($data['recentApp'] as $app): ?>
                     <!-- A single application -->
                     <div class="row job-card"
-                        data-id="<?= htmlspecialchars($app['ID']) ?>"
-                        data-name="<?= htmlspecialchars($app['Fullname']) ?>"
-                        onclick="viewApplication('<?= htmlspecialchars($app['PostID']) ?>', '<?= htmlspecialchars($app['Fullname']) ?>', '<?= htmlspecialchars($app['ID']) ?>')"
+                        data-id="<?= e($app['ID']) ?>"
+                        data-name="<?= e($app['Fullname']) ?>"
+                        onclick="viewApplication('<?= e($app['PostID']) ?>', '<?= e($app['Fullname']) ?>', '<?= e($app['ID']) ?>')"
                         style="cursor: pointer;">
                         <div class="col-12">
                             <div class="d-flex justify-content-between">
-                                <h5><?= $app['Fullname'] ?></h5>
-                                <span class="badge job-status-pending"><?= $app['Status'] ?></span>
+                                <h5><?= e($app['Fullname']) ?></h5>
+                                <span class="badge job-status-pending"><?= e($app['Status']) ?></span>
                             </div>
                             <p class="mb-1">
-                                <i class="bi bi-calendar3"></i> <?= $app['AppliedDate'] ?>
-                                <i class="ml-4 bi bi-geo-alt"></i> <?= $app['Location'] ?>
+                                <i class="bi bi-calendar3"></i> <?= e($app['AppliedDate']) ?>
+                                <i class="ml-4 bi bi-geo-alt"></i> <?= e($app['Location']) ?>
                             </p>
                             <p class="mb-1">
                                 <!-- <i class="bi bi-hash"></i> Software Engineer, JavaScript
                         </p>
                         <p class="mb-0">
                             <i class="bi bi-clock-history"></i> > 2 years experience -->
-                                <?= substr($app['Cover'], 0, min(strlen($app['Cover']), 50)); ?> ...
+                                <?= e(substr($app['Cover'], 0, min(strlen($app['Cover']), 50))) ?> ...
                             </p>
                         </div>
                     </div>

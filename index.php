@@ -1,5 +1,6 @@
 <?php
 include __DIR__ . "/config.php";
+require_once __DIR__ . "/app/utils.php";
 require_once __DIR__ . "/app/controllers/AuthController.php";
 
 session_start();
@@ -42,7 +43,7 @@ $avatarLink = UPLOAD_IMG . "/" . $avatar;
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <!-- CSS styling -->
-    <link rel="stylesheet" href="<?= STYLE_PATH ?>/index.css">
+    <link rel="stylesheet" href="<?= e(STYLE_PATH . "/index.css") ?>">
 
     <?php
     switch ($role) {
@@ -56,18 +57,18 @@ $avatarLink = UPLOAD_IMG . "/" . $avatar;
             $styleFile = 'guest.css';
     }
     ?>
-    <link rel="stylesheet" href="<?= STYLE_PATH . '/' . $styleFile ?>">
+    <link rel="stylesheet" href="<?= e(STYLE_PATH . '/'. $styleFile) ?>">
     
     <?php if (in_array($page, ['signin', 'signup'])): ?>
-        <link rel="stylesheet" href="<?= STYLE_PATH . '/auth/register.css' ?>">
-        <link rel="stylesheet" href="<?= STYLE_PATH . '/auth/login.css' ?>">
+        <link rel="stylesheet" href="<?= e(STYLE_PATH . '/auth/register.css') ?>">
+        <link rel="stylesheet" href="<?= e(STYLE_PATH . '/auth/login.css') ?>">
     <?php endif; ?>
 
     <script>
         window.BASE_URL = "<?= BASE_URL; ?>";
         window.API = "<?= API ?>";
     </script>
-    <script src="<?= SCRIPT_PATH ?>/utils.js"></script>
+    <script src="<?= e(SCRIPT_PATH . "/utils.js") ?>"></script>
     <title>Job Portal</title>
 
 </head>

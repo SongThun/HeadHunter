@@ -119,7 +119,7 @@
   if (deletebtn) {
     deletebtn.addEventListener('click', async () => {
       if (confirm("Are you sure you want to delete this post?")) {
-        const url = `<?= API ?>jobpost?id=${id}`
+        const url = `${window.API}/jobpost?id=${id}`
         const response = await fetch(url, {
           method: 'DELETE'
         });

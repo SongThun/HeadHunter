@@ -25,27 +25,27 @@
   <div class="description">
     <!-- JOB DESCRIPTION -->
     <div class="job-title">
-      <h1><?php echo htmlspecialchars($job['Postname'] ?? 'Job Title Not Available'); ?></h1>
+      <h1><?= e($job['Postname'] ?? 'Job Title Not Available') ?></h1>
     </div>
     <div class="job-description">
       <div class="job-description-sub">
         <div class="applicants">
           <h3>Applicants: </h3>
-          <p><?php echo $job['Applicants_apply']; ?></p>
+          <p><?= e($job['Applicants_apply']) ?></p>
         </div>
         <div class="locations">
           <h3>Location: </h3>
-          <p><?php echo htmlspecialchars($job['Location'] ?? 'Not specified'); ?></p>
+          <p><?= e($job['Location'] ?? 'Not specified') ?></p>
         </div>
       </div>
       <div class="job-description-sub">
         <div class="level">
           <h3>Salary: </h3>
-          <p><?php echo htmlspecialchars($job['Salary'] ?? 'Not specified'); ?></p>
+          <p><?= e($job['Salary'] ?? 'Not specified') ?></p>
         </div>
         <div class="due-date">
           <h3>Due date: </h3>
-          <p><?php echo isset($job['Due']) && !empty($job['Due']) ? date('d/m/Y', strtotime($job['Due'])) : 'Not specified'; ?></p>
+          <p><?= e(isset($job['Due']) && !empty($job['Due']) ? formatDate($job['Due']) : 'Not specified') ?></p>
         </div>
       </div>
       <div class="job-description-section-title">
@@ -55,7 +55,7 @@
         <?php if (isset($job['File_description']) && !empty($job['File_description'])): ?>
           <div class="file-box">
             <div class="pdf-options">
-              <a href="<?= UPLOAD_DESC ?><?php echo htmlspecialchars($job['File_description']); ?>" target="_blank">
+              <a href="<?= e(UPLOAD_DESC . "/" . $job['File_description']) ?>" target="_blank">
                 <i class="fas fa-file-pdf"></i> Download Job Description PDF
               </a>
               <button id="toggle-pdf-viewer" class="btn-view-pdf">
@@ -65,13 +65,13 @@
 
             <div id="pdf-viewer-container" style="display: none; margin-top: 15px;">
               <div class="pdf-viewer-wrapper">
-                <object data="<?= UPLOAD_DESC ?><?php echo htmlspecialchars($job['File_description']); ?>"
+                <object data="<?= e(UPLOAD_DESC . "/" . $job['File_description']) ?>"
                   type="application/pdf"
                   width="100%"
                   height="600px">
                   <p>
                     Your browser doesn't support embedded PDFs.
-                    <a href="<?= UPLOAD_DESC ?><?php echo htmlspecialchars($job['File_description']); ?>">Click here to download the PDF</a>.
+                    <a href="<?= e(UPLOAD_DESC . "/" . $job['File_description']) ?>">Click here to download the PDF</a>.
                   </p>
                 </object>
               </div>
@@ -81,13 +81,13 @@
 
         <div class="job-details">
           <h3>Job Description: </h3>
-          <p><?php echo nl2br(htmlspecialchars($job['Description'] ?? 'No description available')); ?></p>
+          <p><?= nl2br(e($job['Description'] ?? 'No description available')); ?></p>
 
           <h3>Number of Positions: </h3>
-          <p><?php echo htmlspecialchars($job['Applicants_max'] ?? 'Not specified'); ?> candidate(s)</p>
+          <p><?= e($job['Applicants_max'] ?? 'Not specified'); ?> candidate(s)</p>
 
           <h3>Posted Date: </h3>
-          <p><?php echo isset($job['CreatedDate']) ? date('d/m/Y', strtotime($job['CreatedDate'])) : 'Not specified'; ?></p>
+          <p><?= e(formatDate($job['CreatedDate'])) ?></p>
 
         </div>
       </div>
@@ -96,7 +96,7 @@
 
     <!-- APPLICATION FORM -->
     <fieldset>
-      <form method="POST" enctype="multipart/form-data" data-id="<?=$job['ID']?>">
+      <form method="POST" enctype="multipart/form-data" data-id="<?=e($job['ID'])?>">
         <div class="application-form">
           <div class="form-title">
             <h1 style="margin: 2rem 0; color: var(--blue);">Application form</h1>

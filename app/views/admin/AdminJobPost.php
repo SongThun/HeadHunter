@@ -6,19 +6,19 @@
       <div class="list-group status-filter">
         <button value="all"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= ($_GET['status'] ?? '') === 'all' ? 'active' : '' ?>">
-          All <span class="sidebar-badge badge"><?= $statusCounts['all'] ?></span>
+          All <span class="sidebar-badge badge"><?= e($statusCounts['all']) ?></span>
         </button>
         <button value="approved"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= ($_GET['status'] ?? '') === 'approved' ? 'active' : '' ?>">
-          Approved <span class="sidebar-badge badge"><?= $statusCounts['approved'] ?></span>
+          Approved <span class="sidebar-badge badge"><?= e($statusCounts['approved']) ?></span>
         </button>
         <button value="pending"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= empty($_GET['status']) || ($_GET['status'] ?? '') === 'pending' ? 'active' : '' ?>">
-          Pending <span class="sidebar-badge badge"><?= $statusCounts['pending'] ?></span>
+          Pending <span class="sidebar-badge badge"><?= e($statusCounts['pending']) ?></span>
         </button>
         <button value="disapproved"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= ($_GET['status'] ?? '') === 'disapproved' ? 'active' : '' ?>">
-          Disapproved <span class="sidebar-badge badge"><?= $statusCounts['disapproved'] ?></span>
+          Disapproved <span class="sidebar-badge badge"><?= e($statusCounts['disapproved']) ?></span>
         </button>
       </div>
     </div>
@@ -58,8 +58,8 @@
   </div>
 </div>
 
-<script src="<?= SCRIPT_PATH ?>/pagination.js"></script>
-<script src="<?= SCRIPT_PATH ?>/utils.js"></script>
+<script src="<?= e(SCRIPT_PATH . "/pagination.js") ?>"></script>
+<script src="<?= e(SCRIPT_PATH . "/utils.js") ?>"></script>
 
 <script>
   const createbtn = document.querySelector("#admin-post-create");

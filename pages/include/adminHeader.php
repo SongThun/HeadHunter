@@ -12,9 +12,9 @@ $active_state[$page] = "active-list";
           <h2>PORTAL</h2>
         </div>
         <div class="list">
-          <button data-href="<?= BASE_URL . '/home/' ?>" class="sub-list <?= $active_state['home'] ?>">Home</button>
-          <button data-href="<?= BASE_URL . '/jobposts/' ?>" class="sub-list <?= $active_state['jobposts'] ?>">Job Post</button>
-          <button data-href="<?= BASE_URL . '/applications/' ?>" class="sub-list <?= $active_state['applications'] ?>">Applications</button>
+          <button data-href="<?= e(BASE_URL . '/home/') ?>" class="sub-list <?= $active_state['home'] ?>">Home</button>
+          <button data-href="<?= e(BASE_URL . '/jobposts/') ?>" class="sub-list <?= $active_state['jobposts'] ?>">Job Post</button>
+          <button data-href="<?= e(BASE_URL . '/applications/') ?>" class="sub-list <?= $active_state['applications'] ?>">Applications</button>
         </div>
       </div>
 
@@ -22,17 +22,17 @@ $active_state[$page] = "active-list";
         <div class="dropdown">
           <button class="btn dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <!-- Avatar công ty -->
-            <img class="avatar" src="<?= $avatarLink ?>" alt="avatar">
+            <img class="avatar" src="<?= e($avatarLink) ?>" alt="avatar">
             <i class="bi bi-chevron-down"></i>
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="<?= API ?>/auth?action=logout">Log out</a></li>
+            <li><a class="dropdown-item" href="<?= e(API . "/auth?action=logout")?>" >Log out</a></li>
           </ul>
         </div>
       </div>
 
       <div class="avatar-toggle">
-        <img src="<?= $avatarLink ?>" alt="Avatar" class="avatar">
+        <img src="<?= e($avatarLink) ?>" alt="Avatar" class="avatar">
         <button class="toggle-btn" aria-label="Toggle menu">
           <i class="bi bi-chevron-down"></i>
         </button>
@@ -40,10 +40,10 @@ $active_state[$page] = "active-list";
 
       <div class="mobile-menu">
         <ul>
-          <li><button data-href="<?= BASE_URL . '/home/' ?>" class="sub-list <?= $active_state['home'] ?>">Home</button></li>
-          <li><button data-href="<?= BASE_URL . '/jobposts/' ?>" class="sub-list <?= $active_state['jobposts'] ?>">Job Post</button></li>
-          <li><button data-href="<?= BASE_URL . '/applications/' ?>" class="sub-list <?= $active_state['applications'] ?>">Applications</button></li>
-          <li><button data-href="<?= API ?>/auth?action=logout" class="nav-btn-sign-up">Log out</button></li>
+          <li><button data-href="<?= e(BASE_URL . '/home/') ?>" class="sub-list <?= $active_state['home'] ?>">Home</button></li>
+          <li><button data-href="<?= e(BASE_URL . '/jobposts/') ?>" class="sub-list <?= $active_state['jobposts'] ?>">Job Post</button></li>
+          <li><button data-href="<?= e(BASE_URL . '/applications/') ?>" class="sub-list <?= $active_state['applications'] ?>">Applications</button></li>
+          <li><button data-href="<?= e(API . "/auth?action=logout") ?>" class="nav-btn-sign-up">Log out</button></li>
         </ul>
       </div>
     </div>

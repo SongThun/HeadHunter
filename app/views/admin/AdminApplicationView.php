@@ -54,7 +54,7 @@
     }
   });
 </script>
-<script src="<?= SCRIPT_PATH ?>/pagination.js"></script>
+<script src="<?= e(SCRIPT_PATH . "/pagination.js") ?>"></script>
 <script>
   const loadSuccess = (job) => {
     return `<div class="row job-card" data-id="${job.ID}" data-name="${escapeHTML(job.Postname)}">

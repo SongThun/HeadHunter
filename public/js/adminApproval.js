@@ -25,7 +25,7 @@ editbtn.addEventListener("click", () => {
   checkBtnDisplay("pending");
 });
 async function approvalFormSubmit(reason, status) {
-  const url = `<?= API ?>approval?appid=<?= $app['ID'] ?>`;
+  const url = `${window.API}/approval?appid=<?= $app['ID'] ?>`;
   const response = await fetch(url, {
     method: "PUT",
     headers: {

@@ -359,7 +359,7 @@ main {
         <?php if (isset($job['File_description']) && !empty($job['File_description'])): ?>
           <div class="file-box">
             <div class="pdf-options">
-              <a href="<?= UPLOAD_DESC ?>/<?= htmlspecialchars($job['File_description']); ?>" target="_blank">
+              <a href="<?= e(UPLOAD_DESC . "/" . $job['File_description']) ?>" target="_blank">
                 <i class="fas fa-file-pdf"></i> Download Job Description PDF
               </a>
               <button id="toggle-pdf-viewer" class="btn-view-pdf">
@@ -369,13 +369,13 @@ main {
 
             <div id="pdf-viewer-container" style="display: none; margin-top: 15px;">
               <div class="pdf-viewer-wrapper">
-                <object data="<?= UPLOAD_DESC?>/<?= htmlspecialchars($job['File_description']); ?>"
+                <object data="<?= e(UPLOAD_DESC . "/" . $job['File_description']); ?>"
                   type="application/pdf"
                   width="100%"
                   height="600px">
                   <p>
                     Your browser doesn't support embedded PDFs.
-                    <a href="<?= UPLOAD_DESC ?>/<?= htmlspecialchars($job['File_description']); ?>">Click here to download the PDF</a>.
+                    <a href="<?= e(UPLOAD_DESC . "/" . $job['File_description']) ?>">Click here to download the PDF</a>.
                   </p>
                 </object>
               </div>
@@ -385,13 +385,13 @@ main {
 
         <div class="job-details">
           <h3>Job Description: </h3>
-          <p><?php echo nl2br(htmlspecialchars($job['Description'] ?? 'No description available')); ?></p>
+          <p><?= nl2br(e($job['Description'] ?? 'No description available')) ?></p>
 
           <h3>Number of Positions: </h3>
-          <p><?php echo htmlspecialchars($job['Applicants_max'] ?? 'Not specified'); ?> candidate(s)</p>
+          <p><?= e($job['Applicants_max'] ?? 'Not specified') ?> candidate(s)</p>
 
           <h3>Posted Date: </h3>
-          <p><?php echo isset($job['CreatedDate']) ? date('d/m/Y', strtotime($job['CreatedDate'])) : 'Not specified'; ?></p>
+          <p><?= e(formatDate($job['CreatedDate'])) ?></p>
 
         </div>
       </div>
@@ -411,39 +411,39 @@ main {
             <div class="form-row">
               <div class="form-row-half">
                 <label for="full-name"><span style="color: red; margin-right: .2rem;">*</span>Full Name</label>
-                <input type="text" name="Fullname" id="" value="<?= $app['Fullname'] ?>" required>
+                <input type="text" name="Fullname" id="" value="<?= e($app['Fullname']) ?>" required>
               </div>
               <div class="form-row-half">
                 <label for="email-applicant"><span style="color: red; margin-right: .2rem;">*</span>Email</label>
-                <input type="email" name="Email" id="" value="<?= $app['Email'] ?>" required>
+                <input type="email" name="Email" id="" value="<?= e($app['Email']) ?>" required>
               </div>
             </div>
             <div class="form-row">
               <div class="form-row-half">
                 <label for="phone-num"><span style="color: red; margin-right: .2rem;">*</span>Phone Number</label>
-                <input type="tel" name="Phone" id="" value="<?= $app['Phone'] ?>" required>
+                <input type="tel" name="Phone" id="" value="<?= e($app['Phone']) ?>" required>
               </div>
               <div class="form-row-half">
                 <label for="district"><span style="color: red; margin-right: .2rem;">*</span>Location</label>
-                <input type="text" name="Location" id="" value="<?= $app['Location'] ?>" required>
+                <input type="text" name="Location" id="" value="<?= e($app['Location']) ?>" required>
               </div>
             </div>
 
             <div class="form-row-1">
               <label for="level"><span style="color: red; margin-right: .2rem;">*</span>Level</label>
-              <input type="text" name="Level" id="" value="<?= $app['Level'] ?>" required>
+              <input type="text" name="Level" id="" value="<?= e($app['Level']) ?>" required>
             </div>
             <div class="form-row-1">
               <div class="job-posting-attachment-wrapper">
-                <a href="<?= UPLOAD_APP . "/" . $job['ID'] . "/" . $app['File_CV'] ?>" class="job-posting-attachment" download>
+                <a href="<?= e(UPLOAD_APP . "/" . $job['ID'] . "/" . $app['File_CV']) ?>" class="job-posting-attachment" download>
                   <span class="job-posting-icon"><i class="bi bi-file-earmark-pdf"></i></span>
-                  <p class="job-posting-text"><?= htmlspecialchars($app['File_CV']) ?></p>
+                  <p class="job-posting-text"><?= e($app['File_CV']) ?></p>
                 </a>
               </div>
             </div>
             <div class="form-row-1">
                 <label for="cover-letter"><span style="color: red; margin-right: .2rem;">*</span>Cover Letter</label>
-                <textarea name="cover" id="cover-letter" rows="10" cols="30" required><?= $app['Cover'] ?></textarea>
+                <textarea name="cover" id="cover-letter" rows="10" cols="30" required><?= e($app['Cover']) ?></textarea>
             </div>
           </div>
 
@@ -454,14 +454,14 @@ main {
 
     <!-- OPTION[ADMIN]: APPROVAL FORM -->
     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-      <fieldset data-value="<?= $app['Status'] ?>" id="admin-approval-form" <?= $app['Status'] == 'pending' ? "" : "disabled" ?>>
+      <fieldset data-value="<?= e($app['Status']) ?>" id="admin-approval-form" <?= $app['Status'] == 'pending' ? "" : "disabled" ?>>
         <form action="">
           <?php if ($app['Status'] == 'pending'): ?>
             <textarea name="Reason" id="approval-reason" placeholder="Add comment..."></textarea>
           <?php else: ?>
-            <textarea name="Reason" id="approval-reason" placeholder="Add comment..."><?= $app['Reason'] ?></textarea>
+            <textarea name="Reason" id="approval-reason" placeholder="Add comment..."><?= e($app['Reason']) ?></textarea>
           <?php endif; ?>
-          <span id="app-status"><?= $app['Status'] ?></span>
+          <span id="app-status"><?= e($app['Status']) ?></span>
         </form>
       </fieldset>
       <button id="accept-btn" value="accept" class="btn job-posting-btn-custom job-posting-btn-approve">Accept</button>
@@ -496,4 +496,4 @@ main {
   });
 </script>
 
-<script src="<?= SCRIPT_PATH ?>/adminApproval.js"></script>
+<script src="<?= e(SCRIPT_PATH . "/adminApproval.js")?>></script>

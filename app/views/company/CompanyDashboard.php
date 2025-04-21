@@ -6,19 +6,19 @@
       <div class="list-group status-filter">
         <button value="all"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-          All <span class="sidebar-badge badge"><?= $counts['all'] ?></span>
+          All <span class="sidebar-badge badge"><?= e($counts['all']) ?></span>
         </button>
         <button value="approved"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-          Approved <span class="sidebar-badge badge"><?= $counts['approved'] ?></span>
+          Approved <span class="sidebar-badge badge"><?= e($counts['approved']) ?></span>
         </button>
         <button value="pending"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-          Pending <span class="sidebar-badge badge"><?= $counts['pending'] ?></span>
+          Pending <span class="sidebar-badge badge"><?= e($counts['pending']) ?></span>
         </button>
         <button value="disapproved"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-          Disapproved <span class="sidebar-badge badge"><?= $counts['disapproved'] ?></span>
+          Disapproved <span class="sidebar-badge badge"><?= e($counts['disapproved']) ?></span>
         </button>
       </div>
     </div>
@@ -67,7 +67,7 @@
       <div class="company-info mb-4 d-flex flex-column align-items-center">
         <img src="https://images.icon-icons.com/167/PNG/512/nvidia_23133.png" alt="Company Logo" class="mb-2"
           style="width: 120px; height: 120px;">
-        <h4><?= $_SESSION['displayName'] ?></h4>
+        <h4><?= e($_SESSION['displayName'] )?></h4>
         <div class="company-info_notification d-flex flex-column align-items-center">
           <!-- <p>10 jobs post last week</p>
           <p>150 approved applicants last week</p> -->
@@ -78,9 +78,9 @@
       <div class="notifications">
         <h4 class="mb-4">Notification</h4>
         <?php foreach ($notis as $noti): ?>
-          <div data-id="<?= $noti['PostID'] ?>" class="notification-item d-flex justify-content-between">
-            <span><?= $noti['Description'] ?></span>
-            <span><?= $noti['Type'] ?></span>
+          <div data-id="<?= e($noti['PostID']) ?>" class="notification-item d-flex justify-content-between">
+            <span><?= e($noti['Description']) ?></span>
+            <span><?= e($noti['Type']) ?></span>
           </div>
         <?php endforeach; ?>
       </div>
@@ -109,8 +109,8 @@
   });
 </script>
 
-<script src="<?= SCRIPT_PATH ?>/pagination.js"></script>
-<script src="<?= SCRIPT_PATH ?>/utils.js"></script>
+<script src="<?= e(SCRIPT_PATH . "/pagination.js") ?>"></script>
+<script src="<?= e(SCRIPT_PATH . "/utils.js") ?>"></script>
 <script>
   const loadSuccess = (job) => {
     return `<div class="row job-card" data-id="${job.ID}" data-name="${escapeHTML(job.Postname)}">
@@ -141,7 +141,7 @@
     return window.BASE_URL + '/jobpost/view/' + `${slugify(name)}-${id}`
   }
   
-  state.filter.id = "<?= $_SESSION['userid'] ?>";
+  state.filter.id = "<?= e($_SESSION['userid']) ?>";
 
   const loadPost = getLoader(loadSuccess, loadFail, destGen);
 

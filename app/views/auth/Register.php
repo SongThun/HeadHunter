@@ -60,7 +60,7 @@
         <div class="btn-form"><button type="submit">Register</button></div>
         <div class="container-register">
           <p>
-            Already have account? <a href="<?= BASE_URL ?>/signin"> Login here.</a>
+            Already have account? <a href="<?= e(BASE_URL . "/signin") ?>"> Login here.</a>
           </p>
         </div>
 
@@ -98,7 +98,7 @@
     }
     const email = form.querySelector("#email").value;
     const company = form.querySelector("#company").value;
-    const url = "<?= API ?>/auth?action=register";
+    const url = `${window.API}/auth?action=register`;
     console.log(url);
     const response = await fetch(url, {
       method: 'POST',

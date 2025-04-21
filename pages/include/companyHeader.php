@@ -12,17 +12,17 @@
         <div class="dropdown">
           <button class="btn dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <!-- Ảnh công ty, thay nếu cần -->
-            <img class="avatar" src="<?= $avatarLink?>" alt="avatar">
+            <img class="avatar" src="<?= e($avatarLink)?>" alt="avatar">
             <i class="bi bi-chevron-down"></i>
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item text-centered" href="<?= API ?>/auth?action=logout">Log out</a></li>
+            <li><a class="dropdown-item text-centered" href="<?= e(API . "/auth?action=logout") ?>" >Log out</a></li>
           </ul>
         </div>
       </div>
 
       <div class="avatar-toggle">
-        <img src="<?= $avatarLink?>" alt="Avatar" class="avatar">
+        <img src="<?= e($avatarLink) ?>" alt="Avatar" class="avatar">
         <button class="toggle-btn" aria-label="Toggle menu">
           <i class="bi bi-chevron-down"></i>
         </button>
@@ -30,7 +30,7 @@
 
       <div class="mobile-menu">
         <ul>
-          <li><a href="<?= API ?>/auth?action=logout">Log out</a></li>
+          <li><a href="<?= e(API . "/auth?action=logout") ?>" >Log out</a></li>
         </ul>
       </div>
     </div>

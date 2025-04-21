@@ -7,13 +7,13 @@
             Start your career journey with Job Portal today!</h3>
           </div>
           <div class="container-list-btn">
-            <div class="container-btn"><a href=""><button>Register Now</button></a></div>
-            <div class="container-btn"><a href=""><button>Apply for job</button></a></div>
+            <div class="container-btn"><a href="<?= e(BASE_URL . '/signup/')?>"><button>Register Now</button></a></div>
+            <div class="container-btn"><a href="<?= e(BASE_URL . '/jobposts/')?>"><button>Apply for job</button></a></div>
           </div>
         </div>
         <div class="container-right">
           <div class="container-img">
-            <img src="<?=UPLOAD_IMG?>/job_portal_home.jpg" alt="">
+            <img src="<?=e(UPLOAD_IMG . "/job_portal_home.jpg") ?>" alt="">
           </div>
           <div class="container-contact">
             <div class="container-contact-each"><p>Our social media</p></div>
@@ -25,9 +25,9 @@
         </div>
       </div>
       <div class="container-big second" id="contact">
-           <img src="<?=UPLOAD_IMG?>/job_portal_home2.svg" alt="">
+           <img src="<?=e(UPLOAD_IMG . "/job_portal_home2.svg") ?>" alt="">
       </div>
       <div class="container-big second" id="help">
-        <img src="<?=UPLOAD_IMG?>/Guidance.svg" alt="" style="margin-left: 2%;">
+        <img src="<?=e(UPLOAD_IMG . "/Guidance.svg") ?>" alt="" style="margin-left: 2%;">
       </div>
 </main>
