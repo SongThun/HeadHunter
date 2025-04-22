@@ -166,10 +166,10 @@
           </fieldset>
           <div class="company-btn-dlt-and-edit">
             <button id="approve-btn" value="approved"
-              class="btn job-posting-btn-custom job-posting-btn-approve">Approve</button>
+              class="btn job-posting-btn-custom job-posting-btn-approve" style="background: var(--blue)">Approve</button>
             <button id="disapprove-btn" value="disapproved"
-              class="btn job-posting-btn-custom job-posting-btn-disapprove">Disapprove</button>
-            <button id="approve-edit-btn" class="btn job-posting-btn-custom job-posting-btn-approve">Edit</button>
+              class="btn job-posting-btn-custom job-posting-btn-disapprove" style="background: var(--blue)">Disapprove</button>
+            <button id="approve-edit-btn" class="btn job-posting-btn-custom job-posting-btn-approve" style="background: var(--blue)">Edit</button>
           </div>
         </div>
       <?php endif; ?>

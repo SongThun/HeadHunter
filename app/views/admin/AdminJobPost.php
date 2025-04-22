@@ -1,10 +1,14 @@
+<?php
+$currentStatus = $_GET['status'] ?? 'pending'; // default to 'pending' if not set
+?>
+
 <main style="flex: 1;">
 <div class="container-fluid">
   <div class="row">
     <!-- Sidebar -->
     <div class="col-md-2 col-lg-2 sidebar p-3 mt-3">
       <button id="admin-post-create" class="create-new-btn btn w-100 mb-3">Create new job</button>
-      <div class="list-group status-filter">
+      <!-- <div class="list-group status-filter">
         <button value="all"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= ($_GET['status'] ?? '') === 'all' ? 'active' : '' ?>">
           All <span class="sidebar-badge badge"><?= e($statusCounts['all']) ?></span>
@@ -21,7 +25,27 @@
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= ($_GET['status'] ?? '') === 'disapproved' ? 'active' : '' ?>">
           Disapproved <span class="sidebar-badge badge"><?= e($statusCounts['disapproved']) ?></span>
         </button>
-      </div>
+      </div> -->
+
+      <div class="list-group status-filter">
+  <button value="all"
+    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= $currentStatus === 'all' ? 'active' : '' ?>">
+    All <span class="sidebar-badge badge"><?= e($statusCounts['all']) ?></span>
+  </button>
+  <button value="approved"
+    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= $currentStatus === 'approved' ? 'active' : '' ?>">
+    Approved <span class="sidebar-badge badge"><?= e($statusCounts['approved']) ?></span>
+  </button>
+  <button value="pending"
+    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= $currentStatus === 'pending' ? 'active' : '' ?>">
+    Pending <span class="sidebar-badge badge"><?= e($statusCounts['pending']) ?></span>
+  </button>
+  <button value="disapproved"
+    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= $currentStatus === 'disapproved' ? 'active' : '' ?>">
+    Disapproved <span class="sidebar-badge badge"><?= e($statusCounts['disapproved']) ?></span>
+  </button>
+</div>
+
     </div>
 
     <!-- Main content -->
@@ -62,6 +86,18 @@
 
 <script src="<?= e(SCRIPT_PATH . "/pagination.js") ?>"></script>
 <script src="<?= e(SCRIPT_PATH . "/utils.js") ?>"></script>
+
+<!-- <script>
+  document.querySelectorAll('.status-filter button').forEach(button => {
+    button.addEventListener('click', () => {
+      const status = button.value;
+      const url = new URL(window.location);
+      url.searchParams.set('status', status);
+      window.location = url.toString();
+    });
+  });
+</script> -->
+
 
 <script>
   const createbtn = document.querySelector("#admin-post-create");
