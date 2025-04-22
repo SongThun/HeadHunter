@@ -55,6 +55,35 @@ class GuestController
         $id = $_GET['postid'];
         switch ($method) {
             case 'POST':
+                // Format location data
+                if (!empty($_POST['ProvinceCode']) && !empty($_POST['DistrictCode'])) {
+                    // Connect to database
+                    $db = new mysqli('localhost', 'root', '', 'jobhunter');
+                    
+                    if (!$db->connect_error) {
+                        // Get district name
+                        $sql = "SELECT name FROM districts WHERE code = ?";
+                        $stmt = $db->prepare($sql);
+                        $stmt->bind_param('s', $_POST['DistrictCode']);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $districtName = ($result->num_rows > 0) ? $result->fetch_assoc()['name'] : '';
+                        
+                        // Get province name
+                        $sql = "SELECT name FROM provinces WHERE code = ?";
+                        $stmt = $db->prepare($sql);
+                        $stmt->bind_param('s', $_POST['ProvinceCode']);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $provinceName = ($result->num_rows > 0) ? $result->fetch_assoc()['name'] : '';
+                        
+                        if ($districtName && $provinceName) {
+                            $_POST['Location'] = "$districtName, $provinceName";
+                        }
+                        
+                        $db->close();
+                    }
+                }
                 // $id = end($postname);
                 $data = $this->prepare_data_applicant($id);
                 $res = $this->app->apply($id, $data);
@@ -69,9 +98,24 @@ class GuestController
     private function prepare_data_applicant($id)
     {
         $data = $_POST;
-        $data["Location"] = $_POST["Address"] . ", " . $_POST["District"] . ", " . $_POST["City"];
-        $savePath = $id . "_" . basename($_FILES["File_CV"]["name"]);
-        $data["File_CV"] = $savePath;
+        
+        // Check if we already have a formatted Location from the province/district dropdowns
+        if (!isset($data['Location']) || empty($data['Location'])) {
+            // For backward compatibility - if using old code that still submits District and City
+            if (isset($data['District']) && isset($data['City'])) {
+                $data["Location"] = $data["Address"] . ", " . $data["District"] . ", " . $data["City"];
+            } else {
+                // Default to just the address if no location components are present
+                $data["Location"] = $data["Address"];
+            }
+        }
+        
+        // Handle file upload
+        if (isset($_FILES["File_CV"]) && $_FILES["File_CV"]["error"] == 0) {
+            $savePath = $id . "_" . basename($_FILES["File_CV"]["name"]);
+            $data["File_CV"] = $savePath;
+        }
+        
         return $data;
     }
 }

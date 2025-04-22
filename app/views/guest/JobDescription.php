@@ -1,3 +1,36 @@
+<?php
+// Fetch provinces directly in the view
+function getProvinces() {
+    try {
+        // Direct database connection matching the api.php approach
+        $db = new mysqli('localhost', 'root', '', 'jobhunter');
+        
+        if ($db->connect_error) {
+            error_log("Database connection failed: " . $db->connect_error);
+            return [];
+        }
+        
+        $sql = "SELECT code, name FROM provinces ORDER BY name";
+        $result = $db->query($sql);
+        
+        $provinces = [];
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $provinces[] = $row;
+            }
+        }
+        
+        $db->close();
+        return $provinces;
+    } catch (Exception $e) {
+        error_log("Error in getProvinces: " . $e->getMessage());
+        return [];
+    }
+}
+
+$provinces = getProvinces();
+?>
+
 <style>
   #unique {
     border: 1px dashed #999;
@@ -161,14 +194,22 @@
                 <input type="text" name="Address" id="" required>
               </div>
             </div>
+            <!-- Replace existing location input fields with these dropdown selects -->
             <div class="form-row">
               <div class="form-row-half">
-                <label for="district"><span style="color: red; margin-right: .2rem;">*</span>District</label>
-                <input type="text" name="District" id="" required>
+                <label for="province-select"><span style="color: red; margin-right: .2rem;">*</span>City/Province</label>
+                <select name="ProvinceCode" id="province-select" required onchange="loadDistricts(this.value)">
+                  <option value="">Select City/Province</option>
+                  <?php foreach ($provinces as $province): ?>
+                    <option value="<?= htmlspecialchars($province['code']) ?>"><?= htmlspecialchars($province['name']) ?></option>
+                  <?php endforeach; ?>
+                </select>
               </div>
               <div class="form-row-half">
-                <label for="city"><span style="color: red; margin-right: .2rem;">*</span>City</label>
-                <input type="text" name="City" id="" required>
+                <label for="district-select"><span style="color: red; margin-right: .2rem;">*</span>District</label>
+                <select name="DistrictCode" id="district-select" required disabled>
+                  <option value="">Select District First</option>
+                </select>
               </div>
             </div>
             <div class="form-row-1">
@@ -198,6 +239,8 @@
             <button id="apply" type="submit">Apply Now</button>
           </div>
         </div>
+        <!-- Hidden field to store the combined location string -->
+        <input type="hidden" name="Location" id="location-combined">
       </form>
     </fieldset>
     <!-- END APPLICATION FORM -->
@@ -307,4 +350,82 @@
       });
     }
   });
+</script>
+<script>
+// Replace the existing loadDistricts function with this updated version
+
+function loadDistricts(provinceCode) {
+  const districtSelect = document.getElementById('district-select');
+  
+  // Clear existing options
+  while (districtSelect.options.length > 1) {
+    districtSelect.remove(1);
+  }
+  
+  if (!provinceCode) {
+    districtSelect.disabled = true;
+    districtSelect.options[0].text = "Select District First";
+    return;
+  }
+  
+  // Show loading
+  districtSelect.disabled = true;
+  districtSelect.options[0].text = "Loading...";
+  
+  // Use direct endpoint instead of API router
+  const apiUrl = `${window.BASE_URL}/public/getDistricts.php?province=${provinceCode}`;
+  console.log("Fetching districts from:", apiUrl);
+  
+  fetch(apiUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(districts => {
+      console.log("Districts loaded:", districts);
+      
+      // Reset placeholder
+      districtSelect.options[0].text = "Select District";
+      
+      // Add new options
+      if (Array.isArray(districts) && districts.length > 0) {
+        districts.forEach(district => {
+          const option = document.createElement('option');
+          option.value = district.code;
+          option.textContent = district.name;
+          districtSelect.appendChild(option);
+        });
+        
+        // Enable the select
+        districtSelect.disabled = false;
+      } else {
+        console.log("No districts found for province:", provinceCode);
+        districtSelect.options[0].text = "No districts available";
+      }
+    })
+    .catch(error => {
+      console.error("Error loading districts:", error);
+      districtSelect.options[0].text = "Error loading districts";
+    });
+}
+
+// Handle form submission to create the combined location string
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('form[data-id]');
+  if (form) {
+    form.addEventListener('submit', function() {
+      const provinceSelect = document.getElementById('province-select');
+      const districtSelect = document.getElementById('district-select');
+      const locationCombined = document.getElementById('location-combined');
+      
+      if (provinceSelect.selectedIndex > 0 && districtSelect.selectedIndex > 0) {
+        const provinceName = provinceSelect.options[provinceSelect.selectedIndex].text;
+        const districtName = districtSelect.options[districtSelect.selectedIndex].text;
+        locationCombined.value = `${districtName}, ${provinceName}`;
+      }
+    });
+  }
+});
 </script>
