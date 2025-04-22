@@ -197,7 +197,7 @@ main {
   color: white;
   border: none;
   height: 100% !important;
-  height: 3.35rem !important;
+  height: 3.65rem !important;
   border-radius: 8px;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
