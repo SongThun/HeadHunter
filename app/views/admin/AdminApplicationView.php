@@ -1,4 +1,5 @@
 <!-- LANDING PAGE OF ADMIN APPLICATIONS -->
+<main>
 <div class="container-fluid">
   <div class="row">
     <div class="col-12 p-2">
@@ -36,6 +37,7 @@
     </div>
   </div>
 </div>
+</main>
 
 <script>
   function toggleSidebar() {

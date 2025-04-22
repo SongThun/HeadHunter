@@ -324,6 +324,13 @@ main {
 }
 </style>
 
+<style>
+  .btn.job-posting-btn-custom{
+    background: var(--blue);
+  }
+</style>
+
+<main>
 <div class="outside-description" style="background: white;">
 
   <div class="description">
@@ -357,9 +364,9 @@ main {
       </div>
       <div class="job-description-section">
         <?php if (isset($job['File_description']) && !empty($job['File_description'])): ?>
-          <div class="file-box">
-            <div class="pdf-options">
-              <a href="<?= e(UPLOAD_DESC . "/" . $job['File_description']) ?>" target="_blank">
+          <div class="file-box" style="min-width: 20rem;">
+            <div class="pdf-options" >
+              <a href="<?= e(UPLOAD_DESC . "/" . $job['File_description']) ?>" target="_blank" >
                 <i class="fas fa-file-pdf"></i> Download Job Description PDF
               </a>
               <button id="toggle-pdf-viewer" class="btn-view-pdf">
@@ -472,6 +479,8 @@ main {
 
   </div>
 </div>
+</main>
+
 
 
 <script>

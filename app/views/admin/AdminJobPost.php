@@ -1,3 +1,4 @@
+<main style="flex: 1;">
 <div class="container-fluid">
   <div class="row">
     <!-- Sidebar -->
@@ -57,6 +58,7 @@
     </div>
   </div>
 </div>
+</main>
 
 <script src="<?= e(SCRIPT_PATH . "/pagination.js") ?>"></script>
 <script src="<?= e(SCRIPT_PATH . "/utils.js") ?>"></script>

@@ -1,3 +1,4 @@
+<main>
 <div class="container my-3">
     <!-- New job post section -->
     <section class="mb-5">
@@ -99,6 +100,7 @@
     </section>
 </div>
 
+</main>
 <script>
     function viewJobPost(postId) {
         window.location.href = `${window.BASE_URL}/jobpost/view/${postId}/`
