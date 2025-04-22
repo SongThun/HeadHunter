@@ -505,4 +505,4 @@ main {
   });
 </script>
 
-<script src="<?= e(SCRIPT_PATH . "/adminApproval.js")?>></script>
+<script src="<?= e(SCRIPT_PATH . "/adminApproval.js")?>"></script>

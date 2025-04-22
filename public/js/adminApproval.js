@@ -5,6 +5,7 @@ const approvalForm = document.querySelector("#admin-approval-form");
 const status = approvalForm.dataset.value;
 const statusResult = document.querySelector("#app-status");
 
+console.log(acceptbtn, rejectbtn);
 function checkBtnDisplay(status) {
   if (status == "pending") {
     editbtn.style.display = "none";
