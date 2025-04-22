@@ -214,6 +214,7 @@
       });
     })
     document.addEventListener('DOMContentLoaded', () => {
+      state.filter.status = "approved";
       loadPostGuest(state.sort, state.filter, 1);
     })
 </script>

@@ -1,24 +1,25 @@
 <style>
-    #unique{
-      border: 1px dashed #999;
-      display: flex;
-      align-items: center; 
-      justify-content: center;
-      min-height: 100px; 
-      width: 100%; 
-      border-radius: 10px; 
-      transition: .3s; 
-      cursor: pointer;
+  #unique {
+    border: 1px dashed #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    width: 100%;
+    border-radius: 10px;
+    transition: .3s;
+    cursor: pointer;
 
-      white-space: pre-wrap; 
-      overflow-wrap: break-word; 
-      text-align: center;
-      flex-wrap: wrap; 
-    }
-    #unique:hover{
-      color: #1DA1F2;
-      border: 1px dashed #1DA1F2;
-    }
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    text-align: center;
+    flex-wrap: wrap;
+  }
+
+  #unique:hover {
+    color: #1DA1F2;
+    border: 1px dashed #1DA1F2;
+  }
 </style>
 
 <div class="outside-description">
@@ -52,6 +53,7 @@
         <h3>Description</h3>
       </div>
       <div class="job-description-section">
+        <!--         
         <?php if (isset($job['File_description']) && !empty($job['File_description'])): ?>
           <div class="file-box">
             <div class="pdf-options">
@@ -75,10 +77,46 @@
                   </p>
                 </object>
               </div>
+
+
             </div>
           </div>
-        <?php endif; ?>
+        <?php endif; ?> -->
+        <!-- <div id="existing-file-list">
+          <php
+          $folderPath = realpath(dirname(__DIR__) . "/../../public/upload/descriptions/" . $job['ID']);
+          if (is_dir($folderPath)) {
+            $files = glob($folderPath . "/*");
+            foreach ($files as $file) {
+              $fileName = basename($file);
+              echo "<div class='file-item existing' data-filename='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
+                    <span>" . e($fileName) . "</span>
+                    <button class='delete-btn'>Delete</button>
+                    <input type='hidden' name='ExistingFiles[]' value='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
+                  </div>";
+            }
+          }
+          ?>
+        </div> -->
 
+        <div id="existing-file-list">
+  <?php
+  $folderPath = realpath(dirname(__DIR__) . "/../../public/upload/descriptions/" . $job['ID']);
+  $relativePath = UPLOAD_DESC ."/" . $job['ID']; // Public-facing relative URL path
+
+  if (is_dir($folderPath)) {
+    $files = glob($folderPath . "/*");
+    foreach ($files as $file) {
+      $fileName = basename($file);
+      $fileUrl = htmlspecialchars($relativePath . "/" . $fileName, ENT_QUOTES);
+      echo "<div class='file-item existing' data-filename='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
+        <a href='" . $fileUrl . "' download target='_blank'>" . htmlspecialchars($fileName) . "</a>
+        <input type='hidden' name='ExistingFiles[]' value='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
+      </div>";
+    }
+  }
+  ?>
+</div>
         <div class="job-details">
           <h3>Job Description: </h3>
           <p><?= nl2br(e($job['Description'] ?? 'No description available')); ?></p>
@@ -96,7 +134,7 @@
 
     <!-- APPLICATION FORM -->
     <fieldset>
-      <form method="POST" enctype="multipart/form-data" data-id="<?=e($job['ID'])?>">
+      <form method="POST" enctype="multipart/form-data" data-id="<?= e($job['ID']) ?>">
         <div class="application-form">
           <div class="form-title">
             <h1 style="margin: 2rem 0; color: var(--blue);">Application form</h1>
@@ -163,7 +201,7 @@
       </form>
     </fieldset>
     <!-- END APPLICATION FORM -->
-     
+
   </div>
 </div>
 </main>
@@ -182,28 +220,28 @@
     }
   }
 
-  input.addEventListener("change", function () {
+  input.addEventListener("change", function() {
     updateLabel(this.files);
   });
 
-  label.addEventListener("dragover", function (e) {
+  label.addEventListener("dragover", function(e) {
     e.preventDefault();
     label.classList.add("dragover");
   });
 
-  label.addEventListener("dragleave", function () {
+  label.addEventListener("dragleave", function() {
     label.classList.remove("dragover");
   });
 
-  label.addEventListener("drop", function (e) {
+  label.addEventListener("drop", function(e) {
     e.preventDefault();
     label.classList.remove("dragover");
 
     const droppedFiles = e.dataTransfer.files;
     input.files = droppedFiles; // assign to input
     updateLabel(droppedFiles);
-  }); 
-  </script>
+  });
+</script>
 
 <script>
   const fieldset = document.querySelector("fieldset")

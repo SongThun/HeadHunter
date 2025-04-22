@@ -90,8 +90,8 @@
 
         <!-- Existing Files -->
         <h4>Existing Files</h4>
-        <div id="existing-file-list">
-          <?php
+        <!-- <div id="existing-file-list">
+          <php
           $folderPath = realpath(dirname(__DIR__) . "/../../public/upload/descriptions/" . $post['ID']);
           if (is_dir($folderPath)) {
             $files = glob($folderPath . "/*");
@@ -105,7 +105,28 @@
             }
           }
           ?>
-        </div>
+        </div> -->
+
+        <div id="existing-file-list">
+  <?php
+  $folderPath = realpath(dirname(__DIR__) . "/../../public/upload/descriptions/" . $post['ID']);
+  $relativePath = UPLOAD_DESC ."/" . $post['ID']; // Public-facing relative URL path
+
+  if (is_dir($folderPath)) {
+    $files = glob($folderPath . "/*");
+    foreach ($files as $file) {
+      $fileName = basename($file);
+      $fileUrl = htmlspecialchars($relativePath . "/" . $fileName, ENT_QUOTES);
+      echo "<div class='file-item existing' data-filename='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
+        <a href='" . $fileUrl . "' download target='_blank'>" . htmlspecialchars($fileName) . "</a>
+        <button class='delete-btn'>Delete</button>
+        <input type='hidden' name='ExistingFiles[]' value='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
+      </div>";
+    }
+  }
+  ?>
+</div>
+
 
         <!-- New Uploads -->
         <h4>New Uploads</h4>
