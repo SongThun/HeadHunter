@@ -15,9 +15,9 @@ $active_state[$page] = "active-list";
           <h2>PORTAL</h2>
         </div>
         <div class="list">
-          <a href="<?= e(BASE_URL . '/home/') ?>">Home</a>
-          <a href="<?= e(BASE_URL . '/jobposts/') ?>">Job Posts</a>
-          <a href="<?= e(BASE_URL . '/applications/') ?>">Applications</a>
+          <a href="<?= e(BASE_URL . '/home/') ?>" class="<?= $active_state['home'] ?>">Home</a>
+          <a href="<?= e(BASE_URL . '/jobposts/') ?>" class="<?= $active_state['jobposts'] ?>">Job Posts</a>
+          <a href="<?= e(BASE_URL . '/applications/') ?>" class="<?= $active_state['applications'] ?>">Applications</a>
          
           <!-- <button data-href="<?= e(BASE_URL . '/home/') ?>" class="sub-list <?= $active_state['home'] ?>">Home</button>
           <button data-href="<?= e(BASE_URL . '/jobposts/') ?>" class="sub-list <?= $active_state['jobposts'] ?>">Job Post</button>

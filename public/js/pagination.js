@@ -98,7 +98,7 @@ function getLoader(
 
   function updatePagination(current, total) {
     if (total === 0) {
-      display.innerHTML = "";
+      // display.innerHTML = "";
       pagination.innerHTML = "";
       return 0;
     }
