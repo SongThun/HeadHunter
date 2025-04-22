@@ -471,9 +471,12 @@ main {
           <span id="app-status"><?= e($app['Status']) ?></span>
         </form>
       </fieldset>
+      <div class="list-app" style="display: flex; flex-direction: row; justify-content: end;">
       <button id="accept-btn" value="accept" class="btn job-posting-btn-custom job-posting-btn-approve">Accept</button>
       <button id="reject-btn" value="reject" class="btn job-posting-btn-custom job-posting-btn-disapprove">Reject</button>
       <button id="edit-btn" class="btn job-posting-btn-custom job-posting-btn-approve">Edit</button>
+      </div>
+
     <?php endif; ?>
     <!-- END APPROVAL FORM -->
 
