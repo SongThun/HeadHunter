@@ -75,6 +75,22 @@ class PostController
         switch ($method) {
             case 'DELETE':
                 $res = $this->model->remove((string)$id);
+                if ($res['status'] == 'success') {
+                    $folderPath = realpath(dirname(__DIR__) . "/../public/upload/descriptions") . "/$id/";
+
+                    // Only proceed if the folder exists
+                    if (is_dir($folderPath)) {
+                        // Delete all files in the folder
+                        foreach (glob($folderPath . "*") as $filePath) {
+                            if (is_file($filePath)) {
+                                unlink($filePath);
+                            }
+                        }
+
+                        // Remove the empty folder
+                        rmdir($folderPath);
+                    }
+                }
                 break;
             case 'POST':
                 $data = $_POST; //$this->prepare_data();
@@ -158,44 +174,42 @@ class PostController
     //     }
     // }
     private function save_files($id)
-{
-    $folderPath = realpath(dirname(__DIR__) . "/../public/upload/descriptions") . "/$id/";
+    {
+        $folderPath = realpath(dirname(__DIR__) . "/../public/upload/descriptions") . "/$id/";
 
-    if (!is_dir($folderPath)) {
-        mkdir($folderPath, 0775, true);
-    }
-
-    // 1. Parse which existing files should be kept
-    $keepFiles = isset($_POST['ExistingFiles']) ? $_POST['ExistingFiles'] : [];
-
-    // delete files NOT in keepFiles
-    foreach (glob($folderPath . "*") as $filePath) {
-        $fileName = basename($filePath);
-        if (!in_array($fileName, $keepFiles)) {
-            unlink($filePath);
+        if (!is_dir($folderPath)) {
+            mkdir($folderPath, 0775, true);
         }
-    }
 
-    // 3. Save new uploaded files
-    if (!empty($_FILES['File_description']) && is_array($_FILES['File_description']['name'])) {
-        $fileCount = count($_FILES['File_description']['name']);
+        // 1. Parse which existing files should be kept
+        $keepFiles = isset($_POST['ExistingFiles']) ? $_POST['ExistingFiles'] : [];
 
-        for ($i = 0; $i < $fileCount; $i++) {
-            if (!is_uploaded_file($_FILES['File_description']['tmp_name'][$i])) {
-                continue; // Skip non-uploaded items
-            }
-        
-            $tmpName = $_FILES['File_description']['tmp_name'][$i];
-            $originalName = basename($_FILES['File_description']['name'][$i]);
-            $safeName = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $originalName);
-            $destination = $folderPath . $safeName;
-        
-            if (!move_uploaded_file($tmpName, $destination)) {
-                echo "Failed to upload file: " . $originalName;
+        // delete files NOT in keepFiles
+        foreach (glob($folderPath . "*") as $filePath) {
+            $fileName = basename($filePath);
+            if (!in_array($fileName, $keepFiles)) {
+                unlink($filePath);
             }
         }
-        
-    }
-}
 
+        // 3. Save new uploaded files
+        if (!empty($_FILES['File_description']) && is_array($_FILES['File_description']['name'])) {
+            $fileCount = count($_FILES['File_description']['name']);
+
+            for ($i = 0; $i < $fileCount; $i++) {
+                if (!is_uploaded_file($_FILES['File_description']['tmp_name'][$i])) {
+                    continue; // Skip non-uploaded items
+                }
+
+                $tmpName = $_FILES['File_description']['tmp_name'][$i];
+                $originalName = basename($_FILES['File_description']['name'][$i]);
+                $safeName = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $originalName);
+                $destination = $folderPath . $safeName;
+
+                if (!move_uploaded_file($tmpName, $destination)) {
+                    echo "Failed to upload file: " . $originalName;
+                }
+            }
+        }
+    }
 }
