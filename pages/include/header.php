@@ -3,6 +3,20 @@
     a{
       text-decoration: none;
     }
+    li a{
+      text-decoration: none;
+      color: black;
+    }
+    .list.active-list{
+      text-align: center;
+      text-justify:auto;
+      color: white;
+    }
+
+    .list a{
+      text-align: center;
+      align-items: center;
+    }
   </style>
   <nav>
     <div class="navbar container-fluid">
@@ -42,10 +56,14 @@
     <!-- Mobile menu -->
     <div class="mobile-menu">
       <ul>
-        <li><button data-href="<?= e(BASE_URL . '/home/') ?>" data-scroll="#home" class="sub-list <?= $active_state['home'] ?>">Home</button></li>
+        <!-- <li><button data-href="<?= e(BASE_URL . '/home/') ?>" data-scroll="#home" class="sub-list <?= $active_state['home'] ?>">Home</button></li>
         <li><button data-href="<?= e(BASE_URL . '/jobposts/') ?>" class="sub-list <?= $active_state['jobposts'] ?>">Job Listing</button></li>
         <li><button data-href="<?= e(BASE_URL . '/help/') ?>" data-scroll="#help" class="sub-list <?= $active_state['help'] ?>">Help</button></li>
-        <li><button data-href="<?= e(BASE_URL . '/contact/') ?>" data-scroll="#contact" class="sub-list <?= $active_state['contact'] ?>">Contact</button></li>
+        <li><button data-href="<?= e(BASE_URL . '/contact/') ?>" data-scroll="#contact" class="sub-list <?= $active_state['contact'] ?>">Contact</button></li> -->
+        <li><a href="<?= e(BASE_URL . '/home/') ?>" class="<?= $active_state['home'] ?>" >Home</a></li>
+        <li><a href="<?= e(BASE_URL . '/jobposts/') ?>" class="<?= $active_state['jobposts'] ?>" >Job Listing</a></li>
+        <li><a href="<?= e(BASE_URL . '/help/') ?>" class="<?= $active_state['help'] ?>" >Help</a></li>
+        <li><a href="<?= e(BASE_URL . '/contact/') ?>" class="<?= $active_state['contact'] ?>" >Contact</a></li>
         <?php if ($role == 'guest'): ?>
           <li><button data-href="<?= e(BASE_URL . '/signin/') ?>" class="nav-btn-sign-in">Sign in</button></li>
           <li><button data-href="<?= e(BASE_URL . '/signup/') ?>" class="nav-btn-sign-up">Sign up</button></li>

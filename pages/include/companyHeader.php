@@ -1,5 +1,4 @@
 <!-- COMPANY HEADER: used for User pages -->
-
 <header>
   <nav>
     <div class="navbar">
@@ -10,11 +9,14 @@
       
       <div class="info-desktop">
       <img src="<?= e($avatarLink) ?>" alt="Avatar" class="avatar">
-      <a href="<?= e(API . "/auth?action=logout")?>">Log out</a>
+      <a href="<?= e(API . "/auth?action=logout")?>" style="text-decoration: none;">Log out</a>
       </div>
 
       <div class="avatar-toggle">
         <img src="<?= e($avatarLink) ?>" alt="Avatar" class="avatar">
+        <button class="btn btn-outline-secondary d-md-none" onclick="toggleNotificationOverlay()" style="border: none;">
+          <i class="bi bi-bell"></i>
+        </button>
         <button class="toggle-btn" aria-label="Toggle menu">
           <i class="bi bi-chevron-down"></i>
         </button>

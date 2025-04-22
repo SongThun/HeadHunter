@@ -27,7 +27,7 @@ $active_state[$page] = "active-list";
 
       <div class="info-desktop">
       <img src="<?= e($avatarLink) ?>" alt="Avatar" class="avatar">
-      <a href="<?= e(API . "/auth?action=logout")?>">Log out</a>
+      <a href="<?= e(API . "/auth?action=logout")?>" style="text-decoration: none;">Log out</a>
       </div>
 
       <div class="avatar-toggle">

@@ -75,7 +75,7 @@ body::before {
   width: fit-content;
 }
 .avatar {
-  width: 100px;
+  width: 40px;
   aspect-ratio: 1/1;
 }
 .sidebar {

@@ -2,9 +2,43 @@
   .container-pagination a{
     text-decoration: none;
   }
-  .container-pagination > button {
+  /* .container-pagination > button {
   border: none !important;
   background: none ;
+} */
+.container-pagination button{
+    all:unset;
+  }
+  .container-pagination {
+  /* background: black; */
+  width: 100vw;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 0.5rem 0;
+}
+
+.container-pagination .page-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  color: black;
+}
+
+.container-pagination .page-links.active-page {
+  color: white;
+  background: var(--blue);
+  border-radius: 12px;
+  height: 0.4rem;
+  width: 0.4rem;
+}
+
+.container-pagination .page-links.disabled-page {
+  pointer-events: none;
+  cursor: default;
+  opacity: 50%;
 }
 </style>
 <div class="container-center">

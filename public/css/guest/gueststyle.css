@@ -7,7 +7,7 @@
   justify-content: center;
   /* margin-right: 1rem; */
   margin-top: 1.5rem;
-  z-index: 1000;
+  z-index: 100;
 }
 .right-box {
   display: grid;
@@ -151,12 +151,12 @@
   color: black;
 }
 
-.container-pagination > button {
+/* .container-pagination > button {
   all: unset !important;
   border: none !important;
   outline: none !important;
   background: none !important;
-}
+} */
 
 .container-pagination {
   /* background: black; */
