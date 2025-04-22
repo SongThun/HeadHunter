@@ -99,7 +99,7 @@
           ?>
         </div> -->
 
-        <div id="existing-file-list">
+        <div id="existing-file-list" style="display: flex; flex-direction: column; flex: 1; ">
   <?php
   $folderPath = realpath(dirname(__DIR__) . "/../../public/upload/descriptions/" . $job['ID']);
   $relativePath = UPLOAD_DESC ."/" . $job['ID']; // Public-facing relative URL path
@@ -109,7 +109,7 @@
     foreach ($files as $file) {
       $fileName = basename($file);
       $fileUrl = htmlspecialchars($relativePath . "/" . $fileName, ENT_QUOTES);
-      echo "<div class='file-item existing' data-filename='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
+      echo "<div class='file-item existing' style='padding: .5rem 0 .5rem 0;' data-filename='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
         <a href='" . $fileUrl . "' download target='_blank'>" . htmlspecialchars($fileName) . "</a>
         <input type='hidden' name='ExistingFiles[]' value='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
       </div>";

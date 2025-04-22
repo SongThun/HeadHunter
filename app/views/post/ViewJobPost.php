@@ -89,7 +89,7 @@
         </style>
 
         <!-- Existing Files -->
-        <h4>Existing Files</h4>
+        <h4 style="margin-top: 1rem;">Existing Files</h4>
         <!-- <div id="existing-file-list">
           <php
           $folderPath = realpath(dirname(__DIR__) . "/../../public/upload/descriptions/" . $post['ID']);
@@ -107,7 +107,7 @@
           ?>
         </div> -->
 
-        <div id="existing-file-list">
+        <div id="existing-file-list" style="display: flex; flex-direction: column; flex: 1;">
   <?php
   $folderPath = realpath(dirname(__DIR__) . "/../../public/upload/descriptions/" . $post['ID']);
   $relativePath = UPLOAD_DESC ."/" . $post['ID']; // Public-facing relative URL path
@@ -117,7 +117,7 @@
     foreach ($files as $file) {
       $fileName = basename($file);
       $fileUrl = htmlspecialchars($relativePath . "/" . $fileName, ENT_QUOTES);
-      echo "<div class='file-item existing' data-filename='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
+      echo "<div class='file-item existing' style='padding: .5rem 0 .5rem 0;' data-filename='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
         <a href='" . $fileUrl . "' download target='_blank'>" . htmlspecialchars($fileName) . "</a>
         <button class='delete-btn'>Delete</button>
         <input type='hidden' name='ExistingFiles[]' value='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
@@ -129,7 +129,7 @@
 
 
         <!-- New Uploads -->
-        <h4>New Uploads</h4>
+        <h4 style="margin-top: 1rem;">New Uploads</h4>
         <div id="new-file-list"></div>
 
         <!-- File input moved inside form but outside fieldset -->
