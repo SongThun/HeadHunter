@@ -394,19 +394,19 @@ body::before {
   transition: transform 0.3s ease, background 0.35s ease;
 }
 
-.job-card:hover {
+/* .job-card:hover {
   transform: scale(1.02);
   background-color: #3d52d5;
   color: #fff;
   z-index: 10;
-}
+} */
 
-.job-card:hover h5,
+/* .job-card:hover h5,
 .job-card:hover p,
 .job-card:hover i,
 .job-card:hover .badge {
   color: #fff !important;
-}
+} */
 
 .job-card h5 {
   font-weight: 400;

@@ -20,6 +20,14 @@
     color: #1DA1F2;
     border: 1px dashed #1DA1F2;
   }
+
+  #map {
+    height: 300px;
+    width: 100%;
+    border-radius: 0.375rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
 </style>
 
 <div class="outside-description">
@@ -55,49 +63,9 @@
       <div class="job-description-section">
         <!--         
         <?php if (isset($job['File_description']) && !empty($job['File_description'])): ?>
-          <div class="file-box">
-            <div class="pdf-options">
-              <a href="<?= e(UPLOAD_DESC . "/" . $job['File_description']) ?>" target="_blank">
-                <i class="fas fa-file-pdf"></i> Download Job Description PDF
-              </a>
-              <button id="toggle-pdf-viewer" class="btn-view-pdf">
-                <i class="fas fa-eye"></i> View PDF
-              </button>
-            </div>
-
-            <div id="pdf-viewer-container" style="display: none; margin-top: 15px;">
-              <div class="pdf-viewer-wrapper">
-                <object data="<?= e(UPLOAD_DESC . "/" . $job['File_description']) ?>"
-                  type="application/pdf"
-                  width="100%"
-                  height="600px">
-                  <p>
-                    Your browser doesn't support embedded PDFs.
-                    <a href="<?= e(UPLOAD_DESC . "/" . $job['File_description']) ?>">Click here to download the PDF</a>.
-                  </p>
-                </object>
-              </div>
-
-
-            </div>
-          </div>
+          
         <?php endif; ?> -->
-        <!-- <div id="existing-file-list">
-          <php
-          $folderPath = realpath(dirname(__DIR__) . "/../../public/upload/descriptions/" . $job['ID']);
-          if (is_dir($folderPath)) {
-            $files = glob($folderPath . "/*");
-            foreach ($files as $file) {
-              $fileName = basename($file);
-              echo "<div class='file-item existing' data-filename='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
-                    <span>" . e($fileName) . "</span>
-                    <button class='delete-btn'>Delete</button>
-                    <input type='hidden' name='ExistingFiles[]' value='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
-                  </div>";
-            }
-          }
-          ?>
-        </div> -->
+
 
         <div id="existing-file-list" style="display: flex; flex-direction: column; flex: 1; ">
   <?php
@@ -156,22 +124,8 @@
                 <label for="phone-num"><span style="color: red; margin-right: .2rem;">*</span>Phone Number</label>
                 <input type="tel" name="Phone" id="" required>
               </div>
+
               <div class="form-row-half">
-                <label for="address"><span style="color: red; margin-right: .2rem;">*</span>Address</label>
-                <input type="text" name="Address" id="" required>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-row-half">
-                <label for="district"><span style="color: red; margin-right: .2rem;">*</span>District</label>
-                <input type="text" name="District" id="" required>
-              </div>
-              <div class="form-row-half">
-                <label for="city"><span style="color: red; margin-right: .2rem;">*</span>City</label>
-                <input type="text" name="City" id="" required>
-              </div>
-            </div>
-            <div class="form-row-1">
               <label for="level"><span style="color: red; margin-right: .2rem;">*</span>Level</label>
 
               <input list="lists" type="text" name="Level" id="Level" required>
@@ -183,6 +137,29 @@
                 <option value="Lead">
               </datalist>
             </div>
+
+            </div>
+
+            <!-- <div class="form-row">
+              <div class="form-row-half">
+                <label for="district"><span style="color: red; margin-right: .2rem;">*</span>District</label>
+                <input type="text" name="District" id="" required>
+              </div>
+              <div class="form-row-half">
+                <label for="city"><span style="color: red; margin-right: .2rem;">*</span>City</label>
+                <input type="text" name="City" id="" required>
+              </div>
+            </div> -->
+
+            <div class="form-row-1">
+                <label for="Location"><span style="color: red; margin-right: .2rem;">*</span>Address</label>
+                <input name="Location" id="Location" type="text" required placeholder="Enter address or click on the map"></input>
+                <div id="map"></div>
+            </div>
+
+
+
+
             <div class="form-row-1">
               <div class="form-row-1-file">
                 <label id="unique" for="file-applicant"><span style="color: red; margin-right: .2rem;">*</span>Resume</label>
@@ -307,4 +284,75 @@
       });
     }
   });
+</script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=API_KEYS&libraries=places&callback=initMap" async defer></script>
+<script>
+  let map, marker, geocoder;
+
+  function initMap() {
+    const input = document.getElementById("Location");
+    geocoder = new google.maps.Geocoder();
+
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 13,
+      center: { lat: 21.028511, lng: 105.804817 }, // Default to Hanoi
+    });
+
+    marker = new google.maps.Marker({
+      map,
+      draggable: true
+    });
+
+    // Try to use user's location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLoc = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          map.setCenter(userLoc);
+          marker.setPosition(userLoc);
+          getAddressFromLatLng(userLoc);
+        },
+        (error) => {
+          console.log(error);
+          alert("Geolocation permission denied or unavailable.")}
+      );
+    }
+
+    // Click on map
+    map.addListener("click", (e) => {
+      marker.setPosition(e.latLng);
+      getAddressFromLatLng(e.latLng);
+    });
+
+    // Drag marker updates address
+    marker.addListener("dragend", () => {
+      getAddressFromLatLng(marker.getPosition());
+    });
+
+    // Typing address manually
+    input.addEventListener("change", () => {
+      const address = input.value;
+      geocoder.geocode({ address }, (results, status) => {
+        if (status === "OK") {
+          map.setCenter(results[0].geometry.location);
+          marker.setPosition(results[0].geometry.location);
+        } else {
+          alert("Could not find the location you entered.");
+        }
+      });
+    });
+  }
+
+  function getAddressFromLatLng(latlng) {
+    geocoder.geocode({ location: latlng }, (results, status) => {
+      if (status === "OK" && results[0]) {
+        document.getElementById("Location").value = results[0].formatted_address;
+      }
+    });
+  }
 </script>

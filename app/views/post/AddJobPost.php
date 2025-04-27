@@ -22,6 +22,37 @@
   }
 </style>
 
+<style>
+  input:not([type="file"]),
+  select,
+  textarea {
+    border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    width: 100%;
+    transition: border-color 0.2s ease-in-out;
+  }
+
+  input:not([type="file"]):focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  }
+
+  #map {
+    height: 300px;
+    width: 100%;
+    border-radius: 0.375rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+</style>
+
+
+<main>
 <div class="position-form-container container bg-light">
   <div class="pt-4 pb-4">
     <a href="javascript:history.back()" class="d-flex align-items-center text-decoration-none text-dark mb-4">
@@ -36,31 +67,16 @@
         <div class="row g-4">
           <!-- location input -->
           <div class="col-md-6">
-            <label class="form-label"><span class="position-form-required-star">*</span>Location</label>
-            <div class="position-form-group input-group">
-              <span class="position-form-icon-container input-group-text">
-                <i class="bi bi-geo"></i>
-              </span>
+            <label class="form-label">
+              <span class="position-form-required-star">*</span>Location
+            </label>
 
-              <!-- Continue adding other provinces -->
-              </select>
-              <input type="text" name="Location" list="location-list" required>
-              <datalist id="location-list">
-                <option value="San Francisco, CA">
-                <option value="Remove">
-                <option value="Chicago">
-                <option value="Boston, MA">
-                <option value="Austin, TX">
-                  <!-- Add remaining 58 provinces here -->
-                <option value="New York, NY">
-                <option value="Seattle, WA">
-                <option value="Portland, OR">
-                <option value="Denver, CO">
-                <option value="Cambridge, MA">
-                <option value="Jersey City, NJ">
-              </datalist>
+            <div class="position-form-group">
+              <input type="text" name="Location" id="Location" class="form-control mb-2" required placeholder="Enter address or click on the map">
+              <div id="map"></div>
             </div>
           </div>
+
 
           <!-- due date input -->
           <div class="col-md-6">
@@ -97,20 +113,6 @@
           <label class="form-label">Maximum number of applicants</label>
           <input list="" type="number" name="Applicants_max" id="Applicants_max" required min="1" step="1">
         </div>
-        <!-- File upload -->
-        <!-- <div class="mt-4">
-          <label class="form-label"><span class="position-form-required-star">*</span>Description</label>
-          <div class="rounded p-4 text-center position-form-file-upload">
-            <input name="File_description[]" type="file" accept=".txt,.pdf,.docx,.jpeg" class="position-form-input form-control"
-              id="position-form-file-input" multiple>
-            <i class="bi bi-upload fs-2 mb-2"></i>
-            <p class="text-secondary mb-2">Choose a file or drag and drop it here</p>
-            <p class="text-secondary mb-4">.txt, .pdf, .docx, .jpeg - Up to 50MB</p>
-            <button type="button" class="position-form-browse-btn"
-              onclick="document.getElementById('position-form-file-input').click()">Browse File</button>
-          </div>
-          <div class="attachment"></div>
-        </div> -->
 
         <style>
           .file-item {
@@ -144,7 +146,7 @@
         </style>
 
         <div class="mt-4">
-          <label id="unique" for="File_description"><span style="color: red; margin-right: .2rem;">*</span>Resume</label>
+          <label id="unique" for="File_description"><span style="color: red; margin-right: .2rem;">*</span>Upload description files</label>
           <input type="file" name="File_description[]" id="File_description" style="display: none;" multiple required>
         </div>
 
@@ -174,6 +176,8 @@
 
   </div>
 </div>
+</main>
+
 
 <!-- HANDLE MULTIPLE FILE -->
 <script>
@@ -300,5 +304,73 @@
         title = data.get('Postname');
       }
     })
+  }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=API_KEYS&libraries=places&callback=initMap" async defer></script>
+<script>
+  let map, marker, geocoder;
+
+  function initMap() {
+    const input = document.getElementById("Location");
+    geocoder = new google.maps.Geocoder();
+
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 13,
+      center: { lat: 21.028511, lng: 105.804817 }, // Default to Hanoi
+    });
+
+    marker = new google.maps.Marker({
+      map,
+      draggable: true
+    });
+
+    // Try to use user's location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLoc = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          map.setCenter(userLoc);
+          marker.setPosition(userLoc);
+          getAddressFromLatLng(userLoc);
+        },
+        () => alert("Geolocation permission denied or unavailable.")
+      );
+    }
+
+    // Click on map
+    map.addListener("click", (e) => {
+      marker.setPosition(e.latLng);
+      getAddressFromLatLng(e.latLng);
+    });
+
+    // Drag marker updates address
+    marker.addListener("dragend", () => {
+      getAddressFromLatLng(marker.getPosition());
+    });
+
+    // Typing address manually
+    input.addEventListener("change", () => {
+      const address = input.value;
+      geocoder.geocode({ address }, (results, status) => {
+        if (status === "OK") {
+          map.setCenter(results[0].geometry.location);
+          marker.setPosition(results[0].geometry.location);
+        } else {
+          alert("Could not find the location you entered.");
+        }
+      });
+    });
+  }
+
+  function getAddressFromLatLng(latlng) {
+    geocoder.geocode({ location: latlng }, (results, status) => {
+      if (status === "OK" && results[0]) {
+        document.getElementById("Location").value = results[0].formatted_address;
+      }
+    });
   }
 </script>

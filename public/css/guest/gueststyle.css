@@ -138,8 +138,8 @@
   cursor: pointer;
 }
 .container-job-card:hover {
-  background: var(--blue);
-  color: white;
+  /* background: var(--blue);
+  color: white; */
   scale: 1.05;
 }
 

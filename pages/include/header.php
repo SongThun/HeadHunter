@@ -11,6 +11,7 @@
       text-align: center;
       text-justify:auto;
       color: white;
+      padding: .5rem .5rem !important;
     }
 
     .list a{

@@ -28,7 +28,7 @@ class AdminController
     // VIEW HANDLER: Display view of Admin Dashboard
     private function dashboard() {
         // Get latest job posts instead of pending
-        $latestPosts = $this->post->getPosts('CreatedDate DESC', [], 5, 0);
+        $latestPosts = $this->post->getPosts('Postname DESC', [], 5, 0);
         
         // Get recent applications
         $recentApplications = $this->app->getApps('AppliedDate DESC', [], 5, 0);

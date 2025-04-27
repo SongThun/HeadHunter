@@ -5,7 +5,17 @@ $active_state[$page] = "active-list";
 ?>
 <header>
   <style>
+    .list.active-list{
+      text-align: center;
+      text-justify:auto;
+      color: white;
+      padding: .5rem .5rem !important;
+    }
 
+    .list a{
+      text-align: center;
+      align-items: center;
+    }
   </style>
   <nav>
     <div class="navbar">

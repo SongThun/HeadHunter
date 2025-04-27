@@ -109,7 +109,7 @@ class Post
         return $result->fetch_assoc()['total'];
     }
     public function getAPost($postId) {
-        $stmt = $this->db->prepare('SELECT * FROM post WHERE ID=?');
+        $stmt = $this->db->prepare('SELECT p.*, u.Avatar FROM Post p JOIN User_ u ON p.UserID = u.ID WHERE p.ID=?');
         $stmt->bind_param('i',$postId);
         $stmt->execute();
         $result = $stmt->get_result();

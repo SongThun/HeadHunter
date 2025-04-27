@@ -15,8 +15,12 @@
 }
 
 .navbar .logo a,
-.navbar .list a {
+.navbar .list  {
   color: black;
+}
+
+.list.active-list a{
+  color: white !important;
 }
 
 .navbar .list {
@@ -58,8 +62,13 @@
   background: var(--blue);
   color: white;
   cursor: pointer;
+  padding: 0.1rem .5rem .1rem .5rem !important;
+  align-content: center;
 }
-
+.active-list a{
+  color: unset !important;
+  color: white !important;
+}
 /* Mobile responsive */
 @media (max-width: 768px) {
   .navbar {
@@ -166,6 +175,7 @@
   .mobile-menu .active-list {
     width: 100%;
     text-align: center;
+    color: white;
   }
 
   .mobile-menu .active-list:hover {

@@ -394,7 +394,7 @@
           <h3>Description</h3>
         </div>
         <div class="job-description-section">
-          
+
           <?php
           $folderPath = realpath(dirname(__DIR__) . "/../../public/upload/descriptions/" . $job['ID']);
           $relativePath = UPLOAD_DESC . "/" . $job['ID']; // Public-facing relative URL path
@@ -406,9 +406,7 @@
               $fileUrl = htmlspecialchars($relativePath . "/" . $fileName, ENT_QUOTES);
               echo "<div class='file-item existing' style='padding: .5rem 0 .5rem 0;' data-filename='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
         <a href='" . $fileUrl . "' download target='_blank'>" . htmlspecialchars($fileName) . "</a>
-        <button class='delete-btn'>Delete</button>
-        <input type='hidden' name='ExistingFiles[]' value='" . htmlspecialchars($fileName, ENT_QUOTES) . "'>
-      </div>";
+        </div>";
             }
           }
           ?>

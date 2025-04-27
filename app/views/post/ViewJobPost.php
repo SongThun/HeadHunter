@@ -134,7 +134,7 @@
 
         <!-- File input moved inside form but outside fieldset -->
         <div class="mt-4">
-          <label id="unique" for="File_description"><span style="color: red; margin-right: .2rem;">*</span>Resume</label>
+          <label id="unique" for="File_description"><span style="color: red; margin-right: .2rem;">*</span>Upload description files</label>
           <input type="file" name="File_description[]" id="File_description" style="display: none;" multiple>
         </div>
       </form>

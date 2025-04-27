@@ -42,7 +42,7 @@
 }
 </style>
 <div class="container-center">
-  <div class="container-search">
+  <div class="container-search" style="display: flex; flex: 1;width: 60rem;">
     <!-- search bar -->
     <div class="search-box">
       <!-- <form action=""> -->
@@ -99,6 +99,7 @@
           <option value="CreatedDate DESC" selected>Newest</option>
           <option value="CreatedDate ASC">Oldest</option>
           <option value="Salary DESC">Highest Salary</option>
+          <option value="Salary ASC">Lowest Salary</option>
         </select>
       </div>
       <!-- end sort box -->
