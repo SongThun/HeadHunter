@@ -1,3 +1,58 @@
+<style>
+  #unique {
+    border: 1px dashed #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    width: 100%;
+    border-radius: 10px;
+    transition: .3s;
+    cursor: pointer;
+
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    text-align: center;
+    flex-wrap: wrap;
+  }
+
+  #unique:hover {
+    color: #1DA1F2;
+    border: 1px dashed #1DA1F2;
+  }
+</style>
+
+<style>
+  input:not([type="file"]),
+  select,
+  textarea {
+    border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    width: 100%;
+    transition: border-color 0.2s ease-in-out;
+  }
+
+  input:not([type="file"]):focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  }
+
+  #map {
+    height: 300px;
+    width: 100%;
+    border-radius: 0.375rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+</style>
+
+
+<main>
 <div class="position-form-container container bg-light">
   <div class="pt-4 pb-4">
     <a href="javascript:history.back()" class="d-flex align-items-center text-decoration-none text-dark mb-4">
@@ -7,36 +62,21 @@
 
 
     <fieldset>
-      <form>
+      <form method="POST" enctype="multipart/form-data">
         <h1 class="text-center text-secondary mb-5"><input name="Postname" type="text" placeholder="Position Title"></h1>
         <div class="row g-4">
           <!-- location input -->
           <div class="col-md-6">
-            <label class="form-label"><span class="position-form-required-star">*</span>Location</label>
-            <div class="position-form-group input-group">
-              <span class="position-form-icon-container input-group-text">
-                <i class="bi bi-geo"></i>
-              </span>
+            <label class="form-label">
+              <span class="position-form-required-star">*</span>Location
+            </label>
 
-              <!-- Continue adding other provinces -->
-              </select>
-              <input type="text" name="Location" list="location-list" required>
-              <datalist id="location-list">
-                <option value="San Francisco, CA">
-                <option value="Remove">
-                <option value="Chicago">
-                <option value="Boston, MA">
-                <option value="Austin, TX">
-                  <!-- Add remaining 58 provinces here -->
-                <option value="New York, NY">
-                <option value="Seattle, WA">
-                <option value="Portland, OR">
-                <option value="Denver, CO">
-                <option value="Cambridge, MA">
-                <option value="Jersey City, NJ">
-              </datalist>
+            <div class="position-form-group">
+              <input type="text" name="Location" id="Location" class="form-control mb-2" required placeholder="Enter address or click on the map">
+              <div id="map"></div>
             </div>
           </div>
+
 
           <!-- due date input -->
           <div class="col-md-6">
@@ -67,22 +107,50 @@
         <!-- salary input -->
         <div class="mt-4">
           <label class="form-label">Salary</label>
-          <input list="" type="text" name="Salary" id="salary" required>
+          <input list="" type="number" name="Salary" id="Salary" required min="0">
+        </div>
+        <div class="mt-4">
+          <label class="form-label">Maximum number of applicants</label>
+          <input list="" type="number" name="Applicants_max" id="Applicants_max" required min="1" step="1">
         </div>
 
-        <!-- File upload -->
+        <style>
+          .file-item {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #f3f3f3;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          }
+
+          .file-item span {
+            flex: 1;
+            word-break: break-all;
+          }
+
+          .delete-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+          }
+
+          .delete-btn:hover {
+            background: #c0392b;
+          }
+        </style>
+
         <div class="mt-4">
-          <label class="form-label"><span class="position-form-required-star">*</span>Description</label>
-          <div class="rounded p-4 text-center position-form-file-upload">
-            <input name="File_description" type="file" accept=".txt,.pdf,.docx,.jpeg" class="position-form-input form-control"
-              id="position-form-file-input">
-            <i class="bi bi-upload fs-2 mb-2"></i>
-            <p class="text-secondary mb-2">Choose a file or drag and drop it here</p>
-            <p class="text-secondary mb-4">.txt, .pdf, .docx, .jpeg - Up to 50MB</p>
-            <button type="button" class="position-form-browse-btn"
-              onclick="document.getElementById('position-form-file-input').click()">Browse File</button>
-          </div>
+          <label id="unique" for="File_description"><span style="color: red; margin-right: .2rem;">*</span>Upload description files</label>
+          <input type="file" name="File_description[]" id="File_description" style="display: none;" multiple required>
         </div>
+
+        <div id="file-list" style="margin-top: 1rem;"></div>
 
         <!-- Description -->
         <div class="mt-4">
@@ -108,18 +176,89 @@
 
   </div>
 </div>
+</main>
+
+
+<!-- HANDLE MULTIPLE FILE -->
+<script>
+  const input = document.getElementById("File_description");
+  const label = document.getElementById("unique");
+  const fileListDisplay = document.getElementById("file-list");
+
+  let uploadedFiles = [];
+
+  function renderFileList() {
+    fileListDisplay.innerHTML = "";
+
+    uploadedFiles.forEach((file, index) => {
+      const fileBox = document.createElement("div");
+      fileBox.className = "file-item";
+
+      const fileName = document.createElement("span");
+      fileName.textContent = file.name;
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className = "delete-btn";
+      deleteBtn.textContent = "Delete";
+      deleteBtn.addEventListener("click", () => {
+        uploadedFiles.splice(index, 1);
+        updateInputFiles();
+        renderFileList();
+      });
+
+      fileBox.appendChild(fileName);
+      fileBox.appendChild(deleteBtn);
+      fileListDisplay.appendChild(fileBox);
+    });
+  }
+
+  function updateInputFiles() {
+    const dataTransfer = new DataTransfer();
+    uploadedFiles.forEach(file => dataTransfer.items.add(file));
+    input.files = dataTransfer.files;
+  }
+
+  input.addEventListener("change", function() {
+    for (const file of this.files) {
+      uploadedFiles.push(file);
+    }
+    updateInputFiles();
+    renderFileList();
+  });
+
+  // Drag-and-drop
+  label.addEventListener("dragover", function(e) {
+    e.preventDefault();
+    label.classList.add("dragover");
+  });
+
+  label.addEventListener("dragleave", function() {
+    label.classList.remove("dragover");
+  });
+
+  label.addEventListener("drop", function(e) {
+    e.preventDefault();
+    label.classList.remove("dragover");
+
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    uploadedFiles.push(...droppedFiles);
+    updateInputFiles();
+    renderFileList();
+  });
+</script>
+
 
 <script>
   const fieldset = document.querySelector("fieldset");
   const deletebtn = document.querySelector("#delete-btn");
   const form = document.querySelector("form");
   // const id = form.dataset.id;
-  const id = null;
-  const title = null;
+  let id = null;
+  let title = null;
   if (deletebtn) {
     deletebtn.addEventListener('click', async () => {
       if (confirm("Are you sure you want to delete this post?")) {
-        const url = `<?= API ?>jobpost?id=${id}`
+        const url = `${window.API}/jobpost?id=${id}`
         const response = await fetch(url, {
           method: 'DELETE'
         });
@@ -146,10 +285,8 @@
   if (submitbtn) {
     submitbtn.addEventListener("click", async (e) => {
       e.preventDefault();
-      const url = `<?= API ?>jobpost?id=${id}`;
-      // const data = await form2json(form);
+      const url = `${window.API}/jobpost?id=${id}`;
       const data = new FormData(form);
-      // console.log(data);
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -167,5 +304,73 @@
         title = data.get('Postname');
       }
     })
+  }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=API_KEYS&libraries=places&callback=initMap" async defer></script>
+<script>
+  let map, marker, geocoder;
+
+  function initMap() {
+    const input = document.getElementById("Location");
+    geocoder = new google.maps.Geocoder();
+
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 13,
+      center: { lat: 21.028511, lng: 105.804817 }, // Default to Hanoi
+    });
+
+    marker = new google.maps.Marker({
+      map,
+      draggable: true
+    });
+
+    // Try to use user's location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLoc = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          map.setCenter(userLoc);
+          marker.setPosition(userLoc);
+          getAddressFromLatLng(userLoc);
+        },
+        () => alert("Geolocation permission denied or unavailable.")
+      );
+    }
+
+    // Click on map
+    map.addListener("click", (e) => {
+      marker.setPosition(e.latLng);
+      getAddressFromLatLng(e.latLng);
+    });
+
+    // Drag marker updates address
+    marker.addListener("dragend", () => {
+      getAddressFromLatLng(marker.getPosition());
+    });
+
+    // Typing address manually
+    input.addEventListener("change", () => {
+      const address = input.value;
+      geocoder.geocode({ address }, (results, status) => {
+        if (status === "OK") {
+          map.setCenter(results[0].geometry.location);
+          marker.setPosition(results[0].geometry.location);
+        } else {
+          alert("Could not find the location you entered.");
+        }
+      });
+    });
+  }
+
+  function getAddressFromLatLng(latlng) {
+    geocoder.geocode({ location: latlng }, (results, status) => {
+      if (status === "OK" && results[0]) {
+        document.getElementById("Location").value = results[0].formatted_address;
+      }
+    });
   }
 </script>

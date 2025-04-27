@@ -28,7 +28,7 @@ class AdminController
     // VIEW HANDLER: Display view of Admin Dashboard
     private function dashboard() {
         // Get latest job posts instead of pending
-        $latestPosts = $this->post->getPosts('CreatedDate DESC', [], 5, 0);
+        $latestPosts = $this->post->getPosts('Postname DESC', [], 5, 0);
         
         // Get recent applications
         $recentApplications = $this->app->getApps('AppliedDate DESC', [], 5, 0);
@@ -63,10 +63,7 @@ class AdminController
             $postname = explode('-', $_GET['post']);
             $postid = end($postname);
             $filter = ['postid'=>$postid, 'status'=>'pending'];
-            $apps = $this->app->getApps("AppliedDate DESC", $filter, 10, 0);
             $total = $this->app->getCount($filter);
-            $page_num=1;
-            $total_pages = ceil($total / 10);
             $counts = [];
             foreach (['accept', 'pending', 'reject'] as $status) {
                 $counts[$status] = $this->app->getCount(["postid"=>$postid, "status"=>$status]);
@@ -76,10 +73,6 @@ class AdminController
         } 
         // default -> display approved job post
         else {
-            $jobs = $this->post->getPosts("CreatedDate ASC",['status'=>'approved'],10,0);
-            $page_num = 1;
-            $total = $this->post->getCount(['status' => 'approved']);
-            $total_pages = ceil($total / 10);
             require_once __DIR__ . "/../views/admin/AdminApplicationView.php";
         }
        
@@ -129,5 +122,20 @@ class AdminController
         header("ContentType: application/json");
         echo json_encode($res);
         exit();
+    }
+    public function get_applications() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $sort = trim($data['sort']);
+            $filter = $data['filter'];
+            $page_num = $data['page_num'];
+            $limit = 10;
+            $offset = ($page_num - 1) * $limit;
+            $jobs = $this->app->getApps($sort, $filter, $limit, $offset);
+            $total = $this->app->getCount($filter);
+            header('ContentType: application/json');
+            echo json_encode(['status' => 'success', 'data' => $jobs, 'total' => ceil($total / 10)]);
+            exit();
+        }
     }
 }

@@ -1,11 +1,17 @@
 <?php
 include __DIR__ . "/config.php";
+require_once __DIR__ . "/app/utils.php";
 require_once __DIR__ . "/app/controllers/AuthController.php";
 
 session_start();
 
 $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
+
+$active_state = ['home' => "", 'jobposts' => "", 'help' => "", 'contact' => ""];
+$active_state[$page] = "active-list";
+$avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : 'default_ava.jpg';
+$avatarLink = UPLOAD_IMG . "/" . $avatar;
 
 ?>
 
@@ -37,21 +43,32 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <!-- CSS styling -->
-        <link rel="stylesheet" href="<?= STYLE_PATH ?>/index.css">
+    <link rel="stylesheet" href="<?= e(STYLE_PATH . "/index.css") ?>">
 
-    <?php if ($role == 'admin'): ?>
-        <link rel="stylesheet" href="<?= STYLE_PATH ?>/admin.css">
-    <?php elseif ($role == 'user'): ?>
-        <link rel="stylesheet" href="<?= STYLE_PATH ?>/user.css">
-    <?php else: ?>
-        <link rel="stylesheet" href="<?= STYLE_PATH ?>/guest.css">
+    <?php
+    switch ($role) {
+        case 'admin':
+            $styleFile = 'admin.css';
+            break;
+        case 'user':
+            $styleFile = 'user.css';
+            break;
+        default:
+            $styleFile = 'guest.css';
+    }
+    ?>
+    <link rel="stylesheet" href="<?= e(STYLE_PATH . '/'. $styleFile) ?>">
+    
+    <?php if (in_array($page, ['signin', 'signup'])): ?>
+        <link rel="stylesheet" href="<?= e(STYLE_PATH . '/auth/register.css') ?>">
+        <link rel="stylesheet" href="<?= e(STYLE_PATH . '/auth/login.css') ?>">
     <?php endif; ?>
 
     <script>
         window.BASE_URL = "<?= BASE_URL; ?>";
         window.API = "<?= API ?>";
     </script>
-    <script src="<?= SCRIPT_PATH ?>/utils.js"></script>
+    <script src="<?= e(SCRIPT_PATH . "/utils.js") ?>"></script>
     <title>Job Portal</title>
 
 </head>

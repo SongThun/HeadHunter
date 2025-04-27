@@ -1,7 +1,7 @@
 body {
   font-family: "Poppins", sans-serif;
   /* Thêm background image */
-  background-image: url("../images/job_portal_bg.jpg");
+  background-image: url("../../upload/images/job_portal_bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -35,7 +35,7 @@ a {
   vertical-align: middle;
 }
 .avatar {
-  width: 100px;
+  width: 40px;
   aspect-ratio: 1/1;
 }
 
@@ -202,21 +202,21 @@ a {
   cursor: pointer;
 }
 
-.job-card:hover {
+/* .job-card:hover {
   transform: scale(1.02);
   background-color: #3D52D5;
   backdrop-filter: none;
   color: #fff;
   z-index: 10;
-}
+} */
 
-.job-card:hover h5,
+/* .job-card:hover h5,
 .job-card:hover h6,
 .job-card:hover p,
 .job-card:hover i,
 .job-card:hover .badge {
   color: #fff !important;
-}
+} */
 
 .job-card:hover .badge {
   border: 1px solid #fff;

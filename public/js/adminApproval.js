@@ -5,6 +5,7 @@ const approvalForm = document.querySelector("#admin-approval-form");
 const status = approvalForm.dataset.value;
 const statusResult = document.querySelector("#app-status");
 
+console.log(acceptbtn, rejectbtn);
 function checkBtnDisplay(status) {
   if (status == "pending") {
     editbtn.style.display = "none";
@@ -25,7 +26,7 @@ editbtn.addEventListener("click", () => {
   checkBtnDisplay("pending");
 });
 async function approvalFormSubmit(reason, status) {
-  const url = `<?= API ?>approval?appid=<?= $app['ID'] ?>`;
+  const url = `${window.API}/approval?appid=<?= $app['ID'] ?>`;
   const response = await fetch(url, {
     method: "PUT",
     headers: {

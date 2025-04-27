@@ -1,3 +1,11 @@
+body{
+  display: flex;
+}
+
+main{
+  flex: 1;
+}
+
 .box-sign {
   display: flex;
   flex: 2 1;
@@ -207,12 +215,18 @@
   scale: 1.1;
 }
 
+.username-taken, .email-taken, .company-taken{
+  color: red;
+  text-align: center;
+  display: none;
+}
+
 @media (max-width: 1214px) {
   .box-sign .container-left {
-    width: 55%;
+    width: 50%;
   }
   .box-sign .container-right {
-    width: 45%;
+    width: 60%;
   }
 }
 

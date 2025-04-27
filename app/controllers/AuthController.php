@@ -19,10 +19,10 @@ class AuthController {
         }
     }
     private function signin_form() {
-        require_once __DIR__ . "/../views/login.php";
+        require_once __DIR__ . "/../views/auth/login.php";
     }
     private function signup_form() {
-        require_once __DIR__ . "/../views/register.php";
+        require_once __DIR__ . "/../views/auth/register.php";
     }
     public function logout() {
         setcookie('remember_me', session_id(), time() - 60 * 60, '/');
@@ -69,6 +69,25 @@ class AuthController {
             $email = trim($data["email"]);
             $companyName = trim($data["company"]);
             $res = $this->model->add_user($username, $password, $email, $companyName);
+            if ($res['status'] == 'duplicate') {
+                $a = 0;
+                $b = 0;
+                $c = 0;
+                if (isset($res['exist_username']) && $res['exist_username'] == 1) {
+                    $a = 1;
+                }
+                if (isset($res['exist_email']) && $res['exist_email'] == 1) {
+                    $b = 1;
+                }
+                if (isset($res['exist_company']) && $res['exist_company'] == 1) {
+                    $c = 1;
+                }
+                $res = ['status' => 'duplicate', 'exist_username' => $a, 'exist_email' => $b, 'exist_company' => $c];
+                header("Content-Type: application/json");
+                echo json_encode($res);
+                exit();
+            }
+            
             if ($res['status'] == 'success') {
                 $_SESSION['userid'] = $this->model->get_user($username)["ID"];
                 $_SESSION['username'] = $username;

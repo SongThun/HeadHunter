@@ -80,13 +80,14 @@
 
 .box-sign .container-right .container-description .container-upper input {
   height: 3rem;
-  width: 70%;
+  width: 70% ;
   border-radius: 40px;
   padding: 0.3rem 20%;
   outline: none;
   border: none;
   background: var(--off-white);
   font-size: 1.2rem;
+  width: 105% !important;
 }
 
 .box-sign
@@ -98,11 +99,22 @@
   /* padding: 0 1.5rem; */
 }
 
+.wrong-login{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-left: 8%;
+  color: red;
+  font-weight: 600;
+  display: none;
+}
+
 .box-sign .container-right .container-description .container-upper i {
   position: absolute;
-  top: 55%;
+  top: 60%;
   left: 8%;
-  transform: translateY(-55%);
+  transform: translateY(-60%);
   transform: translateX(-8%);
   font-size: 1.5rem;
   color: rgba(175, 172, 172, 0.856);

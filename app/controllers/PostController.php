@@ -26,7 +26,11 @@ class PostController
     private function view_form()
     {
         $id = $_SESSION['userid'] ?? null;
-        $post = $this->model->getAPost($_GET['id']);
+        $postname = explode('-', $_GET['id']);
+        $postid = end($postname);
+        // echo($postid);
+        // var_dump($postname);
+        $post = $this->model->getAPost($postid);
         require_once __DIR__ . '/../views/post/ViewJobPost.php';
     }
     public function get()
@@ -62,7 +66,7 @@ class PostController
     //     }
     // }
 
-    
+
 
     public function post_handle()
     {
@@ -71,14 +75,36 @@ class PostController
         switch ($method) {
             case 'DELETE':
                 $res = $this->model->remove((string)$id);
+                if ($res['status'] == 'success') {
+                    $folderPath = realpath(dirname(__DIR__) . "/../public/upload/descriptions") . "/$id/";
+
+                    // Only proceed if the folder exists
+                    if (is_dir($folderPath)) {
+                        // Delete all files in the folder
+                        foreach (glob($folderPath . "*") as $filePath) {
+                            if (is_file($filePath)) {
+                                unlink($filePath);
+                            }
+                        }
+
+                        // Remove the empty folder
+                        rmdir($folderPath);
+                    }
+                }
                 break;
             case 'POST':
-                $data = $this->prepare_data();
+                $data = $_POST; //$this->prepare_data();
                 if ($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] == 'PUT') {
                     $res = $this->model->edit($id,  $data);
+                    if ($res['status'] == 'success') {
+                        $this->save_files($id);
+                    }
                 } else {
                     $data['UserID'] = $_SESSION['userid'];
                     $res = $this->model->add($data);
+                    if ($res['status'] == 'success') {
+                        $this->save_files($res['id']);
+                    }
                 }
                 break;
             default:
@@ -92,9 +118,98 @@ class PostController
     {
         // $data = json_decode(file_get_contents('php://input'), true);
         $data = $_POST;
+
         $savePath = $_SESSION["userid"] . "_" . basename($_FILES["File_description"]["name"]);
         $data["File_description"] = $savePath;
         return $data;
     }
-    
+
+    // private function save_files($id)
+    // {
+    //     $numFile = count($_FILES['File_description']['name']);
+    //     $folderPath = realpath(dirname(__DIR__) . "/../public/upload/descriptions");
+
+    //     $folderPath .= "/$id/";
+
+    //     if (!is_dir($folderPath)) {
+    //         mkdir($folderPath, 0775, true);
+    //     } else {
+    //         $existingFiles = glob($folderPath . "*");
+    //         foreach ($existingFiles as $file) {
+    //             if (is_file($file)) {
+    //                 unlink($file);
+    //             }
+    //         }
+    //     }
+
+    //     for ($i = 0; $i < $numFile; $i++) {
+    //         $tmpName = $_FILES['File_description']['tmp_name'][$i];
+    //         $originalName = basename($_FILES['File_description']['name'][$i]);
+    //         $safeName = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $originalName);
+    //         $destination = $folderPath . $safeName;
+    //         if (!move_uploaded_file($tmpName, $destination)) {
+    //             echo "error upload files";
+    //         }
+    //     }
+
+    //     // Handle newly uploaded files
+    //     if (!empty($_FILES['File_description'])) {
+    //         foreach ($_FILES['File_description']['name'] as $i => $name) {
+    //             $tmpName = $_FILES['File_description']['tmp_name'][$i];
+    //             $originalName = basename($_FILES['File_description']['name'][$i]);
+    //             $safeName = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $originalName);
+    //             $destination = $folderPath . $safeName;
+    //             if (!move_uploaded_file($tmpName, $destination)) {
+    //                 echo "error upload files";
+    //             }
+    //         }
+    //     }
+
+    //     // Handle existing files
+    //     $existingFiles = glob($folderPath . "*");
+    //     foreach ($existingFiles as $file) {
+    //         if (in_array($file, $_POST['ExistingFiles'])) {
+    //             unlink($file);
+    //         }
+    //     }
+    // }
+    private function save_files($id)
+    {
+        $folderPath = realpath(dirname(__DIR__) . "/../public/upload/descriptions") . "/$id/";
+
+        if (!is_dir($folderPath)) {
+            mkdir($folderPath, 0775, true);
+        }
+
+        // 1. Parse which existing files should be kept
+        $keepFiles = isset($_POST['ExistingFiles']) ? $_POST['ExistingFiles'] : [];
+
+        // delete files NOT in keepFiles
+        foreach (glob($folderPath . "*") as $filePath) {
+            $fileName = basename($filePath);
+            if (!in_array($fileName, $keepFiles)) {
+                unlink($filePath);
+            }
+        }
+
+        // 3. Save new uploaded files
+        if (!empty($_FILES['File_description']) && is_array($_FILES['File_description']['name'])) {
+            $fileCount = count($_FILES['File_description']['name']);
+
+            for ($i = 0; $i < $fileCount; $i++) {
+                if (!is_uploaded_file($_FILES['File_description']['tmp_name'][$i])) {
+                    continue; // Skip non-uploaded items
+                }
+
+                $tmpName = $_FILES['File_description']['tmp_name'][$i];
+                $originalName = basename($_FILES['File_description']['name'][$i]);
+                $safeName = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $originalName);
+                $destination = $folderPath . $safeName;
+
+                if (!move_uploaded_file($tmpName, $destination)) {
+                    echo "Failed to upload file: " . $originalName;
+                }
+            }
+        }
+    }
 }

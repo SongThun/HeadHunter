@@ -1,26 +1,51 @@
+<?php
+$currentStatus = $_GET['status'] ?? 'pending'; // default to 'pending' if not set
+?>
+
+<main style="flex: 1;">
 <div class="container-fluid">
   <div class="row">
     <!-- Sidebar -->
     <div class="col-md-2 col-lg-2 sidebar p-3 mt-3">
       <button id="admin-post-create" class="create-new-btn btn w-100 mb-3">Create new job</button>
-      <div class="list-group">
-        <a href="?status=all"
+      <!-- <div class="list-group status-filter">
+        <button value="all"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= ($_GET['status'] ?? '') === 'all' ? 'active' : '' ?>">
-          All <span class="sidebar-badge badge"><?= $statusCounts['all'] ?></span>
-        </a>
-        <a href="?status=approved"
+          All <span class="sidebar-badge badge"><?= e($statusCounts['all']) ?></span>
+        </button>
+        <button value="approved"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= ($_GET['status'] ?? '') === 'approved' ? 'active' : '' ?>">
-          Approved <span class="sidebar-badge badge"><?= $statusCounts['approved'] ?></span>
-        </a>
-        <a href="?status=pending"
+          Approved <span class="sidebar-badge badge"><?= e($statusCounts['approved']) ?></span>
+        </button>
+        <button value="pending"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= empty($_GET['status']) || ($_GET['status'] ?? '') === 'pending' ? 'active' : '' ?>">
-          Pending <span class="sidebar-badge badge"><?= $statusCounts['pending'] ?></span>
-        </a>
-        <a href="?status=disapproved"
+          Pending <span class="sidebar-badge badge"><?= e($statusCounts['pending']) ?></span>
+        </button>
+        <button value="disapproved"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= ($_GET['status'] ?? '') === 'disapproved' ? 'active' : '' ?>">
-          Disapproved <span class="sidebar-badge badge"><?= $statusCounts['disapproved'] ?></span>
-        </a>
-      </div>
+          Disapproved <span class="sidebar-badge badge"><?= e($statusCounts['disapproved']) ?></span>
+        </button>
+      </div> -->
+
+      <div class="list-group status-filter">
+  <button value="all"
+    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= $currentStatus === 'all' ? 'active' : '' ?>">
+    All <span class="sidebar-badge badge"><?= e($statusCounts['all']) ?></span>
+  </button>
+  <button value="approved"
+    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= $currentStatus === 'approved' ? 'active' : '' ?>">
+    Approved <span class="sidebar-badge badge"><?= e($statusCounts['approved']) ?></span>
+  </button>
+  <button value="pending"
+    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= $currentStatus === 'pending' ? 'active' : '' ?>">
+    Pending <span class="sidebar-badge badge"><?= e($statusCounts['pending']) ?></span>
+  </button>
+  <button value="disapproved"
+    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <?= $currentStatus === 'disapproved' ? 'active' : '' ?>">
+    Disapproved <span class="sidebar-badge badge"><?= e($statusCounts['disapproved']) ?></span>
+  </button>
+</div>
+
     </div>
 
     <!-- Main content -->
@@ -45,63 +70,34 @@
         </div>
 
         <!-- Job posts grid -->
-        <div class="container" id="company-job-display card-display">
-          <?php if (empty($jobs)): ?>
-            <div class="alert alert-info">No job posts found.</div>
-          <?php else: ?>
-            <?php foreach ($jobs as $job): ?>
-              <div class="row job-card" onclick="viewJobPost(<?= htmlspecialchars($job['ID']) ?>)">
-                <div class="col-2 d-flex flex-column align-items-center">
-                  <img
-                    src="<?= empty($job['Avatar']) ? 'https://placehold.co/100x100' : htmlspecialchars(UPLOAD_IMG . $job['Avatar']) ?>"
-                    alt="<?= htmlspecialchars($job['Company']) ?>" class="company-logo mb-1">
-                  <h6 class="text-center"><?= htmlspecialchars($job['Company']) ?></h6>
-                </div>
-                <div class="col-10">
-                  <div class="d-flex justify-content-between">
-                    <h5><?= htmlspecialchars($job['Postname']) ?></h5>
-                    <span
-                      class="badge job-status-<?= strtolower($job['Status']) ?>"><?= htmlspecialchars($job['Status']) ?></span>
-                  </div>
-                  <p class="mb-1">
-                    <i class="bi bi-calendar3"></i> <?= date('d/m/Y', strtotime($job['CreatedDate'])) ?> -
-                    <?= date('d/m/Y', strtotime($job['Due'])) ?>
-                    <i class="ml-4 bi bi-geo-alt"></i> <?= htmlspecialchars($job['Location']) ?>
-                  </p>
-                  <p class="mb-1">
-                    <i class="bi bi-hash"></i> <?= htmlspecialchars($job['Level']) ?>
-                  </p>
-                  <p class="mb-0">
-                    <i class="bi bi-clock-history"></i> <?= htmlspecialchars($job['Experience'] ?? '2+ years') ?>
-                  </p>
-                </div>
-              </div>
-            <?php endforeach; ?>
-          <?php endif; ?>
+        <div class="container card-display" id="company-job-display">
+          
         </div>
 
         <!-- Pagination -->
-        <nav aria-label="Page navigation">
-          <ul class="pagination justify-content-center">
-            <li class="page-item <?= $page_num == 1 ? 'disabled' : '' ?>">
-              <button id="prev" class="page-link" tabindex="-1" aria-disabled="true">
-                <i class="bi bi-arrow-left"></i> Previous
-              </button>
-            </li>
-            <li><?= $page_num ?> / <?= $total_pages ?></li>
-            <li class="page-item <?= $page_num == $total_pages ? 'disabled' : '' ?>">
-              <button id="next" class="page-link">
-                Next <i class="bi bi-arrow-right"></i>
-              </button>
-            </li>
-          </ul>
-        </nav>
+        <div class="container-pagination"></div>
         <!-- end paginatio-->
 
       </div>
     </div>
   </div>
 </div>
+</main>
+
+<script src="<?= e(SCRIPT_PATH . "/pagination.js") ?>"></script>
+<script src="<?= e(SCRIPT_PATH . "/utils.js") ?>"></script>
+
+<!-- <script>
+  document.querySelectorAll('.status-filter button').forEach(button => {
+    button.addEventListener('click', () => {
+      const status = button.value;
+      const url = new URL(window.location);
+      url.searchParams.set('status', status);
+      window.location = url.toString();
+    });
+  });
+</script> -->
+
 
 <script>
   const createbtn = document.querySelector("#admin-post-create");
@@ -128,36 +124,41 @@
 
 <script>
   const loadSuccess = (job) => {
+    // TODO: avatar for job post ?
     return `
-    <div class="col-2 d-flex flex-column align-items-center">
-      <img src="${avatarUrl}" alt="${escapeHTML(job.Company)}" class="company-logo mb-1">
-      <h6 class="text-center">${escapeHTML(job.Company)}</h6>
-    </div>
-    <div class="col-10">
-      <div class="d-flex justify-content-between">
-        <h5>${escapeHTML(job.Postname)}</h5>
-        <span class="badge job-status-${escapeHTML(job.Status.toLowerCase())}">
-          ${escapeHTML(job.Status)}
-        </span>
+    <div class="row job-card" data-id="${job.ID}" data-name="${job.Postname}">
+      <div class="col-2 d-flex flex-column align-items-center">
+        <img src="https://placehold.co/100x100" alt="${escapeHTML(job.Company)}" class="company-logo mb-1">
+        <h6 class="text-center">${escapeHTML(job.Company)}</h6>
       </div>
-      <p class="mb-1">
-        <i class="bi bi-calendar3"></i> ${formatDate(job.CreatedDate)} - ${formatDate(job.Due)}
-        <i class="ml-4 bi bi-geo-alt"></i> ${escapeHTML(job.Location)}
-      </p>
-      <p class="mb-1">
-        <i class="bi bi-hash"></i> ${escapeHTML(job.Level)}
-      </p>
-      <p class="mb-0">
-        <i class="bi bi-clock-history"></i> ${escapeHTML(job.Experience || '2+ years')}
-      </p>
+      <div class="col-10">
+        <div class="d-flex justify-content-between">
+          <h5>${escapeHTML(job.Postname)}</h5>
+          <span class="badge job-status-${escapeHTML(job.Status.toLowerCase())}">
+            ${escapeHTML(job.Status)}
+          </span>
+        </div>
+        <p class="mb-1">
+          <i class="bi bi-calendar3"></i> ${formatDate(job.CreatedDate)} - ${formatDate(job.Due)}
+          <i class="ml-4 bi bi-geo-alt"></i> ${escapeHTML(job.Location)}
+        </p>
+        <p class="mb-1">
+          <i class="bi bi-hash"></i> ${escapeHTML(job.Level)}
+        </p>
+        <p class="mb-0">
+          <i class="bi bi-clock-history"></i> ${escapeHTML(job.Experience || '2+ years')}
+        </p>
+      </div>
     </div>`;
   }
   const loadFail = () => {
     return `<div class="alert alert-info">No job posts found.</div>`;
   }
   const destGen = (id, name) => {
-    return window.location.href + slugify(name) + '-' + id;
+    return window.BASE_URL + '/jobpost/view/' + slugify(name) + '-' + id;
   }
-  const loadPost = getLoader(loadSuccess,loadFail,destGen);
-
+  const loadPost = getLoader(loadSuccess, loadFail, destGen);
+  document.addEventListener("DOMContentLoaded", () => {
+    loadPost(state.sort, state.filter, 1);
+  })
 </script>

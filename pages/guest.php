@@ -1,5 +1,6 @@
 <?php
-require_once "app/controllers/GuestController.php";
+require_once __DIR__ . "/../app/controllers/GuestController.php";
+require_once __DIR__ . "/../app/controllers/PostController.php";
 
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 $controller = new GuestController();
@@ -60,16 +61,21 @@ document.addEventListener("click", function (e) {
 
 <!-- Main content -->
 <?php
-switch ($page) {
-  case 'jobposts':
-    $controller->index('jobposts');
-    break;
-  case 'jobpost':
-    $postController->jobpost_index();
-    break;
-  default:
-    $controller->index("home");
-    break;
+$valid_pages = ['home', 'jobposts', 'jobpost', 'contact', 'help'];
+if (in_array($page, $valid_pages)) {
+  switch ($page) {
+    case 'jobposts':
+      $controller->index('jobposts');
+      break;
+    case 'jobpost':
+      $controller->index('jobpost');
+      break;
+    default:
+      $controller->index("home");
+      break;
+  }
+} else {
+  echo "404 not found";
 }
 ?>
 

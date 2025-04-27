@@ -1,6 +1,6 @@
 body {
   font-family: "Poppins", sans-serif;
-  background-image: url("../images/job_portal_bg.jpg");
+  background-image: url("../../upload/images/job_portal_bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -158,7 +158,7 @@ body::before {
 }
 
 /* Style cho Pagination */
-.pagination .page-item .page-link {
+/* .pagination .page-item .page-link {
   background: transparent;
   backdrop-filter: blur(10px);
   border: none;
@@ -187,6 +187,41 @@ body::before {
   color: #989696;
   border-color: #bcbcbc;
   cursor: not-allowed;
+} */
+
+.container-pagination button{
+  all:unset;
+}
+.container-pagination {
+/* background: black; */
+width: 100vw;
+height: 3rem;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 0 0 0.5rem 0;
+}
+
+.container-pagination .page-links {
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 1rem;
+color: black;
+}
+
+.container-pagination .page-links.active-page {
+color: white;
+background: var(--blue);
+border-radius: 12px;
+height: 0.4rem;
+width: 0.4rem;
+}
+
+.container-pagination .page-links.disabled-page {
+pointer-events: none;
+cursor: default;
+opacity: 50%;
 }
 
 .navbar-toggler {
@@ -265,12 +300,12 @@ body::before {
 
 }
 
-.job-card:hover {
+/* .job-card:hover {
   transform: scale(1.02);
   background-color: #3d52d5;
   color: #fff;
   z-index: 10;
-}
+} */
 
 
 
@@ -286,12 +321,12 @@ body::before {
 
 
 
-.job-card:hover h5,
+/* .job-card:hover h5,
 .job-card:hover p,
 .job-card:hover i,
 .job-card:hover .badge {
   color: #fff !important;
-}
+} */
 
 .job-card h5 {
   font-weight: 400;

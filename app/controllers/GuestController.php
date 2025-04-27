@@ -26,7 +26,7 @@ class GuestController
     }
     private function job_view()
     {
-        $name = explode('-', $_GET['post']);
+        $name = explode('-', $_GET['id']);
         $id = end($name);
         $job = $this->post->getAPost($id);
         require_once __DIR__ . '/../views/guest/JobDescription.php';
@@ -46,14 +46,16 @@ class GuestController
         $jobs = $this->post->getPostS($sort, $filter, $limit, $offset);
         $total_records = $this->post->getCount($filter);
         $total_pages = ceil($total_records / $record_per_page);
-        require_once "app/views/guest/JobPosts.php";
+        require_once __DIR__ . "/../views/guest/JobPosts.php";
     }
     public function apply()
     {
         $method = $_SERVER['REQUEST_METHOD'];
+        // $postname = isset($_GET['postid']) ? $_GET['postid'] : "";
         $id = $_GET['postid'];
         switch ($method) {
             case 'POST':
+                // $id = end($postname);
                 $data = $this->prepare_data_applicant($id);
                 $res = $this->app->apply($id, $data);
                 break;
@@ -66,9 +68,8 @@ class GuestController
     }
     private function prepare_data_applicant($id)
     {
-
         $data = $_POST;
-        $data["Location"] = $_POST["Address"] . ", " . $_POST["District"] . ", " . $_POST["City"];
+        // $data["Location"] = $_POST["Address"] . ", " . $_POST["District"] . ", " . $_POST["City"];
         $savePath = $id . "_" . basename($_FILES["File_CV"]["name"]);
         $data["File_CV"] = $savePath;
         return $data;

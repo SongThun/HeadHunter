@@ -12,5 +12,7 @@ function slugify($string)
     $string = preg_replace('/[\s-]+/', '-', $string);
     return trim($string, '-');
 }
-
+function e($string) {
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
 ?>

@@ -1,12 +1,4 @@
 <!-- COMPANY HEADER: used for User pages -->
-
-<?php
-  $active_state = ['home' => "", 'jobposts' => "", 'help' => "", 'contact' => ""];
-  $active_state[$page] = "active-list";
-  $avatar = isset($_SESSION['avatar']) ? $_SESSION['avatar'] : 'default_ava.jpg';
-  $avatarLink = UPLOAD_IMG . $avatar;
-?>
-
 <header>
   <nav>
     <div class="navbar">
@@ -16,20 +8,15 @@
       </div>
       
       <div class="info-desktop">
-        <div class="dropdown">
-          <button class="btn dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <!-- Ảnh công ty, thay nếu cần -->
-            <img class="avatar" src="<?= $avatarLink?>" alt="avatar">
-            <i class="bi bi-chevron-down"></i>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item text-centered" href="<?= API ?>auth?action=logout">Log out</a></li>
-          </ul>
-        </div>
+      <img src="<?= e($avatarLink) ?>" alt="Avatar" class="avatar">
+      <a href="<?= e(API . "/auth?action=logout")?>" style="text-decoration: none;">Log out</a>
       </div>
 
       <div class="avatar-toggle">
-        <img src="<?= $avatarLink?>" alt="Avatar" class="avatar">
+        <img src="<?= e($avatarLink) ?>" alt="Avatar" class="avatar">
+        <button class="btn btn-outline-secondary d-md-none" onclick="toggleNotificationOverlay()" style="border: none;">
+          <i class="bi bi-bell"></i>
+        </button>
         <button class="toggle-btn" aria-label="Toggle menu">
           <i class="bi bi-chevron-down"></i>
         </button>
@@ -37,7 +24,7 @@
 
       <div class="mobile-menu">
         <ul>
-          <li><a href="<?= API ?>auth?action=logout">Log out</a></li>
+          <li><a href="<?= e(API . "/auth?action=logout") ?>" >Log out</a></li>
         </ul>
       </div>
     </div>

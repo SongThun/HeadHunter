@@ -38,10 +38,25 @@ main{
 .description .job-description-sub .level,
 .description .job-description-sub .due-date{
   display: flex;
-  align-items: center;
+  align-items: end;
   font-size: 1rem;
   gap: 1rem;
+  text-align: center;
+  padding: 1rem 0;
 }
+
+
+.description .job-description-sub .applicants p,
+.description .job-description-sub .locations p,
+.description .job-description-sub .level p,
+.description .job-description-sub .due-date p {
+  margin: 0 !important;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: end;
+  align-self: end;
+}
+
 .description .job-description-sub h3,
 .description .job-description-section-title > h3 {
   color: var(--deep-blue);
@@ -59,12 +74,14 @@ main{
 }
 .job-description-section .file-box{
   border-style: solid;
-  margin: 2rem 0;
+  margin: 1.5rem 0 1rem 0;
   border-radius: 10px;
-  height: 3.5rem;
+  min-height: 3.5rem;
+  height: fit-content;
   width: 15rem;
   border-color: grey;
 }
+
 .form-description{
   display: flex;
   flex-direction: column;
@@ -92,13 +109,21 @@ main{
   width: 35rem;
   border-radius: 10px;
   border-width: 1px;
-  border-color: var(--deep-blue);
+  border-color: var(--blue);
   outline: none;
   font-size: 1rem;
   padding: .3rem .8rem;
 }
 .form-row-1 input{
   width: 74rem;
+}
+
+.form-row-1 textarea{
+  border-radius: 10px;
+  border: 1px solid var(--blue);
+  padding: .3rem .8rem;
+  margin-bottom: 1rem;
+  outline: none;
 }
 
 .form-btn{
@@ -160,17 +185,22 @@ main {
 
 .pdf-options {
   display: flex;
-  gap: 15px;
-  align-items: center;
-  margin-bottom: 10px;
+  align-items: stretch !important; /* Make children fill full height */
+  padding: 0 0 0 1rem;
+  flex-direction: row;
+  height: 3rem; /* or any desired height */
 }
 
 .btn-view-pdf {
   background-color: var(--blue);
   color: white;
   border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
+  height: 100% !important;
+  height: 3.35rem !important;
+  border-radius: 8px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  width: 6rem;
   cursor: pointer;
   font-size: 14px;
   display: flex;

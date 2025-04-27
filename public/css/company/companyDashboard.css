@@ -1,6 +1,6 @@
 body {
   font-family: "Poppins", sans-serif;
-  background-image: url("../images/job_portal_bg.jpg");
+  background-image: url("../../upload/images/job_portal_bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -75,7 +75,7 @@ body::before {
   width: fit-content;
 }
 .avatar {
-  width: 100px;
+  width: 40px;
   aspect-ratio: 1/1;
 }
 .sidebar {
@@ -268,7 +268,7 @@ body::before {
 /*** HTML STYLING ***/
 body {
   font-family: "Poppins", sans-serif;
-  background-image: url("./images/job_portal_bg.jpg");
+  background-image: url("../../upload/images/job_portal_bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -394,19 +394,19 @@ body::before {
   transition: transform 0.3s ease, background 0.35s ease;
 }
 
-.job-card:hover {
+/* .job-card:hover {
   transform: scale(1.02);
   background-color: #3d52d5;
   color: #fff;
   z-index: 10;
-}
+} */
 
-.job-card:hover h5,
+/* .job-card:hover h5,
 .job-card:hover p,
 .job-card:hover i,
 .job-card:hover .badge {
   color: #fff !important;
-}
+} */
 
 .job-card h5 {
   font-weight: 400;

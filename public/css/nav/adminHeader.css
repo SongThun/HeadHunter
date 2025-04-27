@@ -15,7 +15,7 @@
 }
 
 .navbar .logo h2,
-.navbar .list a {
+.navbar .list  {
   color: black;
   margin: 0;
   max-width: fit-content;
@@ -66,6 +66,8 @@
   background: var(--blue);
   color: white;
   cursor: pointer;
+  padding: 0.1rem .5rem .1rem .5rem !important;
+  align-content: center;
 }
 
 .avatar {

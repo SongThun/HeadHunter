@@ -3,6 +3,7 @@
     require_once __DIR__ . "/app/controllers/AuthController.php";
     require_once __DIR__ . "/app/controllers/PostController.php";
     require_once __DIR__ . "/app/controllers/AdminController.php";
+    require_once __DIR__ . "/app/controllers/GuestController.php";
     session_start();
 
     $page = isset($_GET['page']) ? $_GET['page'] : 'home';
@@ -38,6 +39,9 @@
             $controller->post_handle();
             break;
         // func: handle application submit
+        case 'application':
+            $controller = new AdminController();
+            $controller->get_applications();
         case 'apply' :
             $controller = new GuestController();
             $controller->apply();

@@ -1,19 +1,62 @@
-<div>
-  <div class="container-search" style="background: var(--off-white);margin-top: 0;height: 6rem;">
+<style>
+  .container-pagination a{
+    text-decoration: none;
+  }
+  /* .container-pagination > button {
+  border: none !important;
+  background: none ;
+} */
+.container-pagination button{
+    all:unset;
+  }
+  .container-pagination {
+  /* background: black; */
+  width: 100vw;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 0.5rem 0;
+}
+
+.container-pagination .page-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  color: black;
+}
+
+.container-pagination .page-links.active-page {
+  color: white;
+  background: var(--blue);
+  border-radius: 12px;
+  height: 0.4rem;
+  width: 0.4rem;
+}
+
+.container-pagination .page-links.disabled-page {
+  pointer-events: none;
+  cursor: default;
+  opacity: 50%;
+}
+</style>
+<div class="container-center">
+  <div class="container-search" style="display: flex; flex: 1;width: 60rem;">
     <!-- search bar -->
     <div class="search-box">
-      <form action="">
+      <!-- <form action=""> -->
         <i class="fa-solid fa-magnifying-glass"></i>
         <input type="text" name="search" placeholder="Search anything here...">
-      </form>
+      <!-- </form> -->
     </div>
 
     <div class="right-box">
 
       <!-- filter box -->
-      <div class="filter-box" style="z-index:9999;">
+      <div class="filter-box">
         <button><i class="fa-solid fa-sliders"></i></button>
-        <div class="filter-box-list">
+        <div class="filter-box-list" style="display: none; z-index:999;" >
           <div class="filter-box-list-sub">
             <div id="filter-location" class="filter-list-value location">
               <div class="filter-title">Location: </div>
@@ -56,6 +99,7 @@
           <option value="CreatedDate DESC" selected>Newest</option>
           <option value="CreatedDate ASC">Oldest</option>
           <option value="Salary DESC">Highest Salary</option>
+          <option value="Salary ASC">Lowest Salary</option>
         </select>
       </div>
       <!-- end sort box -->
@@ -63,75 +107,35 @@
   </div>
 
   <!-- job listings -->
-  <div class="container-list-job card-display" style="z-index:1;">
-    <?php if (count($jobs) > 0): ?>
-      <?php foreach ($jobs as $job): ?>
-        <div class="container-job-card">
-          <div class="container-job-card-left">
-            <div class="containter-job-title">
-              <h2><?php echo htmlspecialchars($job['Postname']); ?></h2>
-            </div>
-            <div class="container-job-description">
-              <div class="calender">
-                <i class="fa-regular fa-calendar-check"></i>
-                <?= formatDate($job['CreatedDate']) . ' - ' . formatDate($job['Due'])?>
-              </div>
-              <div class="location">
-                <i class="fa-regular fa-map"></i>
-                <?php echo htmlspecialchars($job['Location']); ?>
-              </div>
-            </div>
-          </div>
-          <div class="container-job-card-right">
-            <div>
-              <a href="<?= BASE_URL ?>jobpost/view/<?= $job['ID'] ?>/">
-                <button class="apply-now">Apply now</button>
-              </a>
-            </div>
-          </div>
-        </div>
-      <?php endforeach; ?>
-    <?php else: ?>
-      <div class="no-jobs-found" style="z-index: 1;">
-        <h3>No job listings found</h3>
-        <p>Try adjusting your search criteria</p>
-      </div>
-    <?php endif; ?>
+  <div class="container-list-job card-display">
+    
   </div>
   <!-- end job listings -->
 
   <!-- navigation  -->
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      <li class="page-item <?= $page_num == 1 ? "disabled" : "" ?>">
-        <button id="prev" class="page-link" tabindex="-1" aria-disabled="true">
-          <i class="bi bi-arrow-left"></i> Previous
-        </button>
-      </li>
-      <li><?= $page_num ?> / <?= $total_pages ?></li>
-      <li class="page-item <?= $page_num == $total_pages ? "disabled" : "" ?>">
-        <button id="next" class="page-link">
-          Next <i class="bi bi-arrow-right"></i>
-        </button>
-      </li>
-    </ul>
-  </nav>
+  <div class="container-pagination"></div>
   <!-- end navigation -->
+  
 </div>
 
-<script src="<?= SCRIPT_PATH ?>/pagination.js"></script>
+<script src="<?= e(SCRIPT_PATH . "/pagination.js") ?>"></script>
+<script src="<?= e(SCRIPT_PATH . "/utils.js") ?>"></script>
 <script>
-  const filterBtn = document.querySelector(".filter-box > button");
+  const filterBox = document.querySelector(".filter-box");
+  const filterBtn = document.querySelector(".filter-box button");
   const filterBoxList = document.querySelector(".filter-box-list");
 
   filterBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    filterBoxList.classList.toggle("show");
+    // filterBoxList.classList.toggle("show");
+    filterBoxList.style.display = filterBoxList.style.display == 'none' ? 'block' : 'none';
   });
 
   document.addEventListener("click", function(e) {
-    if (!filterBox.contains(e.target)) {
-      filterBoxList.classList.remove("show");
+    if (!filterBoxList.contains(e.target)) {
+      if (filterBoxList.classList.contains("show"))
+        // filterBoxList.classList.remove("show");
+        filterBoxList.style.display = 'none';
     }
   });
 </script>
@@ -139,7 +143,7 @@
 <script>
   const loadSuccess = (job) => {
     return `
-    <div class="container-job-card">
+    <div class="container-job-card"">
       <div class="container-job-card-left">
         <div class="containter-job-title">
           <h2>${escapeHTML(job.Postname)}</h2>
@@ -157,7 +161,7 @@
       </div>
       <div class="container-job-card-right">
         <div>
-          <a href="${BASE_URL}jobpost/view/${job.ID}/">
+          <a href="${destGen(job.ID,job.Postname)}">
             <button class="apply-now">Apply now</button>
           </a>
         </div>
@@ -185,9 +189,9 @@
   
       btn.addEventListener('click', () => {
         btn.classList.toggle('chosen');
-        filter.location = Array.from(locationFilter.querySelectorAll('.chosen')).map(btn => btn.value);
-        console.log("locationssssss: ", filter.location);
-        debounce(loadPostGuest(sort, filter, 1), 500);
+        state.filter.location = Array.from(locationFilter.querySelectorAll('.chosen')).map(btn => btn.value);
+        // console.log("locationssssss: ", state.filter.location);
+        debounce(loadPostGuest, 500)(state.sort, state.filter, 1);
       })
     })
   
@@ -196,8 +200,8 @@
     levelBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
         btn.classList.toggle('chosen');
-        filter.level = Array.from(levelFilter.querySelectorAll('.chosen')).map(btn => btn.value);
-        debounce(loadPostGuest(sort, filter, 1), 500);
+        state.filter.level = Array.from(levelFilter.querySelectorAll('.chosen')).map(btn => btn.value);
+        debounce(loadPostGuest, 500)(state.sort, state.filter, 1);
       })
     })
   
@@ -206,8 +210,12 @@
     salaryBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
         btn.classList.toggle('chosen');
-        filter.salary = Array.from(salaryFilter.querySelectorAll('.chosen')).map(btn => btn.value);
-        debounce(loadPostGuest(sort, filter, 1), 500);
+        state.filter.salary = Array.from(salaryFilter.querySelectorAll('.chosen')).map(btn => btn.value);
+        debounce(loadPostGuest, 500)(state.sort, state.filter, 1);
       });
+    })
+    document.addEventListener('DOMContentLoaded', () => {
+      state.filter.status = "approved";
+      loadPostGuest(state.sort, state.filter, 1);
     })
 </script>
